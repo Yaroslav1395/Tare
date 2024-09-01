@@ -1,0 +1,97 @@
+package kg.zavod.Tare.service.product.impl;
+import kg.zavod.Tare.domain.product.ColorEntity;
+import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
+import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.product.color.ColorDto;
+import kg.zavod.Tare.dto.product.color.ColorForSaveDto;
+import kg.zavod.Tare.dto.product.color.ColorForUpdateDto;
+import kg.zavod.Tare.mapper.product.color.ColorListMapper;
+import kg.zavod.Tare.mapper.product.color.ColorMapper;
+import kg.zavod.Tare.repository.product.ColorRepository;
+import kg.zavod.Tare.service.product.ColorService;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ColorServiceImpl implements ColorService {
+    private final ColorRepository colorRepository;
+    private final ColorMapper colorMapper;
+    private final ColorListMapper colorListMapper;
+    private static final Logger logger = LoggerFactory.getLogger(ColorServiceImpl.class);
+
+    /**
+     * Метод позволяет получить цвет по id
+     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
+     * @param id - id цвета
+     * @return - цвет
+     */
+    @Override
+    public ColorDto getColorById(Integer id) throws EntityNotFoundException {
+        logger.info("Попытка поиска цвета по id");
+        ColorEntity colorEntity = colorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("По Id не найдено цвета"));
+        return colorMapper.mapToColorDto(colorEntity);
+    }
+
+    /**
+     * Метод позволяет получить все цвета
+     * @throws EntitiesNotFoundException - в случае если ни оного цвета не найдено
+     * @return - список цветов
+     */
+    @Override
+    public List<ColorDto> getAllColors() throws EntitiesNotFoundException {
+        logger.info("Попытка получить все цвета");
+        List<ColorEntity> colors = colorRepository.findAll();
+        if(colors.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одного цвета");
+        return colorListMapper.mapToColorDtoList(colors);
+    }
+
+    /**
+     * Метод позволяет сохранить цвет
+     * @param colorForSaveDto - цвет для сохранения
+     * @return - сохраненный цвет
+     */
+    @Override
+    @Transactional
+    public ColorDto saveColor(ColorForSaveDto colorForSaveDto) {
+        logger.info("Попытка сохранения цвета");
+        ColorEntity colorForSave = colorMapper.mapToColorEntity(colorForSaveDto);
+        ColorEntity savedColor = colorRepository.save(colorForSave);
+        return colorMapper.mapToColorDto(savedColor);
+    }
+
+    /**
+     * Метод позволят редактировать цвет
+     * @param colorForUpdateDto - цвет для редактирования
+     * @throws EntityNotFoundException - в случае если при редактировании не найдено цвета
+     * @return - отредактированный цвет
+     */
+    @Override
+    public ColorDto updateColor(ColorForUpdateDto colorForUpdateDto) throws EntityNotFoundException {
+        logger.info("Попытка редактирования цвета");
+        ColorEntity colorEntity = colorRepository.findById(colorForUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("По Id не найдено цвета"));
+        logger.info("Изменение подкатегории");
+        colorMapper.updateColorEntity(colorForUpdateDto, colorEntity);
+        ColorEntity updatedColor = colorRepository.save(colorEntity);
+        return colorMapper.mapToColorDto(updatedColor);
+    }
+
+    /**
+     * Метод позволяет удалять цвет
+     * @param id - id цвет
+     * @return - удален или нет
+     */
+    @Override
+    public Boolean deleteColorById(Integer id) {
+        logger.info("Попытка удаления цвета");
+        colorRepository.deleteById(id);
+        return !colorRepository.existsById(id);
+    }
+}
