@@ -6,6 +6,7 @@ import kg.zavod.Tare.domain.NoticeEntity;
 import kg.zavod.Tare.dto.certificate.CertificateDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.mapper.certificate.CertificateListMapper;
@@ -59,11 +60,14 @@ public class CertificateServiceImpl implements CertificateService {
      * Метод позволяет сохранить сертификат
      * @param certificateForSaveDto - сертификат для сохранения
      * @throws EntityNotFoundException - если формат картинки не поддерживается приложением
+     * @throws DuplicateEntityException - в случае если дублируется название сертификата
      * @return - сохраненный сертификат
      */
     @Override
-    public CertificateDto saveCertificate(CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException {
+    public CertificateDto saveCertificate(CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка сохранения нового сертификата");
+        boolean isDuplicate = certificateRepository.findByName(certificateForSaveDto.getName()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Сертификат с таким названием уже есть");
         ImageType imageType = UtilService.getImageTypeFrom(certificateForSaveDto.getCertificateImage());
         CertificateEntity certificateEntity = certificateMapper.mapToCertificateEntity(certificateForSaveDto, imageType);
         CertificateEntity savedCertificate = certificateRepository.save(certificateEntity);
@@ -74,11 +78,14 @@ public class CertificateServiceImpl implements CertificateService {
      * Метод позволят редактировать сертификат
      * @param certificateForUpdateDto - сертификат для редактирования
      * @throws EntityNotFoundException - в случае если не найден сертификат для редактирования
+     * @throws DuplicateEntityException - в случае если сертификат с таким именем уже существует
      * @return - отредактированный сертификат
      */
     @Override
-    public CertificateDto updateCertificate(CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException {
+    public CertificateDto updateCertificate(CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка редактирования сертификата");
+        boolean isDuplicate = certificateRepository.findByNameAndIdIsNot(certificateForUpdateDto.getName(), certificateForUpdateDto.getId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Сертификат с таким названием уже есть");
         CertificateEntity certificateEntity = certificateRepository.findById(certificateForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдено сертификата по id"));
         ImageType imageType = UtilService.getImageTypeFrom(certificateForUpdateDto.getCertificateImage());

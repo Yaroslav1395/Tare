@@ -28,7 +28,7 @@ public interface DistrictService {
      * Метод позволяет сохранить район
      * @param districtForSaveDto - район для сохранения
      * @return - сохраненный район
-     * @throws EntityNotFoundException - в случае если не найдено териториального деления для района по id
+     * @throws EntityNotFoundException - в случае если не найдено территориального деления для района по id
      */
     DistrictDto saveDistrict(DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException;
 

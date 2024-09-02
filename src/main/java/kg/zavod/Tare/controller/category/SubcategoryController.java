@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.state.ResponseState;
@@ -40,7 +41,7 @@ public class SubcategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
-    public ResponseEntity<ResponseDto<SubcategoryDto>> getCategoryById(
+    public ResponseEntity<ResponseDto<SubcategoryDto>> getSubcategoryById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer subcategoryId) throws EntityNotFoundException {
         logger.info("Получение подкатегории по id");
@@ -53,7 +54,7 @@ public class SubcategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
-    public ResponseEntity<ResponseDto<List<SubcategoryDto>>> getAllCategories() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<SubcategoryDto>>> getAllSubcategory() throws EntitiesNotFoundException {
         logger.info("Получение всех подкатегорий");
         return ResponseEntity.ok(ResponseDto.buildResponse(subcategoryService.getAllSubcategories(), ResponseState.SUCCESS,"Success"));
     }
@@ -64,7 +65,7 @@ public class SubcategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<SubcategoryDto>> createCategory(@ModelAttribute @Valid SubcategoryForSaveDto subcategoryForSaveDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<SubcategoryDto>> createSubcategory(@ModelAttribute @Valid SubcategoryForSaveDto subcategoryForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание подкатегории");
         return ResponseEntity.ok(ResponseDto.buildResponse(subcategoryService.saveSubcategory(subcategoryForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -75,7 +76,7 @@ public class SubcategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<SubcategoryDto>> updateUser(@ModelAttribute @Valid SubcategoryForUpdateDto subcategoryForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<SubcategoryDto>> updateSubcategory(@ModelAttribute @Valid SubcategoryForUpdateDto subcategoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование подкатегории");
         return ResponseEntity.ok(ResponseDto.buildResponse(subcategoryService.updateSubcategory(subcategoryForUpdateDto), ResponseState.SUCCESS,"Success"));
     }
@@ -86,7 +87,7 @@ public class SubcategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<Boolean>> deleteUser(
+    public ResponseEntity<ResponseDto<Boolean>> deleteSubcategory(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer subcategoryId) {
         logger.info("Удаление подкатегории");
