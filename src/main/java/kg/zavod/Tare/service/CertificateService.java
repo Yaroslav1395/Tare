@@ -3,6 +3,7 @@ package kg.zavod.Tare.service;
 import kg.zavod.Tare.dto.certificate.CertificateDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 
@@ -28,17 +29,19 @@ public interface CertificateService {
      * Метод позволяет сохранить сертификат
      * @param certificateForSaveDto - сертификат для сохранения
      * @throws EntityNotFoundException - если формат картинки не поддерживается приложением
+     * @throws DuplicateEntityException - в случае если дублируется название сертификата
      * @return - сохраненный сертификат
      */
-    CertificateDto saveCertificate(CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException;
+    CertificateDto saveCertificate(CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException, DuplicateEntityException;
 
     /**
      * Метод позволят редактировать сертификат
      * @param certificateForUpdateDto - сертификат для редактирования
      * @throws EntityNotFoundException - в случае если не найден сертификат для редактирования
+     * @throws DuplicateEntityException - в случае если сертификат с таким именем уже существует
      * @return - отредактированный сертификат
      */
-    CertificateDto updateCertificate(CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException;
+    CertificateDto updateCertificate(CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
 
     /**
      * Метод позволяет удалять сертификат

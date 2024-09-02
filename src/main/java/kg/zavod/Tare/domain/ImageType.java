@@ -10,6 +10,7 @@ import java.util.Optional;
 @Schema(description = "Описание типов картинок которое поддерживает приложение")
 public enum ImageType {
     JPEG("jpeg"),
+    JPG("jpg"),
     PNG("png"),
     GIF("gif"),
     BMP("bmp"),
