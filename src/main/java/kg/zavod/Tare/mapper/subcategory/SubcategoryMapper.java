@@ -32,6 +32,7 @@ public interface SubcategoryMapper {
     @Mapping(target = "subcategoryImage", source = "subcategoryForSaveDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "category", source = "category")
     @Mapping(target = "name", source = "subcategoryForSaveDto.name")
+    @Mapping(target = "id", ignore = true)
     SubcategoryEntity mapToSubcategoryEntity(SubcategoryForSaveDto subcategoryForSaveDto, CategoryEntity category);
 
     @Mapping(target = "subcategoryImage", source = "subcategoryImage", qualifiedByName = "multipartFileToBase64")
