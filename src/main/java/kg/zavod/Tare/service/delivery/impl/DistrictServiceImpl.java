@@ -58,14 +58,14 @@ public class DistrictServiceImpl implements DistrictService {
      * Метод позволяет сохранить район
      * @param districtForSaveDto - район для сохранения
      * @return - сохраненный район
-     * @throws EntityNotFoundException - в случае если не найдено териториального деления для района по id
+     * @throws EntityNotFoundException - в случае если не найдено территориального деления для района по id
      */
     @Override
     public DistrictDto saveDistrict(DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException {
         logger.info("Попытка сохранения района");
-        logger.info("Поиск териториального деления для района по id");
+        logger.info("Поиск территориального деления для района по id");
         DivisionEntity division = divisionRepository.findById(districtForSaveDto.getDivisionId())
-                .orElseThrow(() -> new EntityNotFoundException("Не найдено териториального деления для района по id"));
+                .orElseThrow(() -> new EntityNotFoundException("Не найдено территориального деления для района по id"));
         DistrictEntity district = districtMapper.mapToDistrictEntity(districtForSaveDto, division);
         DistrictEntity savedDistrict = districtRepository.save(district);
         return districtMapper.mapToDistrictDto(savedDistrict);
@@ -83,9 +83,9 @@ public class DistrictServiceImpl implements DistrictService {
         logger.info("Поиск района по id");
         DistrictEntity district = districtRepository.findById(districtForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдено района по id"));
-        logger.info("Поиск териториального деления по id");
+        logger.info("Поиск территориального деления по id");
         DivisionEntity division = divisionRepository.findById(districtForUpdateDto.getDivisionId())
-                .orElseThrow(() -> new EntityNotFoundException("По id не найдено териториального деления"));
+                .orElseThrow(() -> new EntityNotFoundException("По id не найдено территориального деления"));
         districtMapper.updateDistrictEntity(districtForUpdateDto, division, district);
         DistrictEntity updatedDistrict = districtRepository.save(district);
         return districtMapper.mapToDistrictDto(updatedDistrict);
