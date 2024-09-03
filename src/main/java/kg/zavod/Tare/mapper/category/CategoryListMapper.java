@@ -1,4 +1,4 @@
-package kg.zavod.Tare.mapper.cutegory;
+package kg.zavod.Tare.mapper.category;
 
 import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.dto.category.CategoryDto;

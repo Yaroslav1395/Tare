@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.category.impl;
 
+import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
@@ -7,10 +8,11 @@ import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.mapper.cutegory.CategoryListMapper;
-import kg.zavod.Tare.mapper.cutegory.CategoryMapper;
+import kg.zavod.Tare.mapper.category.CategoryListMapper;
+import kg.zavod.Tare.mapper.category.CategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
 import kg.zavod.Tare.service.category.CategoryService;
+import kg.zavod.Tare.service.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,14 +63,16 @@ public class CategoryServiceImpl implements CategoryService {
      * @param categoryForSaveDto - категория для сохранения
      * @return - сохраненная категория
      * @throws DuplicateEntityException - в случае если дублируется название категории
+     * @throws EntityNotFoundException - в случае если формат картинки не будет найден
      */
     @Override
     @Transactional
-    public CategoryDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException {
+    public CategoryDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException, EntityNotFoundException {
         logger.info("Попытка сохранения категории");
         boolean isDuplicateName = categoryRepository.findByName(categoryForSaveDto.getName()).isPresent();
         if(isDuplicateName) throw new DuplicateEntityException("Такое название категории уже существует");
-        CategoryEntity category = categoryMapper.mapToCategoryEntity(categoryForSaveDto);
+        ImageType categoryImageType = UtilService.getImageTypeFrom(categoryForSaveDto.getMultipartFile());
+        CategoryEntity category = categoryMapper.mapToCategoryEntity(categoryForSaveDto, categoryImageType);
         CategoryEntity savedCategory = categoryRepository.save(category);
         return categoryMapper.mapToCategoryDto(savedCategory);
     }
@@ -76,9 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * Метод позволят редактировать категорию меняя ее название и картинку
      * @param categoryForUpdateDto - категория для редактирования
-     * @throws EntityNotFoundException - в случае если при редактировании не найдено
      * @return - отредактированная категория
-     * @throws EntityNotFoundException - если не будет найдено категории для редактирования
+     * @throws EntityNotFoundException - если не будет найдено категории для редактирования или формата картинки
      * @throws DuplicateEntityException - если дублируется название другой категории
      */
     @Override
@@ -90,7 +93,8 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity category = categoryRepository.findById(categoryForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("По id не найдено категории для редактирования"));
         logger.info("Изменение найденной категории");
-        CategoryEntity updatedCategory = categoryMapper.mapToCategoryEntity(categoryForUpdateDto, category);
+        ImageType categoryImageType = UtilService.getImageTypeFrom(categoryForUpdateDto.getMultipartFile());
+        CategoryEntity updatedCategory = categoryMapper.mapToCategoryEntity(categoryForUpdateDto, categoryImageType, category);
         logger.info("Сохранение отредактированных данных категории");
         CategoryEntity savedCategory = categoryRepository.save(updatedCategory);
         return categoryMapper.mapToCategoryDto(savedCategory);

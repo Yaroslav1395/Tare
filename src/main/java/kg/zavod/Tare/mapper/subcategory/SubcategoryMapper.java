@@ -1,5 +1,6 @@
 package kg.zavod.Tare.mapper.subcategory;
 
+import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
@@ -22,6 +23,7 @@ public interface SubcategoryMapper {
 
     @Mapping(target = "categoryId", source = "subcategoryEntity.category.id")
     @Mapping(target = "productsIds", source = "products", qualifiedByName = "getProductsIdsFrom")
+    @Mapping(target = "subcategoryImageType", source = "subcategoryImageType", qualifiedByName = "getImageType")
     SubcategoryDto mapToSubcategoryDto(SubcategoryEntity subcategoryEntity);
 
     @Mapping(target = "id", source = "id")
@@ -32,11 +34,13 @@ public interface SubcategoryMapper {
     @Mapping(target = "subcategoryImage", source = "subcategoryForSaveDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "category", source = "category")
     @Mapping(target = "name", source = "subcategoryForSaveDto.name")
+    @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
     @Mapping(target = "id", ignore = true)
-    SubcategoryEntity mapToSubcategoryEntity(SubcategoryForSaveDto subcategoryForSaveDto, CategoryEntity category);
+    SubcategoryEntity mapToSubcategoryEntity(SubcategoryForSaveDto subcategoryForSaveDto, ImageType subcategoryImageType, CategoryEntity category);
 
-    @Mapping(target = "subcategoryImage", source = "subcategoryImage", qualifiedByName = "multipartFileToBase64")
-    void updateSubcategoryFromDto(SubcategoryForUpdateDto subcategoryDto, @MappingTarget SubcategoryEntity subcategoryEntity);
+    @Mapping(target = "subcategoryImage", source = "subcategoryDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
+    void updateSubcategoryFromDto(SubcategoryForUpdateDto subcategoryDto, ImageType subcategoryImageType, @MappingTarget SubcategoryEntity subcategoryEntity);
 
     /**
      * Метод позволит получить список id продуктов из подкатегории
@@ -64,5 +68,15 @@ public interface SubcategoryMapper {
         } catch (IOException e) {
             throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
         }
+    }
+
+    /**
+     * Метод позволит получить формат картинки из типа картинки
+     * @param imageType - тип картинки
+     * @return - формат картинки
+     */
+    @Named("getImageType")
+    default String getImageType(ImageType imageType){
+        return imageType.getFormat();
     }
 }
