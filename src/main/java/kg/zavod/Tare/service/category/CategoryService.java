@@ -30,15 +30,15 @@ public interface CategoryService {
      * @param categoryForSaveDto - категория для сохранения
      * @return - сохраненная категория
      * @throws DuplicateEntityException - в случае если дублируется название категории
+     * @throws EntityNotFoundException - в случае если формат картинки не будет найден
      */
-    CategoryDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException;
+    CategoryDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException, EntityNotFoundException;
 
     /**
      * Метод позволят редактировать категорию меняя ее название и картинку
      * @param categoryForUpdateDto - категория для редактирования
-     * @throws EntityNotFoundException - в случае если при редактировании не найдено
      * @return - отредактированная категория
-     * @throws EntityNotFoundException - если не будет найдено категории для редактирования
+     * @throws EntityNotFoundException - если не будет найдено категории для редактирования или формата картинки
      * @throws DuplicateEntityException - если дублируется название другой категории
      */
     CategoryDto updateCategory(CategoryForUpdateDto categoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;

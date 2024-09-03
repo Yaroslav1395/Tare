@@ -1,6 +1,7 @@
 package kg.zavod.Tare.domain.category;
 
 import jakarta.persistence.*;
+import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.DeleteException;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,9 @@ public class SubcategoryEntity {
     private String name;
     @Column(name = "subcategory_image")
     private String subcategoryImage;
+    @Column(name = "subcategory_image_type")
+    @Enumerated(EnumType.STRING)
+    private ImageType subcategoryImageType;
     @ManyToOne
     @JoinColumn(name="category_id", nullable=false)
     private CategoryEntity category;

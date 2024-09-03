@@ -64,7 +64,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CategoryDto>> createCategory(@ModelAttribute @Valid CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException {
+    public ResponseEntity<ResponseDto<CategoryDto>> createCategory(@ModelAttribute @Valid CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException, EntityNotFoundException {
         logger.info("Создание категории");
         return ResponseEntity.ok(ResponseDto.buildResponse(categoryService.saveCategory(categoryForSaveDto), ResponseState.SUCCESS,"Success"));
     }

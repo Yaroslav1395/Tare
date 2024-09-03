@@ -22,6 +22,8 @@ public class CategoryDto {
     private String name;
     @Schema(description = "Картинка")
     private String categoryImage;
+    @Schema(description = "Тип картинки")
+    private String imageType;
     @Schema(description = "Список подкатегорий")
     private List<SubcategorySimpleDto> subcategories;
 }
