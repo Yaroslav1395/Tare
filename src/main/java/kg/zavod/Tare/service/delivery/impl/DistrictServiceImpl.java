@@ -5,6 +5,7 @@ import kg.zavod.Tare.domain.delivery.DivisionEntity;
 import kg.zavod.Tare.dto.deliviry.district.DistrictDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.mapper.delivery.district.DistrictListMapper;
@@ -59,10 +60,13 @@ public class DistrictServiceImpl implements DistrictService {
      * @param districtForSaveDto - район для сохранения
      * @return - сохраненный район
      * @throws EntityNotFoundException - в случае если не найдено территориального деления для района по id
+     * @throws DuplicateEntityException - в случае если район с таким именем уже есть в территориальном делении
      */
     @Override
-    public DistrictDto saveDistrict(DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException {
+    public DistrictDto saveDistrict(DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка сохранения района");
+        boolean isDuplicate = districtRepository.findByNameAndDivisionId(districtForSaveDto.getName(), districtForSaveDto.getDivisionId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Район с таким именем уже существует в территориальном делении");
         logger.info("Поиск территориального деления для района по id");
         DivisionEntity division = divisionRepository.findById(districtForSaveDto.getDivisionId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдено территориального деления для района по id"));
@@ -75,12 +79,16 @@ public class DistrictServiceImpl implements DistrictService {
      * Метод позволят редактировать район
      * @param districtForUpdateDto - район для редактирования
      * @throws EntityNotFoundException - в случае если не найден район для редактирования
+     * @throws DuplicateEntityException - в случае если район с таким именем уже есть в территориальном делении
      * @return - отредактированный район
      */
     @Override
-    public DistrictDto updateDistrict(DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException {
+    public DistrictDto updateDistrict(DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка редактирования района");
         logger.info("Поиск района по id");
+        boolean isDuplicate = districtRepository.findByNameAndDivisionIdAndIdIsNot(districtForUpdateDto.getName(),
+                districtForUpdateDto.getDivisionId(), districtForUpdateDto.getId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Район с таким именем уже существует в территориальном делении");
         DistrictEntity district = districtRepository.findById(districtForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдено района по id"));
         logger.info("Поиск территориального деления по id");

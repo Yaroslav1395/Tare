@@ -11,6 +11,7 @@ import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.state.ResponseState;
@@ -63,7 +64,7 @@ public class DistrictController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<DistrictDto>> createDistrict(@ModelAttribute @Valid DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<DistrictDto>> createDistrict(@ModelAttribute @Valid DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание района");
         return ResponseEntity.ok(ResponseDto.buildResponse(districtService.saveDistrict(districtForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -74,7 +75,7 @@ public class DistrictController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<DistrictDto>> updateDistrict(@ModelAttribute @Valid DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<DistrictDto>> updateDistrict(@ModelAttribute @Valid DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование района");
         return ResponseEntity.ok(ResponseDto.buildResponse(districtService.updateDistrict(districtForUpdateDto), ResponseState.SUCCESS,"Success"));
     }

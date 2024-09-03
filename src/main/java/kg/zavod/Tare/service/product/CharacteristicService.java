@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.product;
 
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
@@ -27,17 +28,19 @@ public interface CharacteristicService {
     /**
      * Метод позволяет сохранить характеристику
      * @param characteristicForSaveDto - характеристика для сохранения
+     * @throws DuplicateEntityException - в случае если характеристика с таким названием уже есть
      * @return - сохраненная характеристика
      */
-    CharacteristicDto saveCharacteristic(CharacteristicForSaveDto characteristicForSaveDto);
+    CharacteristicDto saveCharacteristic(CharacteristicForSaveDto characteristicForSaveDto) throws DuplicateEntityException;
 
     /**
      * Метод позволят редактировать характеристику
      * @param characteristicForUpdateDto - характеристика для редактирования
      * @throws EntityNotFoundException - в случае если при редактировании не найдена характеристика
+     * @throws DuplicateEntityException - в случае если характеристика с таким названием уже есть
      * @return - отредактированная характеристика
      */
-    CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException;
+    CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
 
     /**
      * Метод позволяет удалять характеристику
