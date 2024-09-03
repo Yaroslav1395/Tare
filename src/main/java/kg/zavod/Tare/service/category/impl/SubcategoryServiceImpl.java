@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.category.impl;
 
+import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
@@ -13,6 +14,7 @@ import kg.zavod.Tare.mapper.subcategory.SubcategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
 import kg.zavod.Tare.service.category.SubcategoryService;
+import kg.zavod.Tare.service.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +65,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
      * Метод позволяет сохранить подкатегорию
      * @param subcategoryForSaveDto - подкатегория для сохранения
      * @return - сохраненная подкатегория
-     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории
+     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории или формат картинки
      * @throws DuplicateEntityException - в случае если в категории уже есть подкатегория с таким названием
      */
     @Override
@@ -74,7 +76,8 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         if(isDuplicate) throw new DuplicateEntityException("Подкатегория с таким названием уже существует в этой категории");
         CategoryEntity categoryEntity = categoryRepository.findById(subcategoryForSaveDto.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдена категория по id"));
-        SubcategoryEntity subcategoryForSave = subcategoryMapper.mapToSubcategoryEntity(subcategoryForSaveDto, categoryEntity);
+        ImageType subcategoryImageType = UtilService.getImageTypeFrom(subcategoryForSaveDto.getSubcategoryImage());
+        SubcategoryEntity subcategoryForSave = subcategoryMapper.mapToSubcategoryEntity(subcategoryForSaveDto, subcategoryImageType, categoryEntity);
         SubcategoryEntity savedSubcategory = subcategoryRepository.save(subcategoryForSave);
         return subcategoryMapper.mapToSubcategoryDto(savedSubcategory);
     }
@@ -83,7 +86,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
      * Метод позволят редактировать подкатегорию меняя ее название, картинку и категорию
      * @param subcategoryForUpdateDto - подкатегория для редактирования
      * @return - отредактированная подкатегория
-     * @throws EntityNotFoundException - в случае если при редактировании не найдено подкатегории или категории
+     * @throws EntityNotFoundException - в случае если при редактировании не найдена подкатегории или категории или формат картинки
      * @throws DuplicateEntityException - в случае если в категории дублируется подкатегория
      */
     @Override
@@ -96,7 +99,8 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         SubcategoryEntity subcategory = subcategoryRepository.findById(subcategoryForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено подкатегории"));
         logger.info("Изменение подкатегории");
-        subcategoryMapper.updateSubcategoryFromDto(subcategoryForUpdateDto, subcategory);
+        ImageType subcategoryImageType = UtilService.getImageTypeFrom(subcategoryForUpdateDto.getSubcategoryImage());
+        subcategoryMapper.updateSubcategoryFromDto(subcategoryForUpdateDto, subcategoryImageType, subcategory);
         SubcategoryEntity updatedSubcategory = subcategoryRepository.save(subcategory);
         return subcategoryMapper.mapToSubcategoryDto(updatedSubcategory);
     }

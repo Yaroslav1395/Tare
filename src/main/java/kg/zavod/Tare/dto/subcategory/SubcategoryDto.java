@@ -20,6 +20,8 @@ public class SubcategoryDto {
     private String name;
     @Schema(description = "Картинка")
     private String subcategoryImage;
+    @Schema(description = "Тип картинки")
+    private String subcategoryImageType;
     @Schema(description = "Id категории")
     private Integer categoryId;
     @Schema(description = "Id продуктов входящих в подкатегорию")

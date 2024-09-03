@@ -29,7 +29,7 @@ public interface SubcategoryService {
      * Метод позволяет сохранить подкатегорию
      * @param subcategoryForSaveDto - подкатегория для сохранения
      * @return - сохраненная подкатегория
-     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории
+     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории или формат картинки
      * @throws DuplicateEntityException - в случае если в категории уже есть подкатегория с таким названием
      */
     SubcategoryDto saveSubcategory(SubcategoryForSaveDto subcategoryForSaveDto) throws EntityNotFoundException, DuplicateEntityException;
@@ -38,7 +38,7 @@ public interface SubcategoryService {
      * Метод позволят редактировать подкатегорию меняя ее название, картинку и категорию
      * @param subcategoryForUpdateDto - подкатегория для редактирования
      * @return - отредактированная подкатегория
-     * @throws EntityNotFoundException - в случае если при редактировании не найдено подкатегории или категории
+     * @throws EntityNotFoundException - в случае если при редактировании не найдено подкатегории или категории или формат картинки
      * @throws DuplicateEntityException - в случае если в категории дублируется подкатегория
      */
     SubcategoryDto updateSubcategory(SubcategoryForUpdateDto subcategoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
