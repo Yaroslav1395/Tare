@@ -3,6 +3,7 @@ package kg.zavod.Tare.service.delivery;
 import kg.zavod.Tare.dto.deliviry.district.DistrictDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveDto;
 import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 
@@ -29,16 +30,18 @@ public interface DistrictService {
      * @param districtForSaveDto - район для сохранения
      * @return - сохраненный район
      * @throws EntityNotFoundException - в случае если не найдено территориального деления для района по id
+     * @throws DuplicateEntityException - в случае если район с таким именем уже есть в территориальном делении
      */
-    DistrictDto saveDistrict(DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException;
+    DistrictDto saveDistrict(DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException, DuplicateEntityException;
 
     /**
      * Метод позволят редактировать район
      * @param districtForUpdateDto - район для редактирования
      * @throws EntityNotFoundException - в случае если не найден район для редактирования
+     * @throws DuplicateEntityException - в случае если район с таким именем уже есть в территориальном делении
      * @return - отредактированный район
      */
-    DistrictDto updateDistrict(DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException;
+    DistrictDto updateDistrict(DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
 
     /**
      * Метод позволяет удалить район
