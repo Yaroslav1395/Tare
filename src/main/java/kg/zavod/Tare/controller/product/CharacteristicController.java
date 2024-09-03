@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
@@ -63,7 +64,7 @@ public class CharacteristicController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CharacteristicDto>> createCharacteristic(@RequestBody @Valid CharacteristicForSaveDto characteristicForSaveDto) {
+    public ResponseEntity<ResponseDto<CharacteristicDto>> createCharacteristic(@RequestBody @Valid CharacteristicForSaveDto characteristicForSaveDto) throws DuplicateEntityException {
         logger.info("Создание характеристики");
         return ResponseEntity.ok(ResponseDto.buildResponse(characteristicService.saveCharacteristic(characteristicForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -74,7 +75,7 @@ public class CharacteristicController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CharacteristicDto>> updateCharacteristic(@RequestBody @Valid CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<CharacteristicDto>> updateCharacteristic(@RequestBody @Valid CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование характеристики");
         return ResponseEntity.ok(ResponseDto.buildResponse(characteristicService.updateCharacteristic(characteristicForUpdateDto), ResponseState.SUCCESS,"Success"));
     }

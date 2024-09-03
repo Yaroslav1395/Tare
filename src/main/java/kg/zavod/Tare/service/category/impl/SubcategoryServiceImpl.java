@@ -2,6 +2,7 @@ package kg.zavod.Tare.service.category.impl;
 
 import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.subcategory.SubcategoryDto;
@@ -33,7 +34,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
      * Метод позволяет получить подкатегорию со списком id продуктов по id
      * @throws EntityNotFoundException  - в случае если по id ничего не найдено
      * @param id - id подкатегории
-     * @return - подкатеглоия со списком id продуктов
+     * @return - подкатегория со списком id продуктов
      */
     @Override
     @Transactional(readOnly = true)
@@ -61,13 +62,16 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     /**
      * Метод позволяет сохранить подкатегорию
      * @param subcategoryForSaveDto - подкатегория для сохранения
-     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории
      * @return - сохраненная подкатегория
+     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории
+     * @throws DuplicateEntityException - в случае если в категории уже есть подкатегория с таким названием
      */
     @Override
     @Transactional
-    public SubcategoryDto saveSubcategory(SubcategoryForSaveDto subcategoryForSaveDto) throws EntityNotFoundException {
+    public SubcategoryDto saveSubcategory(SubcategoryForSaveDto subcategoryForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка сохранения подкатегории");
+        boolean isDuplicate = subcategoryRepository.findByNameAndCategoryId(subcategoryForSaveDto.getName(), subcategoryForSaveDto.getCategoryId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Подкатегория с таким названием уже существует в этой категории");
         CategoryEntity categoryEntity = categoryRepository.findById(subcategoryForSaveDto.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдена категория по id"));
         SubcategoryEntity subcategoryForSave = subcategoryMapper.mapToSubcategoryEntity(subcategoryForSaveDto, categoryEntity);
@@ -76,15 +80,19 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     /**
-     * Метод позволят редактировать подкатегорию меняя ее названиее, картинку и категорию
+     * Метод позволят редактировать подкатегорию меняя ее название, картинку и категорию
      * @param subcategoryForUpdateDto - подкатегория для редактирования
-     * @throws EntityNotFoundException - в случае если при редактировании не найдено подкатегории
      * @return - отредактированная подкатегория
+     * @throws EntityNotFoundException - в случае если при редактировании не найдено подкатегории или категории
+     * @throws DuplicateEntityException - в случае если в категории дублируется подкатегория
      */
     @Override
     @Transactional
-    public SubcategoryDto updateSubcategory(SubcategoryForUpdateDto subcategoryForUpdateDto) throws EntityNotFoundException {
+    public SubcategoryDto updateSubcategory(SubcategoryForUpdateDto subcategoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка редактирования подкатегории");
+        boolean isDuplicate = subcategoryRepository.findByNameAndIdIsNotAndCategoryId(subcategoryForUpdateDto.getName(),
+                subcategoryForUpdateDto.getId(), subcategoryForUpdateDto.getCategoryId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("В этой категории уже есть подкатегория с таким названием");
         SubcategoryEntity subcategory = subcategoryRepository.findById(subcategoryForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено подкатегории"));
         logger.info("Изменение подкатегории");

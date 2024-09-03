@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.product.impl;
 import kg.zavod.Tare.domain.product.ColorEntity;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.color.ColorDto;
@@ -56,11 +57,14 @@ public class ColorServiceImpl implements ColorService {
      * Метод позволяет сохранить цвет
      * @param colorForSaveDto - цвет для сохранения
      * @return - сохраненный цвет
+     * @throws DuplicateEntityException - в случае если название цвета или hex код цвета уже существует
      */
     @Override
     @Transactional
-    public ColorDto saveColor(ColorForSaveDto colorForSaveDto) {
+    public ColorDto saveColor(ColorForSaveDto colorForSaveDto) throws DuplicateEntityException {
         logger.info("Попытка сохранения цвета");
+        boolean isDuplicate = colorRepository.findByNameOrHexCode(colorForSaveDto.getName(), colorForSaveDto.getHexCode()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Название цвета или hex код цвета уже существует");
         ColorEntity colorForSave = colorMapper.mapToColorEntity(colorForSaveDto);
         ColorEntity savedColor = colorRepository.save(colorForSave);
         return colorMapper.mapToColorDto(savedColor);
@@ -70,11 +74,15 @@ public class ColorServiceImpl implements ColorService {
      * Метод позволят редактировать цвет
      * @param colorForUpdateDto - цвет для редактирования
      * @throws EntityNotFoundException - в случае если при редактировании не найдено цвета
+     * @throws DuplicateEntityException - в случае если название цвета или hex код цвета уже существует
      * @return - отредактированный цвет
      */
     @Override
-    public ColorDto updateColor(ColorForUpdateDto colorForUpdateDto) throws EntityNotFoundException {
+    public ColorDto updateColor(ColorForUpdateDto colorForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка редактирования цвета");
+        boolean isDuplicate = colorRepository.findByNameOrHexCodeAndIdNot(colorForUpdateDto.getName(), colorForUpdateDto.getHexCode(),
+                colorForUpdateDto.getId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Название цвета или hex код цвета уже существует");
         ColorEntity colorEntity = colorRepository.findById(colorForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено цвета"));
         logger.info("Изменение подкатегории");

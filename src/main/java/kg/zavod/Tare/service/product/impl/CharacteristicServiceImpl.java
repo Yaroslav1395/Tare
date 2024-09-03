@@ -1,6 +1,7 @@
 package kg.zavod.Tare.service.product.impl;
 
 import kg.zavod.Tare.domain.product.CharacteristicEntity;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
@@ -56,10 +57,13 @@ public class CharacteristicServiceImpl implements CharacteristicService {
      * Метод позволяет сохранить характеристику
      * @param characteristicForSaveDto - характеристика для сохранения
      * @return - сохраненная характеристика
+     * @throws DuplicateEntityException - в случае если характеристика с таким названием уже есть
      */
     @Override
-    public CharacteristicDto saveCharacteristic(CharacteristicForSaveDto characteristicForSaveDto) {
+    public CharacteristicDto saveCharacteristic(CharacteristicForSaveDto characteristicForSaveDto) throws DuplicateEntityException {
         logger.info("Попытка сохранения характеристики");
+        boolean isDuplicate = characteristicRepository.findByName(characteristicForSaveDto.getName()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Характеристика с таким названием уже есть");
         CharacteristicEntity characteristic = characteristicMapper.mapToCharacteristicEntity(characteristicForSaveDto);
         CharacteristicEntity savedCharacteristic = characteristicRepository.save(characteristic);
         return characteristicMapper.mapToCharacteristicDto(savedCharacteristic);
@@ -69,11 +73,14 @@ public class CharacteristicServiceImpl implements CharacteristicService {
      * Метод позволят редактировать характеристику
      * @param characteristicForUpdateDto - характеристика для редактирования
      * @throws EntityNotFoundException - в случае если при редактировании не найдена характеристика
+     * @throws DuplicateEntityException - в случае если характеристика с таким названием уже есть
      * @return - отредактированная характеристика
      */
     @Override
-    public CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException {
+    public CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Попытка редактирования характеристики");
+        boolean isDuplicate = characteristicRepository.findByNameAndIdIsNot(characteristicForUpdateDto.getName(), characteristicForUpdateDto.getId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Характеристика с таким id уже есть");
         CharacteristicEntity characteristic = characteristicRepository.findById(characteristicForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено характеристики"));
         characteristicMapper.updateCharacteristicEntity(characteristicForUpdateDto, characteristic);

@@ -11,6 +11,7 @@ import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.state.ResponseState;
@@ -63,7 +64,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CategoryDto>> createCategory(@ModelAttribute @Valid CategoryForSaveDto categoryForSaveDto) {
+    public ResponseEntity<ResponseDto<CategoryDto>> createCategory(@ModelAttribute @Valid CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException {
         logger.info("Создание категории");
         return ResponseEntity.ok(ResponseDto.buildResponse(categoryService.saveCategory(categoryForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -74,7 +75,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CategoryDto>> updateUser(@ModelAttribute @Valid CategoryForUpdateDto categoryForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<CategoryDto>> updateCategory(@ModelAttribute @Valid CategoryForUpdateDto categoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование категории");
         return ResponseEntity.ok(ResponseDto.buildResponse(categoryService.updateCategory(categoryForUpdateDto), ResponseState.SUCCESS,"Success"));
     }
@@ -85,7 +86,7 @@ public class CategoryController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<Boolean>> deleteUser(
+    public ResponseEntity<ResponseDto<Boolean>> deleteCategory(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer categoryId) {
         logger.info("Удаление категории");

@@ -11,6 +11,7 @@ import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.certificate.CertificateDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.state.ResponseState;
@@ -64,7 +65,7 @@ public class CertificateController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CertificateDto>> createCertificate(@ModelAttribute @Valid CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<CertificateDto>> createCertificate(@ModelAttribute @Valid CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание сертификата");
         return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.saveCertificate(certificateForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -75,7 +76,7 @@ public class CertificateController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<CertificateDto>> updateCertificate(@ModelAttribute @Valid CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<CertificateDto>> updateCertificate(@ModelAttribute @Valid CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование сертификата");
         return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.updateCertificate(certificateForUpdateDto), ResponseState.SUCCESS,"Success"));
     }

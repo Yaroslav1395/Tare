@@ -15,7 +15,7 @@ public interface CapacityService {
      * Метод позволяет получить допустимый объем доставки по id
      * @throws EntityNotFoundException  - в случае если по id ничего не найдено
      * @param id - id допустимого объема доставки
-     * @return - найденый допустимый объем доставки
+     * @return - найденный допустимый объем доставки
      */
     CapacityDto getCapacityById(Integer id) throws EntityNotFoundException;
 
@@ -28,7 +28,7 @@ public interface CapacityService {
 
     /**
      * Метод позволяет сохранить допустимый объем доставки
-     * @param capacityForSaveDto -  допустимый объем доставки для сохранения
+     * @param capacityForSaveDto - допустимый объем доставки для сохранения
      * @throws DuplicateEntityException - в случае попытки создания дубликата
      * @return - сохраненный допустимый объем доставки
      */

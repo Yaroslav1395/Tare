@@ -11,8 +11,19 @@ import java.util.Set;
 
 @Repository
 public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
+    /**
+     * Метод позволяет найти роль по названию
+     * @param role - название роли
+     * @return - роль
+     */
     Optional<RoleEntity> findByRole(String role);
 
-    @Query("SELECT r FROM RoleEntity r JOIN r.users u WHERE u.id = :userId")
-    Set<RoleEntity> findRolesByUserId(@Param("userId") Integer userId);
+    /**
+     * Метод позволяет найти роль по названию исключая роль с переданным id
+     * @param role - название роли
+     * @param id - id роли
+     * @return - роль
+     */
+    Optional<RoleEntity> findByRoleAndIdIsNot(String role, Integer id);
+
 }
