@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.color.ColorDto;
@@ -63,7 +64,7 @@ public class ColorController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<ColorDto>> createColor(@RequestBody @Valid ColorForSaveDto colorForSaveDto) {
+    public ResponseEntity<ResponseDto<ColorDto>> createColor(@RequestBody @Valid ColorForSaveDto colorForSaveDto) throws DuplicateEntityException {
         logger.info("Создание цвета");
         return ResponseEntity.ok(ResponseDto.buildResponse(colorService.saveColor(colorForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -74,7 +75,7 @@ public class ColorController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<ColorDto>> updateColor(@RequestBody @Valid ColorForUpdateDto colorForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<ColorDto>> updateColor(@RequestBody @Valid ColorForUpdateDto colorForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование цвета");
         return ResponseEntity.ok(ResponseDto.buildResponse(colorService.updateColor(colorForUpdateDto), ResponseState.SUCCESS,"Success"));
     }
