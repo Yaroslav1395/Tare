@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import kg.zavod.Tare.config.SecurityConfig;
 import kg.zavod.Tare.domain.user.UserEntity;
 import kg.zavod.Tare.domain.user.RoleEntity;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.user.UserForSaveDto;
@@ -45,9 +46,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserEntity getByUsername(String username) throws EntityNotFoundException {
         logger.info("Получение пользователя по его логину");
-        UserEntity user =  userRepository.findByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь с таким именем не найден"));
-        return user;
     }
 
     /**
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Получучение пользователя о его id
+     * Получение пользователя о его id
      * @param id - идентификатор пользователя
      * @throws EntityNotFoundException - в случае если пользователь не найден
      * @return - найденный пользователь
@@ -84,9 +84,9 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Полуучение всех пользователей
+     * Получение всех пользователей
      * @throws EntitiesNotFoundException - в случае если в базе нет пользователей
-     * @return - списко пользователй
+     * @return - список пользователй
      */
     @Override
     @Transactional
@@ -100,12 +100,15 @@ public class UserServiceImpl implements UserService {
     /**
      * Создание нового пользователя
      * @param userForSave - новый пользователь которого нужно сохранить
+     * @throws DuplicateEntityException - в случае если пользователь с таким логином существует
      * @return - данные сохраненного пользователя
      */
     @Override
     @Transactional
-    public UserDto createUser(UserForSaveDto userForSave) {
+    public UserDto createUser(UserForSaveDto userForSave) throws DuplicateEntityException {
         logger.info("Сохранение нового пользователя");
+        boolean isDuplicate = userRepository.findByUsernameAndIsDeletedFalse(userForSave.getUsername()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Пользователь с таким логином уже есть");
         UserEntity user = userMapper.mapToUserEntity(userForSave);
         setRolesToUser(user, userForSave.getRolesId());
         user.setPassword(bCryptPasswordEncoder.encode(defaultPassword));
@@ -117,12 +120,15 @@ public class UserServiceImpl implements UserService {
      * Редактирование данных существующего пользователя
      * @param userForUpdate - данные которые нужно сохранить
      * @throws EntityNotFoundException - в случае если не найден пользователь для редактирования
+     * @throws DuplicateEntityException - в случае если пользователь с таким логином существует
      * @return - отредактированные данные пользователя
      */
     @Override
     @Transactional
-    public UserDto updateUser(UserForUpdateDto userForUpdate) throws EntityNotFoundException {
+    public UserDto updateUser(UserForUpdateDto userForUpdate) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование существующего пользователя");
+        boolean isDuplicate = userRepository.findByUsernameAndIdIsNotAndIsDeletedFalse(userForUpdate.getUsername(), userForUpdate.getId()).isPresent();
+        if(isDuplicate) throw new DuplicateEntityException("Пользователь с таким логином уже есть");
         UserEntity user = userRepository.findById(userForUpdate.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Пользователя с таким id не найдено"));
         userMapper.updateUserFromDto(userForUpdate, user);
@@ -144,8 +150,8 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Метод ищет роли по id и устанавливает из пользователю
-     * @param user - пользователь которуому нужно установить роли
+     * Метод ищет роли по id и устанавливает их пользователю
+     * @param user - пользователь которому нужно установить роли
      * @param rolesFromUser - id ролей для поиска
      */
     private void setRolesToUser(UserEntity user, List<Integer> rolesFromUser){

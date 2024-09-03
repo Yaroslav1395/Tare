@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
+import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.state.ResponseState;
@@ -62,7 +63,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<UserDto>> createUser(@RequestBody @Valid UserForSaveDto userForSaveDto) {
+    public ResponseEntity<ResponseDto<UserDto>> createUser(@RequestBody @Valid UserForSaveDto userForSaveDto) throws DuplicateEntityException {
         logger.info("Создание пользователя");
         return ResponseEntity.ok(ResponseDto.buildResponse(userService.createUser(userForSaveDto), ResponseState.SUCCESS,"Success"));
     }
@@ -73,7 +74,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<UserDto>> updateUser(@RequestBody @Valid UserForUpdateDto userForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<UserDto>> updateUser(@RequestBody @Valid UserForUpdateDto userForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование пользователя");
         return ResponseEntity.ok(ResponseDto.buildResponse(userService.updateUser(userForUpdateDto), ResponseState.SUCCESS,"Success"));
     }
