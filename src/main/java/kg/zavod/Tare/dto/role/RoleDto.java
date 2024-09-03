@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleDto {
     @Schema(description = "Идентификатор")
-    private Long id;
+    private Integer id;
     @Schema(description = "Название роли")
     @NotBlank
     private String role;
