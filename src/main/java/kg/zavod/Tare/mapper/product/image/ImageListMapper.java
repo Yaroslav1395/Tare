@@ -1,5 +1,6 @@
 package kg.zavod.Tare.mapper.product.image;
 
+import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
@@ -7,6 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
+import kg.zavod.Tare.service.util.UtilService;
 import org.mapstruct.Context;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -27,7 +29,8 @@ public interface ImageListMapper {
         }
         ArrayList<ImageEntity> imageEntities = new ArrayList<>();
         for (ImageForSaveWithProductDto image : images) {
-            imageEntities.add(imageMapper.mapToImageEntity(image, colors, product));
+            ImageType productImageType = UtilService.getImageTypeFrom(image.getProductImage());
+            imageEntities.add(imageMapper.mapToImageEntity(image, colors, product, productImageType));
         }
         return imageEntities;
     }

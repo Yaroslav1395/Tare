@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.product.impl;
 
+import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
@@ -15,6 +16,7 @@ import kg.zavod.Tare.repository.product.ColorRepository;
 import kg.zavod.Tare.repository.product.ImageRepository;
 import kg.zavod.Tare.repository.product.ProductRepository;
 import kg.zavod.Tare.service.product.ImageService;
+import kg.zavod.Tare.service.util.UtilService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,7 +81,8 @@ public class ImageServiceImpl implements ImageService {
         logger.info("Поиск продукта по id при сохранении картинки");
         ProductEntity productEntity = productRepository.findById(imageForSaveDto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено продукта"));
-        ImageEntity imageForSave = imageMapper.mapToImageEntity(imageForSaveDto, colorEntity, productEntity);
+        ImageType productImageType = UtilService.getImageTypeFrom(imageForSaveDto.getProductImage());
+        ImageEntity imageForSave = imageMapper.mapToImageEntity(imageForSaveDto, colorEntity, productEntity, productImageType);
         ImageEntity savedImage = imageRepository.save(imageForSave);
         return imageMapper.mapToImageDto(savedImage);
     }
@@ -126,7 +129,8 @@ public class ImageServiceImpl implements ImageService {
         logger.info("Поиск продукта по id при редактировании картинки");
         ProductEntity productEntity = productRepository.findById(imageForUpdateDto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено продукта"));
-        imageMapper.updateImage(imageForUpdateDto, productEntity, colorEntity, imageEntity);
+        ImageType productImageType = UtilService.getImageTypeFrom(imageForUpdateDto.getProductImage());
+        imageMapper.updateImage(imageForUpdateDto, productEntity, colorEntity, productImageType, imageEntity);
         ImageEntity savedImage = imageRepository.save(imageEntity);
         return imageMapper.mapToImageDto(savedImage);
     }
