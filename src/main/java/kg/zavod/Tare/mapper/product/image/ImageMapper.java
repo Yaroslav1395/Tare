@@ -31,22 +31,23 @@ public interface ImageMapper {
     @Mapping(target = "productImage", source = "imageForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "product", source = "product")
-    @Mapping(target = "imageType", source = "imageForSaveDto.productImage", qualifiedByName = "extractImageType")
+    @Mapping(target = "imageType", source = "productImageType")
     @Mapping(target = "id", ignore = true)
-    ImageEntity mapToImageEntity(ImageForSaveDto imageForSaveDto, ColorEntity color, ProductEntity product);
+    ImageEntity mapToImageEntity(ImageForSaveDto imageForSaveDto, ColorEntity color, ProductEntity product, ImageType productImageType);
 
     @Mapping(target = "productImage", source = "imageForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "color", expression = "java(getColorFrom(imageForSaveDto, colors))")
-    @Mapping(target = "imageType", source = "imageForSaveDto.productImage", qualifiedByName = "extractImageType")
+    @Mapping(target = "imageType", source = "productImageType")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "id", ignore = true)
-    ImageEntity mapToImageEntity(ImageForSaveWithProductDto imageForSaveDto, Map<Integer, ColorEntity> colors, ProductEntity product) throws EntityNotFoundException;
+    ImageEntity mapToImageEntity(ImageForSaveWithProductDto imageForSaveDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
     @Mapping(target = "productImage", source = "imageForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "product", source = "product")
+    @Mapping(target = "imageType", source = "productImageType")
     @Mapping(target = "id", ignore = true)
-    void updateImage(ImageForUpdateDto imageForUpdateDto, ProductEntity product, ColorEntity color, @MappingTarget ImageEntity image);
+    void updateImage(ImageForUpdateDto imageForUpdateDto, ProductEntity product, ColorEntity color, ImageType productImageType, @MappingTarget ImageEntity image);
 
     /**
      * Метод позволит получить формат картинки из типа картинки
