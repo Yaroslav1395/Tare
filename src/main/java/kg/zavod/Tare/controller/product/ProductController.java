@@ -21,6 +21,7 @@ import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.product.PageForProduct;
 import kg.zavod.Tare.dto.product.product.ProductDto;
 import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
+import kg.zavod.Tare.dto.product.product.ProductFromBasketDro;
 import kg.zavod.Tare.dto.state.ResponseState;
 import kg.zavod.Tare.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -123,5 +124,16 @@ public class ProductController {
             @Min(value = 1, message = "Id продукта не может быть меньше 1-го") Integer productId){
         logger.info("Удаление продукта по id");
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.deleteProduct(productId), ResponseState.SUCCESS,"Success"));
+    }
+
+    @Operation(summary = "Получение ссылки на whats app", description = "Позволяет получить ссылку на whats app c заполненным сообщением")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Успешно"),
+            @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PostMapping
+    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    public ResponseEntity<ResponseDto<String>> getUrlToWhatsAppWithProductBasket(@RequestBody List<@Valid ProductFromBasketDro> products){
+        logger.info("Формирование ссылки на whats app");
+        return ResponseEntity.ok(ResponseDto.buildResponse(productService.getUrlForWhatsAppWithProductBasket(products), ResponseState.SUCCESS,"Success"));
     }
 }

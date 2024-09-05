@@ -1,6 +1,7 @@
 package kg.zavod.Tare.service.product.impl;
 
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
+import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -9,6 +10,7 @@ import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.PageForProduct;
 import kg.zavod.Tare.dto.product.product.ProductDto;
 import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
+import kg.zavod.Tare.dto.product.product.ProductFromBasketDro;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
@@ -25,6 +27,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -101,5 +106,76 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Попытка удаления продукта по id");
         productRepository.deleteById(id);
         return !productRepository.existsById(id);
+    }
+
+    /**
+     * Метод позволяет получить ссылку на whats app с корзиной клиента
+     * @param products - корзина клиента
+     * @return - ссылка на whats app
+     */
+    @Override
+    @Transactional
+    public String getUrlForWhatsAppWithProductBasket(List<ProductFromBasketDro> products) {
+        logger.info("Попытка формирования ссылки");
+        String baseMessage = "https://wa.me/996505349113?text=Здравствуйте,%20хочу%20приобрести%20у%20вас%20товар";
+        StringBuilder message = new StringBuilder(baseMessage);
+        List<Integer> productIds = getProductIdFrom(products);
+        List<ProductEntity> productsEntity = productRepository.findAllById(productIds);
+        if (productsEntity.size() < products.size())  return baseMessage;
+        Map<Integer, ProductEntity> productMap = productsEntity.stream()
+                .collect(Collectors.toMap(ProductEntity::getId, productEntity -> productEntity));
+        return buildUrl(products, productMap, baseMessage, message);
+    }
+
+    /**
+     * Метод позволит получить id продуктов
+     * @param products - продукты из корзины
+     * @return - id продуктов
+     */
+    private List<Integer> getProductIdFrom(List<ProductFromBasketDro> products){
+        return products.stream()
+                .map(ProductFromBasketDro::getId)
+                .toList();
+    }
+
+    /**
+     * Метод вернет словарь характеристик, где ключ это название
+     * @param characteristics - характеристики продукта
+     * @return - словарь характеристик, название, значение
+     */
+    private Map<String, Integer> getCharacteristicsValue(List<ProductCharacteristicEntity> characteristics){
+        Set<String> requiredCharacteristics = Set.of("Цена", "Объем");
+        return characteristics.stream()
+                .filter(c -> requiredCharacteristics.contains(c.getCharacteristic().getName()))
+                .collect(Collectors.toMap(c -> c.getCharacteristic().getName(), ProductCharacteristicEntity::getValue));
+    }
+
+    /**
+     * Метод построит url для перехода на whats app. В случае если не будет найдена ценовая характеристика для какого либо продукта
+     * то вернется url c базовым сообщением.
+     * @param products - продукты из корзины
+     * @param productMap - продукты их базы
+     * @param baseMessage - базовое сообщение
+     * @param message - сообщение которое должно сформироваться для whats app
+     * @return - url
+     */
+    private String buildUrl(List<ProductFromBasketDro> products, Map<Integer, ProductEntity> productMap, String baseMessage, StringBuilder message){
+        int count = 1;
+        int totalSum = 0;
+        for (ProductFromBasketDro product : products) {
+            ProductEntity productEntity = productMap.get(product.getId());
+            if (productEntity == null) return baseMessage;
+            Map<String, Integer> characteristicValues = getCharacteristicsValue(productEntity.getProductCharacteristics());
+            Integer price = characteristicValues.get("Цена");
+            if (price == null) return baseMessage;
+            int positionPriceSum = price * product.getAmount();
+            message.append("%0A").append(count).append(".%20").append(productEntity.getName()).append("%20Количество:%20")
+                    .append(product.getAmount()).append("%0A%20").append("Цена:%20").append(price).append("%20Сумма:%20")
+                    .append(positionPriceSum);
+            count++;
+            totalSum += positionPriceSum;
+        }
+        message.append("%0A%0AОбщая%20сумма:%20").append(totalSum);
+        return message.toString().length() > 2000 ? baseMessage : message.toString();
     }
 }

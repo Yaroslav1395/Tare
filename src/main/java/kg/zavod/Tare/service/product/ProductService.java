@@ -5,7 +5,10 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.product.PageForProduct;
 import kg.zavod.Tare.dto.product.product.ProductDto;
 import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
+import kg.zavod.Tare.dto.product.product.ProductFromBasketDro;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface ProductService {
 
@@ -41,4 +44,11 @@ public interface ProductService {
      * @return - удален или нет
      */
     Boolean deleteProduct(Integer id);
+
+    /**
+     * Метод позволяет получить ссылку на whats app с корзиной клиента
+     * @param products - корзина клиента
+     * @return - ссылка на whats app
+     */
+    String getUrlForWhatsAppWithProductBasket(List<ProductFromBasketDro> products);
 }
