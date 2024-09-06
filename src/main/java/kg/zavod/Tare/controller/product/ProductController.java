@@ -82,9 +82,9 @@ public class ProductController {
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<ProductDto>> createProduct(
-            @RequestParam("image") MultipartFile image) throws EntityNotFoundException, EntitiesNotFoundException {
+            @RequestBody ProductForSaveDto product) throws EntityNotFoundException, EntitiesNotFoundException {
         logger.info("Создание продукта");
-        ImageForSaveWithProductDto imageForSaveDto = ImageForSaveWithProductDto.builder()
+        /*ImageForSaveWithProductDto imageForSaveDto = ImageForSaveWithProductDto.builder()
                 .productImage(image)
                 .colorId(1)
                 .build();
@@ -109,7 +109,7 @@ public class ProductController {
                 .subcategoryId(1)
                 .characteristicsValues(characteristics)
                 .images(images)
-                .build();
+                .build();*/
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.saveProduct(product), ResponseState.SUCCESS,"Success"));
     }
 
