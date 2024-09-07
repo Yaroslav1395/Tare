@@ -52,7 +52,7 @@ public class ProductController {
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.getProductById(productId), ResponseState.SUCCESS,"Success"));
     }
 
-    @Operation(summary = "Получение продукта по id", description = "Позволит получить продукт по его id")
+    @Operation(summary = "Получение продуктов по id подкатегории", description = "Позволит получить продуктов по id подкатегории")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
@@ -74,8 +74,7 @@ public class ProductController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
-    public ResponseEntity<ResponseDto<ProductDto>> createProduct(
-            @RequestBody ProductForSaveDto product) throws EntityNotFoundException, EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<ProductDto>> createProduct(@RequestBody ProductForSaveDto product) throws EntityNotFoundException, EntitiesNotFoundException {
         logger.info("Создание продукта");
         /*ImageForSaveWithProductDto imageForSaveDto = ImageForSaveWithProductDto.builder()
                 .productImage(image)
@@ -123,7 +122,7 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    @PostMapping
+    @PostMapping("/basket")
     //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<String>> getUrlToWhatsAppWithProductBasket(@RequestBody List<@Valid ProductFromBasketDro> products){
         logger.info("Формирование ссылки на whats app");
