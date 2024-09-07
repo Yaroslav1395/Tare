@@ -6,15 +6,12 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

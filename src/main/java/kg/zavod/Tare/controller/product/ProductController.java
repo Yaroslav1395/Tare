@@ -12,12 +12,6 @@ import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveDto;
-import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
-import kg.zavod.Tare.dto.product.color.ColorDto;
-import kg.zavod.Tare.dto.product.color.ColorForSaveDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.product.PageForProduct;
 import kg.zavod.Tare.dto.product.product.ProductDto;
 import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
@@ -33,7 +27,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
