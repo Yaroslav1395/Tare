@@ -127,7 +127,11 @@
 			<version>${validator.version}</version>
 		</dependency>
 
-
+		<!--Зависимости для докера-->
+		<!--<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-docker-compose</artifactId>
+		</dependency>-->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
