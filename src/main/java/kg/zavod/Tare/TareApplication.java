@@ -2,7 +2,6 @@ package kg.zavod.Tare;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//TODO:Для категорий и подкатегорий добавить хранение типа файла
 @SpringBootApplication
 public class TareApplication {
 
