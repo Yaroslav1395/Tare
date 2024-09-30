@@ -6,10 +6,7 @@ import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
-import kg.zavod.Tare.dto.product.image.ImageDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
-import kg.zavod.Tare.dto.product.image.ImageForUpdateDto;
+import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -34,6 +31,20 @@ public interface ImageMapper {
     @Mapping(target = "imageType", source = "productImageType")
     @Mapping(target = "id", ignore = true)
     ImageEntity mapToImageEntity(ImageForSaveDto imageForSaveDto, ColorEntity color, ProductEntity product, ImageType productImageType);
+
+    @Mapping(target = "productImage", source = "imageForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "color", source = "color")
+    @Mapping(target = "product", source = "product")
+    @Mapping(target = "imageType", source = "productImageType")
+    @Mapping(target = "id", source = "imageForUpdateDto.id")
+    ImageEntity mapToImageEntity(ImageForUpdateWithProductDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
+
+    @Mapping(target = "productImage", source = "imageForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "color", source = "color")
+    @Mapping(target = "product", source = "product")
+    @Mapping(target = "imageType", source = "productImageType")
+    @Mapping(target = "id", source = "java(getIdFrom(imageForUpdateDto))")
+    ImageEntity mapToNewImageEntity(ImageForUpdateWithProductDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
     @Mapping(target = "productImage", source = "imageForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "color", expression = "java(getColorFrom(imageForSaveDto, colors))")
@@ -100,5 +111,15 @@ public interface ImageMapper {
         ColorEntity color = colors.get(imageForSaveDto.getColorId());
         if(color == null) throw new EntityNotFoundException("По id " + imageForSaveDto.getColorId() + "не найдено цвета");
         return color;
+    }
+
+    /**
+     * Метод необходим для получения id картинки при редактировании совместно с продуктом. Если вызывать преобразование
+     * напрямую, то в случае null будет 500
+     * @param image - картинка для редактирования
+     * @return - id картинки
+     */
+    default Integer getIdFrom(ImageForUpdateWithProductDto image){
+        return image.getId();
     }
 }

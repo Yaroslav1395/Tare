@@ -12,10 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.product.PageForProduct;
-import kg.zavod.Tare.dto.product.product.ProductDto;
-import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
-import kg.zavod.Tare.dto.product.product.ProductFromBasketDro;
+import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.dto.state.ResponseState;
 import kg.zavod.Tare.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -103,6 +100,17 @@ public class ProductController {
                 .images(images)
                 .build();*/
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.saveProduct(product), ResponseState.SUCCESS,"Success"));
+    }
+
+    @Operation(summary = "Редактирование продукта", description = "Позволит отредактировать продукт")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Успешно"),
+            @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    public ResponseEntity<ResponseDto<ProductDto>> updateProduct(@RequestBody ProductForUpdateDto product) throws EntityNotFoundException {
+        logger.info("Редактирование продукта");
+        return ResponseEntity.ok(ResponseDto.buildResponse(productService.updateProduct(product), ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Удаление продукта", description = "Позволит удалить продукт")
