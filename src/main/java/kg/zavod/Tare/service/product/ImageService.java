@@ -3,10 +3,7 @@ package kg.zavod.Tare.service.product;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.image.ImageDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
-import kg.zavod.Tare.dto.product.image.ImageForUpdateDto;
+import kg.zavod.Tare.dto.product.image.*;
 
 import java.util.List;
 
@@ -50,6 +47,15 @@ public interface ImageService {
      * @return - отредактированная картинка продукта
      */
     ImageDto updateImage(ImageForUpdateDto imageForUpdateDto) throws EntityNotFoundException;
+
+    /**
+     * Метод необходим для редактирования картинок совместно с продуктом
+     * @param imagesForUpdate - картинки для редактирования
+     * @param product - продукт, который редактируют
+     * @return - список отредактированных картинок
+     * @throws EntityNotFoundException - в случае если не будет найдено цветов
+     */
+    List<ImageDto> updateImages(List<ImageForUpdateWithProductDto> imagesForUpdate, ProductEntity product) throws EntityNotFoundException;
 
     /**
      * Метод позволяет удалять картинку продукта
