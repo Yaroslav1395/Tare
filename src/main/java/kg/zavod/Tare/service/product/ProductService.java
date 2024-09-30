@@ -2,10 +2,7 @@ package kg.zavod.Tare.service.product;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.product.PageForProduct;
-import kg.zavod.Tare.dto.product.product.ProductDto;
-import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
-import kg.zavod.Tare.dto.product.product.ProductFromBasketDro;
+import kg.zavod.Tare.dto.product.product.*;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -37,6 +34,14 @@ public interface ProductService {
      * @throws EntitiesNotFoundException - в случае если ни одного цвета или характеристики не найдено
      */
     ProductDto saveProduct(ProductForSaveDto productForSaveDto) throws EntityNotFoundException, EntitiesNotFoundException;
+
+    /**
+     * Метод позволяет отредактировать продукт
+     * @param productForUpdateDto - объект для редактирования
+     * @return - отредактированный продукт
+     * @throws EntityNotFoundException - в случае если не будет найдено данных для редактирования
+     */
+    ProductDto updateProduct(ProductForUpdateDto productForUpdateDto) throws EntityNotFoundException;
 
     /**
      * Метод позволяет удалить продукт

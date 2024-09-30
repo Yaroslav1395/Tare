@@ -6,11 +6,13 @@ import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.ProductDto;
 import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
+import kg.zavod.Tare.dto.product.product.ProductForUpdateDto;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -32,4 +34,10 @@ public interface ProductMapper {
     @Mapping(target = "name", source = "product.name")
     @Mapping(target = "images", ignore = true)
     ProductEntity mapToProductEntity(ProductForSaveDto product, SubcategoryEntity subcategory);
+
+    @Mapping(target = "id", source = "productForUpdate.id")
+    @Mapping(target = "name", source = "productForUpdate.name")
+    @Mapping(target = "idFromFactoryBd", source = "productForUpdate.idFromFactoryBd")
+    @Mapping(target = "subcategory", source = "subcategory")
+    ProductEntity updateProduct(ProductForUpdateDto productForUpdate, SubcategoryEntity subcategory);
 }

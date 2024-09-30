@@ -7,10 +7,7 @@ import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.image.ImageDto;
-import kg.zavod.Tare.dto.product.product.PageForProduct;
-import kg.zavod.Tare.dto.product.product.ProductDto;
-import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
-import kg.zavod.Tare.dto.product.product.ProductFromBasketDro;
+import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
@@ -92,8 +89,32 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productForSave = productMapper.mapToProductEntity(productForSaveDto, subcategory);
         ProductEntity savedProduct = productRepository.save(productForSave);
         List<ImageDto> savedImages = imageService.saveImages(productForSaveDto.getImages(), savedProduct);
-        List<CharacteristicValueDto> savedCharacteristicsValue = characteristicValueService.saveCharacteristicsValue(productForSaveDto.getCharacteristicsValues(), savedProduct);
+        List<CharacteristicValueDto> savedCharacteristicsValue = characteristicValueService.saveCharacteristicsValueWithProduct(productForSaveDto.getCharacteristicsValues(), savedProduct);
         return productMapper.mapToProductDto(savedProduct, savedCharacteristicsValue, savedImages);
+    }
+
+    /**
+     * Метод позволяет отредактировать продукт
+     * @param productForUpdateDto - объект для редактирования
+     * @return - отредактированный продукт
+     * @throws EntityNotFoundException - в случае если не будет найдено данных для редактирования
+     */
+    @Override
+    @Transactional
+    public ProductDto updateProduct(ProductForUpdateDto productForUpdateDto) throws EntityNotFoundException {
+        logger.info("Попытка редактирования продукта");
+        logger.info("Поиск продукта по id");
+        ProductEntity product = productRepository.findById(productForUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Не найдено продукта по id"));
+        List<ImageDto> updatedImages = imageService.updateImages(productForUpdateDto.getImages(), product);
+        List<CharacteristicValueDto> updatedCharacteristicsValue  = characteristicValueService.updateCharacteristicValueWithProduct(
+                productForUpdateDto.getCharacteristics(), product);
+        logger.info("Поиск подкатегории");
+        SubcategoryEntity subcategoryEntity = subcategoryRepository.findById(productForUpdateDto.getSubcategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Подкатегория не найдена"));
+        ProductEntity productEntity = productMapper.updateProduct(productForUpdateDto, subcategoryEntity);
+        ProductEntity updatedProduct = productRepository.save(productEntity);
+        return productMapper.mapToProductDto(updatedProduct, updatedCharacteristicsValue, updatedImages);
     }
 
     /**

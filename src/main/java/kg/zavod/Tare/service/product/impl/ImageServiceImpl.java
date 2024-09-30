@@ -6,10 +6,7 @@ import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.image.ImageDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
-import kg.zavod.Tare.dto.product.image.ImageForUpdateDto;
+import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageMapper;
 import kg.zavod.Tare.repository.product.ColorRepository;
@@ -24,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -119,7 +117,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @Transactional
     public ImageDto updateImage(ImageForUpdateDto imageForUpdateDto) throws EntityNotFoundException {
-        logger.info("Попытка редактирования цвета");
+        logger.info("Попытка редактирования картинки");
         logger.info("Поиск картинки по id");
         ImageEntity imageEntity = imageRepository.findById(imageForUpdateDto.getId())
                 .orElseThrow(() -> new EntityNotFoundException("По Id не найдено картинки"));
@@ -133,6 +131,32 @@ public class ImageServiceImpl implements ImageService {
         imageMapper.updateImage(imageForUpdateDto, productEntity, colorEntity, productImageType, imageEntity);
         ImageEntity savedImage = imageRepository.save(imageEntity);
         return imageMapper.mapToImageDto(savedImage);
+    }
+
+    /**
+     * Метод необходим для редактирования картинок совместно с продуктом
+     * @param imagesForUpdate - картинки для редактирования
+     * @param product - продукт, который редактируют
+     * @return - список отредактированных картинок
+     * @throws EntityNotFoundException - в случае если не будет найдено цветов
+     */
+    @Override
+    @Transactional
+    public List<ImageDto> updateImages(List<ImageForUpdateWithProductDto> imagesForUpdate, ProductEntity product) throws EntityNotFoundException {
+        logger.info("Попытка редактирования картинок");
+        List<ImageEntity> imagesFromBase = imageRepository.findAllByProductId(product.getId());
+        List<Integer> imageIdForDelete =  filterImagesForDelete(imagesFromBase, imagesForUpdate);
+        logger.info("Удаление лишних картинок");
+        imageRepository.deleteAllById(imageIdForDelete);
+        Set<Integer> colorsId = getColorsIdsForUpdateFrom(imagesForUpdate);
+        logger.info("Поиск цветов по id при сохранении картинок");
+        Map<Integer, ColorEntity> colors = getColorMapFrom(colorRepository.findAllById(colorsId));
+        logger.info("Преобразование картинок в сущности");
+        List<ImageEntity> imageForUpdate = imageListMapper.mapToImagesEntityForSaveWithProduct(
+                imagesForUpdate, colors, product, imageMapper);
+        logger.info("Сохранение картинок");
+        List<ImageEntity> updatedImages = imageRepository.saveAll(imageForUpdate);
+        return imageListMapper.mapToImageDtoList(updatedImages);
     }
 
     /**
@@ -151,12 +175,24 @@ public class ImageServiceImpl implements ImageService {
     /**
      * Метод позволяет получить id цветов из списка картинок для сохранения
      * @param images - список картинок для сохранения
-     * @return - списк id цветов
+     * @return - список id цветов
      */
     private Set<Integer> getColorsIdsFrom(List<ImageForSaveWithProductDto> images){
         logger.info("Сбор id цветов из списка цветов");
         return images.stream()
                 .map(ImageForSaveWithProductDto::getColorId)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Метод позволяет получить id цветов из списка картинок для сохранения
+     * @param images - список картинок для сохранения
+     * @return - список id цветов
+     */
+    private Set<Integer> getColorsIdsForUpdateFrom(List<ImageForUpdateWithProductDto> images){
+        logger.info("Сбор id цветов из списка цветов при редактировании");
+        return images.stream()
+                .map(image -> image.getColor().getId())
                 .collect(Collectors.toSet());
     }
 
@@ -169,5 +205,22 @@ public class ImageServiceImpl implements ImageService {
         logger.info("Преобразование списка цветов в словарь");
         return colors.stream()
                 .collect(Collectors.toMap(ColorEntity::getId, color -> color));
+    }
+
+    /**
+     * Метод позволяет вычислить id картинок которые нужно удалить из базы данных.
+     * @param imagesFromBase - картинки из базы
+     * @param imagesForUpdate - картинки которые нужно отредактировать совместно с продуктом
+     * @return - список id
+     */
+    private List<Integer> filterImagesForDelete(List<ImageEntity> imagesFromBase, List<ImageForUpdateWithProductDto> imagesForUpdate){
+        logger.info("Поиск картинок которые нужно удалить");
+        Set<Integer> updateIds = imagesForUpdate.stream()
+                .map(ImageForUpdateWithProductDto::getId)
+                .collect(Collectors.toSet());
+        return imagesFromBase.stream()
+                .map(ImageEntity::getId)
+                .filter(id -> !updateIds.contains(id))
+                .collect(Collectors.toList());
     }
 }
