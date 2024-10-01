@@ -26,10 +26,14 @@ public class PartnerDto {
     private String description;
     @Schema(description = "Логотип партнера")
     private String logoImage;
+    @Schema(description = "Имя логотип партнера")
+    private String logoImageName;
     @Schema(description = "Тип логотипа")
     private String logoImageType;
     @Schema(description = "Картинка продукции партнера")
     private String productImage;
+    @Schema(description = "Имя картинка продукции партнера")
+    private String productImageName;
     @Schema(description = "Типа картинки продукции")
     private String productImageType;
     @Schema(description = "Время создания")

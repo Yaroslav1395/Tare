@@ -39,5 +39,6 @@ public interface ProductMapper {
     @Mapping(target = "name", source = "productForUpdate.name")
     @Mapping(target = "idFromFactoryBd", source = "productForUpdate.idFromFactoryBd")
     @Mapping(target = "subcategory", source = "subcategory")
+    @Mapping(target = "images", ignore = true)
     ProductEntity updateProduct(ProductForUpdateDto productForUpdate, SubcategoryEntity subcategory);
 }

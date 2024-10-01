@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Set;
 
 @Mapper(componentModel = "spring", uses = ColorMapper.class)
 public interface ImageMapper {
@@ -26,6 +25,7 @@ public interface ImageMapper {
     ImageDto mapToImageDto(ImageEntity image);
 
     @Mapping(target = "productImage", source = "imageForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "productImageName", source = "imageForSaveDto.productImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "imageType", source = "productImageType")
@@ -33,20 +33,15 @@ public interface ImageMapper {
     ImageEntity mapToImageEntity(ImageForSaveDto imageForSaveDto, ColorEntity color, ProductEntity product, ImageType productImageType);
 
     @Mapping(target = "productImage", source = "imageForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "color", source = "color")
+    @Mapping(target = "productImageName", source = "imageForUpdateDto.productImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "color", expression = "java(getColorFromForUpdate(imageForUpdateDto, colors))")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "imageType", source = "productImageType")
-    @Mapping(target = "id", source = "imageForUpdateDto.id")
-    ImageEntity mapToImageEntity(ImageForUpdateWithProductDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
-
-    @Mapping(target = "productImage", source = "imageForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "color", source = "color")
-    @Mapping(target = "product", source = "product")
-    @Mapping(target = "imageType", source = "productImageType")
-    @Mapping(target = "id", source = "java(getIdFrom(imageForUpdateDto))")
-    ImageEntity mapToNewImageEntity(ImageForUpdateWithProductDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
+    @Mapping(target = "id", expression = "java(getIdFrom(imageForUpdateDto))")
+    ImageEntity mapToUpdateWithProductImageEntity(ImageForUpdateWithProductDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
     @Mapping(target = "productImage", source = "imageForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "productImageName", source = "imageForSaveDto.productImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "color", expression = "java(getColorFrom(imageForSaveDto, colors))")
     @Mapping(target = "imageType", source = "productImageType")
     @Mapping(target = "product", source = "product")
@@ -54,11 +49,13 @@ public interface ImageMapper {
     ImageEntity mapToImageEntity(ImageForSaveWithProductDto imageForSaveDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
     @Mapping(target = "productImage", source = "imageForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "productImageName", source = "imageForUpdateDto.productImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "color", source = "color")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "imageType", source = "productImageType")
     @Mapping(target = "id", ignore = true)
     void updateImage(ImageForUpdateDto imageForUpdateDto, ProductEntity product, ColorEntity color, ImageType productImageType, @MappingTarget ImageEntity image);
+
 
     /**
      * Метод позволит получить формат картинки из типа картинки
@@ -86,18 +83,13 @@ public interface ImageMapper {
     }
 
     /**
-     * Метод позволяет вычислить формат картинки
-     * @param image - картинка
-     * @return - формат
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
      */
-    @Named("extractImageType")
-    default ImageType extractImageType(MultipartFile image) {
-        String contentType = image.getContentType();
-        if (contentType != null && contentType.startsWith("image/")) {
-            return ImageType.fromContentType(contentType)
-                    .orElseThrow(() -> new MultipartFileParseException("Формат файла не поддерживается приложением"));
-        }
-        throw new MultipartFileParseException("Файл не является картинкой");
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
     }
 
     /**
@@ -110,6 +102,19 @@ public interface ImageMapper {
     default ColorEntity getColorFrom(ImageForSaveWithProductDto imageForSaveDto, Map<Integer, ColorEntity> colors) throws EntityNotFoundException {
         ColorEntity color = colors.get(imageForSaveDto.getColorId());
         if(color == null) throw new EntityNotFoundException("По id " + imageForSaveDto.getColorId() + "не найдено цвета");
+        return color;
+    }
+
+    /**
+     * Метод позволяет найти нужный цвет для картинки из словаря цветов
+     * @param imageForUpdateDto - картинка для сохранения
+     * @param colors - словарь цветов
+     * @return - найденный цвет
+     * @throws EntityNotFoundException - в случае если цвет не найден
+     */
+    default ColorEntity getColorFromForUpdate(ImageForUpdateWithProductDto imageForUpdateDto, Map<Integer, ColorEntity> colors) throws EntityNotFoundException {
+        ColorEntity color = colors.get(imageForUpdateDto.getColor().getId());
+        if(color == null) throw new EntityNotFoundException("По id " + imageForUpdateDto.getColor().getId() + "не найдено цвета");
         return color;
     }
 

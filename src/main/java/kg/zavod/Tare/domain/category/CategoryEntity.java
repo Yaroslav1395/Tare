@@ -23,6 +23,8 @@ public class CategoryEntity {
     private String name;
     @Column(name = "category_image")
     private String categoryImage;
+    @Column(name = "category_image_name")
+    private String categoryImageName;
     @Column(name = "category_image_type")
     @Enumerated(EnumType.STRING)
     private ImageType imageType;
