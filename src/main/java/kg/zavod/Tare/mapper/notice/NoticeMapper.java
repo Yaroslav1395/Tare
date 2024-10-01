@@ -22,10 +22,12 @@ public interface NoticeMapper {
 
     @Mapping(target = "imageType", source = "imageType")
     @Mapping(target = "noticeImage", source = "noticeForSaveDto.noticeImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "noticeImageName", source = "noticeForSaveDto.noticeImage", qualifiedByName = "getNameFromMultipart")
     NoticeEntity mapToNoticeEntity(NoticeForSaveDto noticeForSaveDto, ImageType imageType);
 
     @Mapping(target = "imageType", source = "imageType")
     @Mapping(target = "noticeImage", source = "noticeForUpdateDto.noticeImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "noticeImageName", source = "noticeForUpdateDto.noticeImage", qualifiedByName = "getNameFromMultipart")
     void updateNoticeEntity(NoticeForUpdateDto noticeForUpdateDto, ImageType imageType, @MappingTarget NoticeEntity notice);
 
     /**
@@ -51,5 +53,15 @@ public interface NoticeMapper {
         } catch (IOException e) {
             throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
         }
+    }
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
     }
 }

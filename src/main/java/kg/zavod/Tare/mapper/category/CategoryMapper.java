@@ -21,10 +21,12 @@ public interface CategoryMapper {
     CategoryDto mapToCategoryDto(CategoryEntity categoryEntity);
 
     @Mapping(target = "categoryImage", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "categoryImageName", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "imageType", source = "categoryImageType")
     CategoryEntity mapToCategoryEntity(CategoryForUpdateDto categoryForUpdateDto,  ImageType categoryImageType, @MappingTarget CategoryEntity categoryEntity);
 
     @Mapping(target = "categoryImage", source = "categoryForSaveDto.multipartFile", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "categoryImageName", source = "categoryForSaveDto.multipartFile", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "imageType", source = "categoryImageType")
     CategoryEntity mapToCategoryEntity(CategoryForSaveDto categoryForSaveDto, ImageType categoryImageType);
 
@@ -46,5 +48,15 @@ public interface CategoryMapper {
     @Named("getImageType")
     default String getImageType(ImageType imageType){
         return imageType.getFormat();
+    }
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
     }
 }

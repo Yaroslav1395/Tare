@@ -17,6 +17,8 @@ public class ImageDto {
     private Integer id;
     @Schema(description = "Картинка продукта")
     private String productImage;
+    @Schema(description = "Имя картинки продукта")
+    private String productImageName;
     @Schema(description = "Тип картинки продукта")
     private String productImageType;
     @Schema(description = "Цвет картинки")

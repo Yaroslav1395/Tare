@@ -19,6 +19,8 @@ public class ImageEntity {
     private Integer id;
     @Column(name = "product_image")
     private String productImage;
+    @Column(name = "product_image_name")
+    private String productImageName;
     @Column(name = "product_image_type")
     @Enumerated(EnumType.STRING)
     private ImageType imageType;

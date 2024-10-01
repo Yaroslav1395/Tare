@@ -24,6 +24,8 @@ public class SubcategoryEntity {
     private String name;
     @Column(name = "subcategory_image")
     private String subcategoryImage;
+    @Column(name = "subcategory_image_name")
+    private String subcategoryImageName;
     @Column(name = "subcategory_image_type")
     @Enumerated(EnumType.STRING)
     private ImageType subcategoryImageType;

@@ -20,6 +20,8 @@ public class CertificateEntity {
     private String description;
     @Column(name = "certificate_image")
     private String certificateImage;
+    @Column(name = "certificate_image_name")
+    private String certificateImageName;
     @Column(name = "certificate_image_type")
     private String certificateImageType;
 }

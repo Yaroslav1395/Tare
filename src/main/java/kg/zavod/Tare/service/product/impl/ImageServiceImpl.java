@@ -152,7 +152,7 @@ public class ImageServiceImpl implements ImageService {
         logger.info("Поиск цветов по id при сохранении картинок");
         Map<Integer, ColorEntity> colors = getColorMapFrom(colorRepository.findAllById(colorsId));
         logger.info("Преобразование картинок в сущности");
-        List<ImageEntity> imageForUpdate = imageListMapper.mapToImagesEntityForSaveWithProduct(
+        List<ImageEntity> imageForUpdate = imageListMapper.mapToImagesEntityForUpdateWithProduct(
                 imagesForUpdate, colors, product, imageMapper);
         logger.info("Сохранение картинок");
         List<ImageEntity> updatedImages = imageRepository.saveAll(imageForUpdate);
