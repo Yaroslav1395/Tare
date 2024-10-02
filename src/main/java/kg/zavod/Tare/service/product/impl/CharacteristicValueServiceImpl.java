@@ -108,7 +108,7 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
     }
 
     /**
-     * Метод позволяет преобразовать список характеристик в словрь
+     * Метод позволяет преобразовать список характеристик в словарь
      * @param characteristics - список характеристик
      * @return - словарь характеристик
      */
