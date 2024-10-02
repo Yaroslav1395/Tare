@@ -62,7 +62,7 @@ public interface CharacteristicValueMapper {
      */
     default CharacteristicEntity getCharacteristicFromOnUpdate(CharacteristicValueForUpdateWithProductDto characteristicValue, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException {
         CharacteristicEntity characteristic = characteristics.get(characteristicValue.getCharacteristicId());
-        if(characteristic == null) throw new EntityNotFoundException("По id " + characteristicValue.getValue() + " не найдена характеристика");
+        if(characteristic == null) throw new EntityNotFoundException("По id " + characteristicValue.getCharacteristicId() + " не найдена характеристика");
         return characteristic;
     }
 
@@ -74,6 +74,6 @@ public interface CharacteristicValueMapper {
      * @return - id характеристики
      */
     default Integer getIdFrom(CharacteristicValueForUpdateWithProductDto characteristicValue){
-        return characteristicValue.getCharacteristicId();
+        return characteristicValue.getId();
     }
 }
