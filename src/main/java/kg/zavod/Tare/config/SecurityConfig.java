@@ -42,14 +42,6 @@ public class SecurityConfig {
             "/swagger-resources/**"
     };
 
-    public static final String[] ADMIN_PRIVATE_ROUTES_POST = {
-            "/product",
-            "/category",
-            "/subcategory",
-            "/certificate",
-            "/capacity"
-    };
-
     /**
      * Создает бин для шифрования паролей
      * @return - объект шифрующий пароли
@@ -99,10 +91,14 @@ public class SecurityConfig {
                         })
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, ADMIN_PRIVATE_ROUTES_POST).authenticated()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, SWAGGER_PUBLIC_ROUTES).permitAll()
+                        .requestMatchers(HttpMethod.POST).authenticated()
+                        .requestMatchers(HttpMethod.PUT).authenticated()
+                        .requestMatchers(HttpMethod.DELETE).authenticated()
+                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/role/**").authenticated()
+                        .requestMatchers("/auth/logout").authenticated()
                         .anyRequest().permitAll()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
