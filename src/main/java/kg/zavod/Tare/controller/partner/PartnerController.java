@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,6 @@ public class PartnerController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<ResponseDto<PartnerDto>> getPartnerById(
             @RequestParam @NotNull(message = "Id не может быть null")
@@ -53,7 +53,6 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<PartnerDto>>> getAllPartners() throws EntitiesNotFoundException {
         logger.info("Получение всех партнеров");
         return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.getAllPartners(), ResponseState.SUCCESS,"Success"));
@@ -64,7 +63,6 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all/active")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<PartnerDto>>> getAllActivePartners() throws EntitiesNotFoundException {
         logger.info("Получение всех активных партнеров");
         return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.getAllActivePartners(), ResponseState.SUCCESS,"Success"));
@@ -76,7 +74,7 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<PartnerDto>> createPartner(@ModelAttribute @Valid PartnerForSaveDto partnerForSaveDto) throws EntityNotFoundException {
         logger.info("Создание партнера");
         return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.savePartner(partnerForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -87,7 +85,7 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<PartnerDto>> updatePartner(@ModelAttribute @Valid PartnerForUpdateDto partnerForUpdateDto) throws EntityNotFoundException {
         logger.info("Редактирование партнера");
         return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.updatePartner(partnerForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -98,7 +96,7 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deletePartner(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer partnerId) {
@@ -110,6 +108,7 @@ public class PartnerController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     @PutMapping("/activity")
     public ResponseEntity<ResponseDto<Boolean>> changePartnerActivity(
             @RequestParam @NotNull(message = "Id не может быть null")

@@ -22,10 +22,14 @@ public class PartnerEntity {
     private String description;
     @Column(name = "logo_image")
     private String logoImage;
+    @Column(name = "logo_image_name")
+    private String logoImageName;
     @Column(name = "logo_image_type")
     private String logoImageType;
     @Column(name = "product_image")
     private String productImage;
+    @Column(name = "product_image_name")
+    private String productImageName;
     @Column(name = "product_image_type")
     private String productImageType;
     @Column(name = "created_time")

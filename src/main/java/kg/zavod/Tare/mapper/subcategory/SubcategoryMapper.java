@@ -32,6 +32,7 @@ public interface SubcategoryMapper {
     SubcategoryForProductDto mapToSubcategoryForProductDto(SubcategoryEntity subcategoryEntity);
 
     @Mapping(target = "subcategoryImage", source = "subcategoryForSaveDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "subcategoryImageName", source = "subcategoryForSaveDto.subcategoryImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "category", source = "category")
     @Mapping(target = "name", source = "subcategoryForSaveDto.name")
     @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
@@ -39,6 +40,7 @@ public interface SubcategoryMapper {
     SubcategoryEntity mapToSubcategoryEntity(SubcategoryForSaveDto subcategoryForSaveDto, ImageType subcategoryImageType, CategoryEntity category);
 
     @Mapping(target = "subcategoryImage", source = "subcategoryDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "subcategoryImageName", source = "subcategoryDto.subcategoryImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
     void updateSubcategoryFromDto(SubcategoryForUpdateDto subcategoryDto, ImageType subcategoryImageType, @MappingTarget SubcategoryEntity subcategoryEntity);
 
@@ -78,5 +80,15 @@ public interface SubcategoryMapper {
     @Named("getImageType")
     default String getImageType(ImageType imageType){
         return imageType.getFormat();
+    }
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
     }
 }

@@ -25,12 +25,16 @@ public interface PartnerMapper {
     @Mapping(target = "productImageType", source = "productImageType")
     @Mapping(target = "logoImage", source = "partnerForSaveDto.logoImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "productImage", source = "partnerForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "logoImageName", source = "partnerForSaveDto.logoImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "productImageName", source = "partnerForSaveDto.productImage", qualifiedByName = "getNameFromMultipart")
     PartnerEntity mapToPartnerEntity(PartnerForSaveDto partnerForSaveDto, ImageType logoImageType, ImageType productImageType);
 
     @Mapping(target = "logoImageType", source = "logoImageType")
     @Mapping(target = "productImageType", source = "productImageType")
     @Mapping(target = "logoImage", source = "partnerForUpdateDto.logoImage", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "productImage", source = "partnerForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
+    @Mapping(target = "logoImageName", source = "partnerForUpdateDto.logoImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "productImageName", source = "partnerForUpdateDto.productImage", qualifiedByName = "getNameFromMultipart")
     void updatePartnerEntity(PartnerForUpdateDto partnerForUpdateDto, ImageType logoImageType, ImageType productImageType, @MappingTarget PartnerEntity partnerEntity);
 
     /**
@@ -56,5 +60,15 @@ public interface PartnerMapper {
         } catch (IOException e) {
             throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
         }
+    }
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
     }
 }

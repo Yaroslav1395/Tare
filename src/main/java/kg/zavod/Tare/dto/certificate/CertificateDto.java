@@ -20,6 +20,8 @@ public class CertificateDto {
     private String description;
     @Schema(description = "Картинка сертификата")
     private String certificateImage;
+    @Schema(description = "Название картинка сертификата")
+    private String certificateImageName;
     @Schema(description = "Тип картинки сертификата")
     private String certificateImageType;
 }

@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,6 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<ColorDto>> getColorById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer colorId) throws EntityNotFoundException {
@@ -52,7 +52,6 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<ColorDto>>> getAllColors() throws EntitiesNotFoundException {
         logger.info("Получение всех цветов");
         return ResponseEntity.ok(ResponseDto.buildResponse(colorService.getAllColors(), ResponseState.SUCCESS,"Success"));
@@ -63,7 +62,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<ColorDto>> createColor(@RequestBody @Valid ColorForSaveDto colorForSaveDto) throws DuplicateEntityException {
         logger.info("Создание цвета");
         return ResponseEntity.ok(ResponseDto.buildResponse(colorService.saveColor(colorForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -74,7 +73,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<ColorDto>> updateColor(@RequestBody @Valid ColorForUpdateDto colorForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование цвета");
         return ResponseEntity.ok(ResponseDto.buildResponse(colorService.updateColor(colorForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -85,7 +84,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteColor(
             @RequestParam @NotNull(message = "Id цвета не может быть null")
             @Min(value = 1, message = "Id цвета не может быть меньше 1-го") Integer colorId) {

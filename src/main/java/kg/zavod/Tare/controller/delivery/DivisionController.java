@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,6 @@ public class DivisionController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<ResponseDto<DivisionDto>> getDivisionById(
             @RequestParam @NotNull(message = "Id не может быть null")
@@ -52,7 +52,6 @@ public class DivisionController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<DivisionDto>>> getAllDivisions() throws EntitiesNotFoundException {
         logger.info("Получение всех территориальных делений");
         return ResponseEntity.ok(ResponseDto.buildResponse(divisionService.getAllDivisions(), ResponseState.SUCCESS,"Success"));
@@ -63,7 +62,7 @@ public class DivisionController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DivisionDto>> createDivision(@ModelAttribute @Valid DivisionForSaveDto divisionForSaveDto) throws DuplicateEntityException {
         logger.info("Создание территориального деления");
         return ResponseEntity.ok(ResponseDto.buildResponse(divisionService.saveDivision(divisionForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -74,7 +73,7 @@ public class DivisionController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DivisionDto>> updateDivision(@ModelAttribute @Valid DivisionForUpdateDto divisionForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование территориального деления");
         return ResponseEntity.ok(ResponseDto.buildResponse(divisionService.updateDivision(divisionForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -85,7 +84,7 @@ public class DivisionController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteDivision(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer divisionId) {

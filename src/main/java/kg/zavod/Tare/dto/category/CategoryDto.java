@@ -20,8 +20,10 @@ public class CategoryDto {
     private Integer id;
     @Schema(description = "Название")
     private String name;
-    @Schema(description = "Картинка")
+    @Schema(description = "Картинка категории")
     private String categoryImage;
+    @Schema(description = "имя картинки категории")
+    private String categoryImageName;
     @Schema(description = "Тип картинки")
     private String imageType;
     @Schema(description = "Список подкатегорий")

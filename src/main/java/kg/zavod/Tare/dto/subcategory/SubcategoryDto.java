@@ -18,8 +18,10 @@ public class SubcategoryDto {
     private Integer id;
     @Schema(description = "Название")
     private String name;
-    @Schema(description = "Картинка")
+    @Schema(description = "Картинка подкатегории")
     private String subcategoryImage;
+    @Schema(description = "имя картинки подкатегории")
+    private String subcategoryImageName;
     @Schema(description = "Тип картинки")
     private String subcategoryImageType;
     @Schema(description = "Id категории")

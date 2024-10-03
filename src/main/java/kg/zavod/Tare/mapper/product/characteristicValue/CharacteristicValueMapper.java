@@ -34,10 +34,10 @@ public interface CharacteristicValueMapper {
     @Mapping(target = "characteristic", expression = "java(getCharacteristicFrom(characteristicValue, characteristics))")
     ProductCharacteristicEntity mapToCharacteristicEntity(CharacteristicValueForSaveWithProductDto characteristicValue, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException;
 
-    @Mapping(target = "id", source = "java(getIdFrom(characteristicValue))")
+    @Mapping(target = "id", expression = "java(getIdFrom(characteristicValue))")
     @Mapping(target = "value", source = "characteristicValue.value")
     @Mapping(target = "product", source = "product")
-    @Mapping(target = "characteristic", expression = "java(getCharacteristicFrom(characteristicValue, characteristics))")
+    @Mapping(target = "characteristic", expression = "java(getCharacteristicFromOnUpdate(characteristicValue, characteristics))")
     ProductCharacteristicEntity mapToCharacteristicEntityForUpdateWithProduct(CharacteristicValueForUpdateWithProductDto characteristicValue, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException;
 
     /**
@@ -54,6 +54,19 @@ public interface CharacteristicValueMapper {
     }
 
     /**
+     * Метод позволяет найти нужную характеристику для значения характеристики из словаря характеристик
+     * @param characteristicValue - значение характеристики для сохранения
+     * @param characteristics - словарь характеристик
+     * @return - найденная характеристика
+     * @throws EntityNotFoundException - в случае если характеристика не найдена
+     */
+    default CharacteristicEntity getCharacteristicFromOnUpdate(CharacteristicValueForUpdateWithProductDto characteristicValue, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException {
+        CharacteristicEntity characteristic = characteristics.get(characteristicValue.getCharacteristicId());
+        if(characteristic == null) throw new EntityNotFoundException("По id " + characteristicValue.getCharacteristicId() + " не найдена характеристика");
+        return characteristic;
+    }
+
+    /**
      * Метод позволяет получить id значения характеристики при редактировании совместно с продуктом.
      * Из-за того, что при редактировании совместно с продуктом пользователь может создать новое значение,
      * используется данный метод чтобы, избежать 500
@@ -61,6 +74,6 @@ public interface CharacteristicValueMapper {
      * @return - id характеристики
      */
     default Integer getIdFrom(CharacteristicValueForUpdateWithProductDto characteristicValue){
-        return characteristicValue.getCharacteristicId();
+        return characteristicValue.getId();
     }
 }

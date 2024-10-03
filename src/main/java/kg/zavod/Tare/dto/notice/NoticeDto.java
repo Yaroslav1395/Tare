@@ -28,6 +28,8 @@ public class NoticeDto {
     private Boolean isActive;
     @Schema(description = "Картинка новости")
     private String noticeImage;
+    @Schema(description = "Имя картинки новости")
+    private String noticeImageName;
     @Schema(description = "Тип картинки")
     private String imageType;
 }

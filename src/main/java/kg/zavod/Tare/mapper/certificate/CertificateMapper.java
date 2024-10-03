@@ -21,10 +21,12 @@ public interface CertificateMapper {
     CertificateDto mapToCertificateDto(CertificateEntity certificateEntity);
 
     @Mapping(target = "certificateImageType", source = "imageType")
+    @Mapping(target = "certificateImageName", source = "certificateForSaveDto.certificateImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "certificateImage", source = "certificateForSaveDto.certificateImage", qualifiedByName = "multipartFileToBase64")
     CertificateEntity mapToCertificateEntity(CertificateForSaveDto certificateForSaveDto, ImageType imageType);
 
     @Mapping(target = "certificateImageType", source = "imageType")
+    @Mapping(target = "certificateImageName", source = "certificateForUpdateDto.certificateImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "certificateImage", source = "certificateForUpdateDto.certificateImage", qualifiedByName = "multipartFileToBase64")
     void updateCertificateEntity(CertificateForUpdateDto certificateForUpdateDto, ImageType imageType, @MappingTarget CertificateEntity certificate);
 
@@ -51,5 +53,15 @@ public interface CertificateMapper {
         } catch (IOException e) {
             throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
         }
+    }
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
     }
 }

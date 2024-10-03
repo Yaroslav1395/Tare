@@ -28,6 +28,8 @@ public class NoticeEntity {
     private Boolean isActive;
     @Column(name = "notice_image")
     private String noticeImage;
+    @Column(name = "notice_image_name")
+    private String noticeImageName;
     @Column(name = "image_type")
     @Enumerated(EnumType.STRING)
     private ImageType imageType;

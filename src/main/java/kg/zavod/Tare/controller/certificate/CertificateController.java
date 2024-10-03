@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,6 @@ public class CertificateController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<ResponseDto<CertificateDto>> getCertificateById(
             @RequestParam @NotNull(message = "Id не может быть null")
@@ -53,7 +53,6 @@ public class CertificateController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<CertificateDto>>> getAllCertificates() throws EntitiesNotFoundException {
         logger.info("Получение всех сертификатов");
         return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.getAllCertificate(), ResponseState.SUCCESS,"Success"));
@@ -64,7 +63,7 @@ public class CertificateController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<CertificateDto>> createCertificate(@ModelAttribute @Valid CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание сертификата");
         return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.saveCertificate(certificateForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -75,7 +74,7 @@ public class CertificateController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<CertificateDto>> updateCertificate(@ModelAttribute @Valid CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование сертификата");
         return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.updateCertificate(certificateForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -86,7 +85,7 @@ public class CertificateController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteCertificate(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer certificateId) {
