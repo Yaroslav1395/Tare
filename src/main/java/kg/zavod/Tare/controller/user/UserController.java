@@ -38,7 +38,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<UserDto>> getUserById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer userId) throws EntityNotFoundException {
@@ -51,7 +51,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<List<UserDto>>> getAllUsers() throws EntitiesNotFoundException {
         logger.info("Получение всех пользователей");
         return ResponseEntity.ok(ResponseDto.buildResponse(userService.getAllUsers(), ResponseState.SUCCESS,"Success"));
@@ -62,7 +62,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<UserDto>> createUser(@RequestBody @Valid UserForSaveDto userForSaveDto) throws DuplicateEntityException {
         logger.info("Создание пользователя");
         return ResponseEntity.ok(ResponseDto.buildResponse(userService.createUser(userForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -73,7 +73,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<UserDto>> updateUser(@RequestBody @Valid UserForUpdateDto userForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование пользователя");
         return ResponseEntity.ok(ResponseDto.buildResponse(userService.updateUser(userForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -84,7 +84,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteUser(@RequestParam @NotNull @Min(1) Integer userId) {
         logger.info("Удаление пользователя");
         return ResponseEntity.ok(ResponseDto.buildResponse(userService.deleteById(userId), ResponseState.SUCCESS,"Success"));
