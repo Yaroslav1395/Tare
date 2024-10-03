@@ -8,9 +8,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForSaveDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForUpdateDto;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceDto;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceForSaveDto;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceForUpdateDto;
@@ -23,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +39,6 @@ public class DeliveryPriceController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<ResponseDto<DeliveryPriceDto>> getDeliveryPriceById(
             @RequestParam @NotNull(message = "Id не может быть null")
@@ -55,7 +52,6 @@ public class DeliveryPriceController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<DeliveryPriceDto>>> getAllDeliveryPrices() throws EntitiesNotFoundException {
         logger.info("Получение всех цен доставки");
         return ResponseEntity.ok(ResponseDto.buildResponse(districtCapacityPriceService.getAllDeliveryPrices(), ResponseState.SUCCESS,"Success"));
@@ -66,7 +62,6 @@ public class DeliveryPriceController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all/for/district")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<DeliveryPriceDto>>> getAllDeliveryPricesForDistrict(
             @RequestParam @NotNull(message = "Id района не может быть null")
             @Min(value = 1, message = "Id района не может быть меньше 1") Integer districtId
@@ -80,7 +75,6 @@ public class DeliveryPriceController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all/for/capacity")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<DeliveryPriceDto>>> getAllDeliveryPricesForCapacity(
             @RequestParam @NotNull(message = "Id объема не может быть null")
             @Min(value = 1, message = "Id объема не может быть меньше 1") Integer capacityId
@@ -94,7 +88,7 @@ public class DeliveryPriceController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DeliveryPriceDto>> createDeliveryPrice(@ModelAttribute @Valid DeliveryPriceForSaveDto deliveryPriceForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание цены доставки");
         return ResponseEntity.ok(ResponseDto.buildResponse(districtCapacityPriceService.saveDeliveryPrice(deliveryPriceForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -105,7 +99,7 @@ public class DeliveryPriceController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DeliveryPriceDto>> updateDeliveryPrice(@ModelAttribute @Valid DeliveryPriceForUpdateDto deliveryPriceForUpdateDto) throws EntityNotFoundException {
         logger.info("Редактирование цены доставки");
         return ResponseEntity.ok(ResponseDto.buildResponse(districtCapacityPriceService.updateDeliveryPrice(deliveryPriceForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -116,7 +110,7 @@ public class DeliveryPriceController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteDeliveryPrice(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer deliveryPriceId) {

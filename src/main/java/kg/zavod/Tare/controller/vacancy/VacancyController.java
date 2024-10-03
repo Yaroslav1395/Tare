@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +38,6 @@ public class VacancyController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<ResponseDto<VacancyDto>> getVacancyById(
             @RequestParam @NotNull(message = "Id не может быть null")
@@ -51,7 +51,6 @@ public class VacancyController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<VacancyDto>>> getAllVacancies() throws EntitiesNotFoundException {
         logger.info("Получение всех вакансий");
         return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.getAllVacancies(), ResponseState.SUCCESS,"Success"));
@@ -62,7 +61,7 @@ public class VacancyController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<VacancyDto>> createVacancy(@ModelAttribute @Valid VacancyForSaveDto vacancyForSaveDto) {
         logger.info("Создание вакансии");
         return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.saveVacancy(vacancyForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -73,7 +72,7 @@ public class VacancyController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<VacancyDto>> updateVacancy(@ModelAttribute @Valid VacancyForUpdateDto vacancyForUpdateDto) throws EntityNotFoundException {
         logger.info("Редактирование вакансии");
         return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.updateVacancy(vacancyForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -84,7 +83,7 @@ public class VacancyController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteVacancy(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer vacancyId) {

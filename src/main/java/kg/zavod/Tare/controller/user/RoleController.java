@@ -39,7 +39,7 @@ public class RoleController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/id")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<RoleDto>> getRoleById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id должно быть больше 0") Integer id) throws EntityNotFoundException {
@@ -50,7 +50,7 @@ public class RoleController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<List<RoleDto>>> getAllRole() throws EntitiesNotFoundException {
         return ResponseEntity.ok(ResponseDto.buildResponse(roleService.getAll(), ResponseState.SUCCESS,"Success"));
     }
@@ -59,7 +59,7 @@ public class RoleController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<RoleDto>> createRole(@RequestBody @Valid RoleForSaveDto role) throws DuplicateEntityException {
         return ResponseEntity.ok(ResponseDto.buildResponse( roleService.saveRole(role), ResponseState.SUCCESS,"Success"));
     }
@@ -68,7 +68,7 @@ public class RoleController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<RoleDto>> updateRole(@RequestBody @Valid RoleDto role) throws EntitiesNotFoundException, DuplicateEntityException {
         return ResponseEntity.ok(ResponseDto.buildResponse(roleService.updateRole(role), ResponseState.SUCCESS,"Success"));
     }
@@ -77,7 +77,7 @@ public class RoleController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteRole(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id должен быть больше 0") Integer id) {

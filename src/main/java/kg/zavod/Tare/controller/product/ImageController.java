@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,6 @@ public class ImageController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<ImageDto>> getImageById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer imageId) throws EntityNotFoundException {
@@ -51,7 +51,6 @@ public class ImageController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<ImageDto>>> getAllImages() throws EntitiesNotFoundException {
         logger.info("Получение всех картинок");
         return ResponseEntity.ok(ResponseDto.buildResponse(imageService.getAllImages(), ResponseState.SUCCESS,"Success"));
@@ -62,7 +61,7 @@ public class ImageController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<ImageDto>> createImage(@RequestBody @Valid ImageForSaveDto imageForSaveDto) throws EntityNotFoundException {
         logger.info("Создание картинки");
         return ResponseEntity.ok(ResponseDto.buildResponse(imageService.saveImage(imageForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -73,7 +72,7 @@ public class ImageController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<ImageDto>> updateImage(@RequestBody @Valid ImageForUpdateDto imageForUpdateDto) throws EntityNotFoundException {
         logger.info("Редактирование картинки");
         return ResponseEntity.ok(ResponseDto.buildResponse(imageService.updateImage(imageForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -84,7 +83,7 @@ public class ImageController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteImage(
             @RequestParam @NotNull(message = "Id цвета не может быть null")
             @Min(value = 1, message = "Id цвета не может быть меньше 1-го") Integer imageId) {

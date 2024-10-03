@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,6 @@ public class CapacityController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     @GetMapping
     public ResponseEntity<ResponseDto<CapacityDto>> getCapacityById(
             @RequestParam @NotNull(message = "Id не может быть null")
@@ -52,7 +52,6 @@ public class CapacityController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN', 'ADMIN_ORPK', 'ORPK_EMPLOYEE')")
     public ResponseEntity<ResponseDto<List<CapacityDto>>> getAllCapacities() throws EntitiesNotFoundException {
         logger.info("Получение всех допустимых объемов");
         return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.getAllCapacities(), ResponseState.SUCCESS,"Success"));
@@ -63,7 +62,7 @@ public class CapacityController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<CapacityDto>> createCapacity(@ModelAttribute @Valid CapacityForSaveDto capacityForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание допустимого объема");
         return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.saveCapacity(capacityForSaveDto), ResponseState.SUCCESS,"Success"));
@@ -74,7 +73,7 @@ public class CapacityController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<CapacityDto>> updateCapacity(@ModelAttribute @Valid CapacityForUpdateDto capacityForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование допустимого объема");
         return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.updateCapacity(capacityForUpdateDto), ResponseState.SUCCESS,"Success"));
@@ -85,7 +84,7 @@ public class CapacityController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteCapacity(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer districtId) {

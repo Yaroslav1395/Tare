@@ -1,8 +1,6 @@
 package kg.zavod.Tare.controller.product;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +25,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +46,6 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<ProductDto>> getProductById(
             @RequestParam @NotNull(message = "Id продукта не может быть null")
             @Min(value = 1, message = "Id продукта не может быть меньше 1-го") Integer productId) throws EntityNotFoundException {
@@ -60,7 +58,6 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/subcategory")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<PageForProduct>> getProductBySubcategoryId(
             @RequestParam @NotNull(message = "Id подкатегории не может быть null")
             @Min(value = 1, message = "Id подкатегории не может быть меньше 1-го") Integer subcategoryId,
@@ -75,8 +72,8 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<ProductDto>> createProduct(@RequestBody ProductForSaveDto product) throws EntityNotFoundException, EntitiesNotFoundException {
         logger.info("Создание продукта");
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.saveProduct(product), ResponseState.SUCCESS,"Success"));
@@ -86,8 +83,8 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     @PostMapping(value = "/test/post", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<ProductDto>> createProduct(@RequestBody MultipartFile image) throws EntityNotFoundException, EntitiesNotFoundException {
         logger.info("Создание продукта");
         ImageForSaveWithProductDto imageForSaveDto = ImageForSaveWithProductDto.builder()
@@ -123,8 +120,8 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<ProductDto>> updateProduct(@RequestBody ProductForUpdateDto product) throws EntityNotFoundException {
         logger.info("Редактирование продукта");
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.updateProduct(product), ResponseState.SUCCESS,"Success"));
@@ -134,8 +131,8 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     @PutMapping(value = "/test/put", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<ProductDto>> updateProduct(@RequestBody MultipartFile image) throws EntityNotFoundException, EntitiesNotFoundException {
         logger.info("Создание продукта");
         ImageForUpdateWithProductDto imageForUpdateDto = ImageForUpdateWithProductDto.builder()
@@ -196,8 +193,8 @@ public class ProductController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
+    @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     @DeleteMapping
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteProduct(
             @RequestParam @NotNull(message = "Id продукта не может быть null")
             @Min(value = 1, message = "Id продукта не может быть меньше 1-го") Integer productId){
@@ -210,7 +207,6 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping("/basket")
-    //@PreAuthorize("hasAnyAuthority('DEVELOPER', 'SUPER_ADMIN')")
     public ResponseEntity<ResponseDto<String>> getUrlToWhatsAppWithProductBasket(@RequestBody List<@Valid ProductFromBasketDro> products){
         logger.info("Формирование ссылки на whats app");
         return ResponseEntity.ok(ResponseDto.buildResponse(productService.getUrlForWhatsAppWithProductBasket(products), ResponseState.SUCCESS,"Success"));
