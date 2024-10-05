@@ -21,7 +21,7 @@ public class DistrictCapacityPriceEntity {
     private Integer id;
     private Integer price;
     @ManyToOne
-    @JoinColumn(name = "division_id")
+    @JoinColumn(name = "capacity_id")
     private CapacityEntity capacity;
     @ManyToOne
     @JoinColumn(name = "district_id")

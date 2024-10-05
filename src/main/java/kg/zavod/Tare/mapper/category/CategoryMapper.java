@@ -47,7 +47,7 @@ public interface CategoryMapper {
      */
     @Named("getImageType")
     default String getImageType(ImageType imageType){
-        return imageType.getFormat();
+        return imageType != null ? imageType.getFormat() : null;
     }
 
     /**
