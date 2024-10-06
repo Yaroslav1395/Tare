@@ -88,6 +88,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(ResponseDto.buildResponse(ResponseState.ERROR, "Нарушена уникальность поля"));
     }
 
+    /**
+     * Метод отрабатывает, если имеется попытка манипуляции над статичными данными
+     * @param staticDataException - исключение в случае если имеется попытка манипуляции над статичными данными
+     * @return - ответ с ошибкой
+     */
+    @ExceptionHandler(StaticDataException.class)
+    public ResponseEntity<ResponseDto<String>> handleStaticDataExceptionException(StaticDataException staticDataException) {
+        logger.error("Манипуляция над статичными данными. Ошибка: {}", staticDataException.getMessage());
+        return ResponseEntity.ok().body(ResponseDto.buildResponse(ResponseState.INFO, staticDataException.getMessage()));
+    }
+
 
     /**
      * Метод отрабатывает если возникают ошибки при валидации
