@@ -7,6 +7,7 @@ import kg.zavod.Tare.dto.state.ResponseState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,8 +45,8 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Метод отрабатывает, если создваемая сущность уже существует
-     * @param duplicateEntityException - исключение в случае если создваемая сущность уже существует
+     * Метод отрабатывает, если создаваемая сущность уже существует
+     * @param duplicateEntityException - исключение в случае если создаваемая сущность уже существует
      * @return - ответ с ошибкой
      */
     @ExceptionHandler(DuplicateEntityException.class)
@@ -61,8 +62,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(DeleteException.class)
     public ResponseEntity<ResponseDto<String>> handleDeleteException(DeleteException deleteException) {
-        logger.error("Удаляемая сущщность имеет связи с другой сущностью. Ошибка: {}", deleteException.getMessage());
-        return ResponseEntity.badRequest().body(ResponseDto.buildResponse(ResponseState.DUPLICATE, deleteException.getMessage()));
+        logger.error("Удаляемая сущность имеет связи с другой сущностью. Ошибка: {}", deleteException.getMessage());
+        return ResponseEntity.badRequest().body(ResponseDto.buildResponse(ResponseState.FAIL, deleteException.getMessage()));
     }
 
     /**
@@ -72,9 +73,21 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MultipartFileParseException.class)
     public ResponseEntity<ResponseDto<String>> handleMultipartParseException(MultipartFileParseException multipartFileParseException) {
-        logger.error("Удаляемая сущщность имеет связи с другой сущностью. Ошибка: {}", multipartFileParseException.getMessage());
-        return ResponseEntity.badRequest().body(ResponseDto.buildResponse(ResponseState.DUPLICATE, multipartFileParseException.getMessage()));
+        logger.error("Удаляемая сущность имеет связи с другой сущностью. Ошибка: {}", multipartFileParseException.getMessage());
+        return ResponseEntity.badRequest().body(ResponseDto.buildResponse(ResponseState.FAIL, multipartFileParseException.getMessage()));
     }
+
+    /**
+     * Метод отрабатывает, если нарушена уникальность поля
+     * @param dataIntegrityViolationException - исключение в случае если нарушена уникальность поля
+     * @return - ответ с ошибкой
+     */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ResponseDto<String>> handleDataIntegrityViolationException(DataIntegrityViolationException dataIntegrityViolationException) {
+        logger.error("Удаляемая сущность имеет связи с другой сущностью. Ошибка: {}", dataIntegrityViolationException.getMessage());
+        return ResponseEntity.badRequest().body(ResponseDto.buildResponse(ResponseState.ERROR, "Нарушена уникальность поля"));
+    }
+
 
     /**
      * Метод отрабатывает если возникают ошибки при валидации

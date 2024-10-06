@@ -11,7 +11,6 @@
             ALTER TABLE Zavod.Notices ADD notice_image_name VARCHAR(255);
             ALTER TABLE Zavod.Partners ADD logo_image_name VARCHAR(255);
             ALTER TABLE Zavod.Partners ADD product_image_name VARCHAR(255);
-            ALTER TABLE Zavod.Images ADD product_image_name VARCHAR(255);
             ALTER TABLE Zavod.Categories ADD category_image_name VARCHAR(255);
             ALTER TABLE Zavod.Subcategories ADD subcategory_image_name VARCHAR(255);
         </sql>
