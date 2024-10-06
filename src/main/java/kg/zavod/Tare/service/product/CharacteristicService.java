@@ -3,6 +3,7 @@ package kg.zavod.Tare.service.product;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.exception.StaticDataException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateDto;
@@ -38,14 +39,16 @@ public interface CharacteristicService {
      * @param characteristicForUpdateDto - характеристика для редактирования
      * @throws EntityNotFoundException - в случае если при редактировании не найдена характеристика
      * @throws DuplicateEntityException - в случае если характеристика с таким названием уже есть
+     * @throws StaticDataException - в случае если пытаются отредактировать статичную характеристику
      * @return - отредактированная характеристика
      */
-    CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
+    CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException, StaticDataException;
 
     /**
      * Метод позволяет удалять характеристику
      * @param id - id характеристики
+     * @throws StaticDataException - в случае если пытаются удалить статичную характеристику
      * @return - удалена или нет
      */
-    Boolean deleteCharacteristicById(Integer id);
+    Boolean deleteCharacteristicById(Integer id) throws StaticDataException;
 }
