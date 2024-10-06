@@ -11,6 +11,7 @@ import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.exception.StaticDataException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateDto;
@@ -74,7 +75,7 @@ public class CharacteristicController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<CharacteristicDto>> updateCharacteristic(@RequestBody @Valid CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
+    public ResponseEntity<ResponseDto<CharacteristicDto>> updateCharacteristic(@RequestBody @Valid CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException, StaticDataException {
         logger.info("Редактирование характеристики");
         return ResponseEntity.ok(ResponseDto.buildResponse(characteristicService.updateCharacteristic(characteristicForUpdateDto), ResponseState.SUCCESS,"Success"));
     }
@@ -87,7 +88,7 @@ public class CharacteristicController {
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<Boolean>> deleteCharacteristic(
             @RequestParam @NotNull(message = "Id цвета не может быть null")
-            @Min(value = 1, message = "Id цвета не может быть меньше 1-го") Integer characteristicId) {
+            @Min(value = 1, message = "Id цвета не может быть меньше 1-го") Integer characteristicId) throws StaticDataException {
         logger.info("Удаление характеристики");
         return ResponseEntity.ok(ResponseDto.buildResponse(characteristicService.deleteCharacteristicById(characteristicId), ResponseState.SUCCESS,"Success"));
     }

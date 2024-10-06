@@ -4,6 +4,7 @@ import kg.zavod.Tare.domain.product.CharacteristicEntity;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.exception.StaticDataException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateDto;
@@ -16,7 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +28,7 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     private final CharacteristicRepository characteristicRepository;
     private final CharacteristicMapper characteristicMapper;
     private final CharacteristicListMapper characteristicListMapper;
+    private final Set<Integer> staticCharacteristics = new HashSet<>(Arrays.asList(1, 2, 3));
     private static final Logger logger = LoggerFactory.getLogger(CharacteristicServiceImpl.class);
 
     /**
@@ -74,11 +79,14 @@ public class CharacteristicServiceImpl implements CharacteristicService {
      * @param characteristicForUpdateDto - характеристика для редактирования
      * @throws EntityNotFoundException - в случае если при редактировании не найдена характеристика
      * @throws DuplicateEntityException - в случае если характеристика с таким названием уже есть
+     * @throws StaticDataException - в случае если пытаются отредактировать статичную характеристику
      * @return - отредактированная характеристика
      */
     @Override
-    public CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
+    public CharacteristicDto updateCharacteristic(CharacteristicForUpdateDto characteristicForUpdateDto) throws EntityNotFoundException, DuplicateEntityException, StaticDataException {
         logger.info("Попытка редактирования характеристики");
+        boolean isStatic = staticCharacteristics.contains(characteristicForUpdateDto.getId());
+        if(isStatic) throw new StaticDataException("Данную характеристику нельзя редактировать.");
         boolean isDuplicate = characteristicRepository.findByNameAndIdIsNot(characteristicForUpdateDto.getName(), characteristicForUpdateDto.getId()).isPresent();
         if(isDuplicate) throw new DuplicateEntityException("Характеристика с таким id уже есть");
         CharacteristicEntity characteristic = characteristicRepository.findById(characteristicForUpdateDto.getId())
@@ -91,11 +99,14 @@ public class CharacteristicServiceImpl implements CharacteristicService {
     /**
      * Метод позволяет удалять характеристику
      * @param id - id характеристики
+     * @throws StaticDataException - в случае если пытаются удалить статичную характеристику
      * @return - удалена или нет
      */
     @Override
-    public Boolean deleteCharacteristicById(Integer id) {
+    public Boolean deleteCharacteristicById(Integer id) throws StaticDataException {
         logger.info("Попытка удаления характеристики");
+        boolean isStatic = staticCharacteristics.contains(id);
+        if(isStatic) throw new StaticDataException("Данную характеристику нельзя удалить.");
         characteristicRepository.deleteById(id);
         return !characteristicRepository.existsById(id);
     }
