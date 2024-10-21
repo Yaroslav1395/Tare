@@ -281,3 +281,21 @@ VALUES
 (10, 10, 16910),
 (11, 10, 18440);
 
+INSERT INTO Zavod.notices(title, description, is_active, notice_image_name, image_type)
+VALUES
+('Новость 1', 'Описание новости 1', 1, 'Новость-1', 'JPG'),
+('Новость 2', 'Описание новости 2', 1, 'Новость-2', 'JPG');
+
+INSERT INTO Zavod.partners(name, description, logo_image_name, logo_image_type, product_image_name, product_image_type, is_active)
+VALUES
+('Партнер-1', 'Описание партнера 1', 'логотип-партнер-1', 'JPG', 'продукт-партнера-1', 'JPG', 1),
+('Партнер-2', 'Описание партнера 2', 'логотип-партнер-2', 'JPG', 'продукт-партнера-2', 'JPG', 1);
+
+INSERT INTO Zavod.vacancies(name, description, offer)
+VALUES
+('Вакансия грузчика', 'Работа грузчиком на заводе', 'Предлагаем работу грузчиком.&#10;• График работы: 6/1&#10;• ЗП: 10000 сом'),
+('Вакансия ', 'Работа грузчиком на заводе', 'Предлагаем работу грузчиком.&#10;• График работы: 6/1&#10;• ЗП: 10000 сом');
+
+INSERT INTO Zavod.certificates(name, description, certificate_image_name, certificate_image_type)
+VALUES
+('Сертификат-1', 'Сертификат бутылочный', 'сертификат-1', 'JPG');
