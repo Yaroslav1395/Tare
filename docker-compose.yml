@@ -13,5 +13,5 @@ services:
       - ~/tare/db:/tare/db
       - ~/tare/logs:/app/logs
     env_file:
-      #- ~/tare/.env.prod
-      - /home/user/tare/.env.prod
+      - ~/tare/.env.prod
+      #- /home/user/tare/.env.prod
