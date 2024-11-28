@@ -6,7 +6,7 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/app/logs/adminApplication.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/app/logs/tareApplication.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>180</maxHistory>
         </rollingPolicy>
     </appender>

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  tare:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tare:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ~/tare/db:/tare/db
+      - ~/tare/logs:/app/logs
+    env_file:
+      #- ~/tare/.env.prod
+      - /home/user/tare/.env.prod
