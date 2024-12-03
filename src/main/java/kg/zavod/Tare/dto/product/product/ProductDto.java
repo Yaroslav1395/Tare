@@ -30,4 +30,6 @@ public class ProductDto {
     private List<CharacteristicValueDto> productCharacteristics;
     @Schema(description = "Картинки продукта")
     private List<ImageDto> images;
+    @Schema(description = "Цена продукта")
+    private Integer price;
 }

@@ -127,12 +127,6 @@
 			<version>${validator.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.heroku</groupId>
-			<artifactId>heroku-jvm-application-deployer</artifactId>
-			<version>4.0.7</version>
-		</dependency>
-
 		<!--Зависимости для докера-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
