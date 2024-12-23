@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+    <head th:replace="~{layouts/main :: head('Главная')}">
+    </head>
+    <body>
+        <div th:replace="~{layouts/main :: header}"></div>
+        <div class="container">
+            <div class="home-grid-slider-container">
+                <div class="home-slider-container">
+                    <p>Слайдер здесь</p>
+                </div>
+                <div class="home-categories-container">
+                    <div class="home-categories-item">
+                        <a href="#">
+                            <div class="category-img">
+                                <img>
+                            </div>
+                            <div>
+                                <span></span>
+                            </div>
+                        </a>
+                    </div>
+                    <p>Категории здесь</p>
+                </div>
+                <a href="#" class="home-link">Ссылка</a>
+            </div>
+        </div>
+        <div th:replace="~{layouts/main :: footer}"></div>
+
+
+        <!-- Сообщение об ошибке -->
+        <div id="error-message" class="error-message">
+            <span th:if="${errorMessage}" th:text="${errorMessage}">Ошибка</span>
+            <button id="close-btn" class="close-btn">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Скрипт для уведомления -->
+        <script src="/js/notification.js"></script>
+    </body>
+</html>

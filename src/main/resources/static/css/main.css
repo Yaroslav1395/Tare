@@ -1,0 +1,334 @@
+/**------------------------Основные стили------------------------**/
+
+/* Сброс всех отступов, полей и границ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Убираем стандартный шрифт */
+body, html {
+    font-family: sans-serif;
+    font-size: 100%;
+    line-height: 1.5;
+    color: inherit;
+    text-align: inherit;
+    background: none;
+}
+
+/* Убираем декоративные стили у ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Убираем декоративные стили у списков */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Убираем стили таблиц */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.container-header {
+    margin: 0 auto;
+    padding: 0;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+/*---- Окно с ошибкой -----*/
+.error-message {
+    width: 300px;
+    height: 80px;
+    position: fixed;
+    top: 18px;
+    right: -320px; /* Скрыто за границей экрана */
+    color: #8B0000;
+    padding: 10px 20px;
+    border: 2px solid #8B0000;
+    background-color: #FFE4E1;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter Tight', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: all 0.5s ease-in-out; /* Плавная анимация */
+    z-index: 1000;
+}
+
+.error-message.visible {
+    right: 20px; /* Видимое состояние */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #8B0000;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.close-btn:hover {
+    color: #FF4500;
+}
+
+/**------------------------Стили для шапки------------------------**/
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.header-top-left {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+     max-width: 175px;
+}
+
+.logo {
+    font-size: 30px;
+    margin-right: 40px;
+    font-family: 'Anton', serif;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: #333333;
+}
+
+.catalog-button {
+    width: 125px;
+    height: 40px;
+    background-color: #ffda33;
+    border: none;
+    color: #333333;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Rubik', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.catalog-icon {
+    fill: none;
+    stroke: #333333;
+    margin-right: 10px;
+    width: 22px;
+    height: 16px;
+}
+
+.header-top-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-button {
+    width: 125px;
+    height: 40px;
+    margin-right: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Rubik', serif;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-button a {
+    color: #333333;
+}
+
+.profile-icon {
+    width: 22px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.basket-button {
+    width: 165px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Rubik', serif;
+    background-color: #f7f7f7;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.basket-counter {
+    height: 40px;
+    width: 40px;
+    background-color: #ffda33;
+    font-family: 'Rubik', serif;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+}
+
+.basket-button a {
+    color: #333333;
+}
+
+.basket-icon {
+    width: 22px;
+    height: 23px;
+    margin-right: 10px;
+}
+
+.header-bottom {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-bottom-navbar-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-bottom-navbar-menu li {
+    margin-right: 12px;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+}
+
+.header-bottom-navbar-menu li :hover {
+    color: #ffda33;
+}
+
+.header-bottom-contact {
+    font-size: 15px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 400px;
+    margin: 0 auto;
+}
+
+.search-form {
+    width: 360px;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    margin-left: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ffda33;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: 'Rubik', serif;
+    box-sizing: border-box;
+}
+
+.search-button {
+    height: 40px;
+    width: 40px;
+    background-color: #ffda33;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon {
+    width: 25px;
+    height: 25px;
+    fill: #333333;
+    transition: fill 0.2s;
+}
+
+.search-button:hover .search-icon {
+    width: 35px;
+    height: 35px;
+}
+
+/**------------------------Стили для главной страницы------------------------**/
+.home-grid-slider-container {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* Левая колонка (категории) меньше, правая (слайдер) больше */
+    grid-template-rows: auto auto; /* Две строки */
+    gap: 20px; /* Расстояние между элементами */
+    width: 100%;
+    max-width: 1200px;
+}
+
+.home-slider-container {
+    grid-column: 2; /* Во второй колонке */
+    grid-row: 1 / 3; /* Занимает обе строки */
+    background-color: #f0f0f0; /* Фоновый цвет для наглядности */
+    padding: 20px;
+}
+
+.home-categories-container {
+    grid-column: 1; /* В первой колонке */
+    grid-row: 1; /* Только первая строка */
+    background-color: #e0e0e0; /* Фоновый цвет для наглядности */
+    padding: 20px;
+}
+
+.home-link {
+    grid-column: 1; /* В первой колонке */
+    grid-row: 2; /* Только вторая строка */
+    text-align: center;
+    padding: 10px;
+    background-color: #ffda33;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.home.link:hover {
+    background-color: #ffcc00;
+    color: #fff;
+}
