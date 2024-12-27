@@ -16,8 +16,7 @@ public class PageController {
     @GetMapping("/") // Главная страница
     public String home(Model model) {
         try {
-            throw new EntitiesNotFoundException("Не найдено");
-            //model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("categories", categoryService.getAllCategories());
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
         }

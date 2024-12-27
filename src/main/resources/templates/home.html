@@ -6,31 +6,159 @@
         <div th:replace="~{layouts/main :: header}"></div>
         <div class="container">
             <div class="home-grid-slider-container">
-                <div class="home-slider-container">
-                    <p>Слайдер здесь</p>
+                <div class="home-slider-main-container">
+                    <div class="home-slider-container swiper">
+                        <div class="swiper-wrapper">
+                            <!-- Слайд 1 -->
+                            <div class="home-slide swiper-slide">
+                                <div class="home-slide-img-container">
+                                    <img src="/images/sliders/slide-1.png" alt="Слайд 1" class="home-slide-image">
+                                </div>
+                                <div class="home-slide-content">
+                                    <div class="home-slide-content-text">
+                                        <h3>Призыв к действию</h3>
+                                        <p>Здесь должно быть какое-то описание. Реклама или преимущество. Коротко и ясно.</p>
+                                    </div>
+                                    <a href="#" class="home-slide-btn">Перейти</a>
+                                </div>
+                            </div>
+                            <!-- Слайд 2 -->
+                            <div class="home-slide swiper-slide">
+                                <div class="home-slide-img-container">
+                                    <img src="/images/sliders/slide-2.png" alt="Слайд 1" class="home-slide-image">
+                                </div>
+                                <div class="home-slide-content">
+                                    <div class="home-slide-content-text">
+                                        <h3>Призыв к действию</h3>
+                                        <p>Здесь должно быть какое-то описание. Реклама или преимущество. Коротко и ясно.</p>
+                                    </div>
+                                    <a href="#" class="home-slide-btn">Перейти</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Переключатели -->
+                        <div class="home-slider-controls">
+                            <div class="home-slider-control-oval">
+                                <span class="home-slider-control-indicator active"></span>
+                                <span class="home-slider-control-indicator"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!--Отображение категорий-->
                 <div class="home-categories-container">
-                    <div class="home-categories-item">
-                        <a href="#">
+                    <div class="home-categories-item" th:each="category : ${categories}">
+                        <a th:href="@{'/category/' + ${category.id}}">
                             <div class="category-img">
-                                <img>
+                                <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}">
                             </div>
                             <div>
-                                <span></span>
+                                <span th:text="${category.name}"></span>
                             </div>
                         </a>
                     </div>
-                    <p>Категории здесь</p>
                 </div>
-                <a href="#" class="home-link">Ссылка</a>
+                <!--Отображение кнопки "Все категории"-->
+                <div class="home-all-categories-link-container">
+                    <a href="#" class="home-all-categories-link">
+                        <div class="home-all-categories-link-icon-container">
+                            <img class="home-all-categories-link-icon" src="/images/icons/icons8-list-48.png" alt="Список категорий"/>
+                        </div>
+                        <span>Все категории</span>
+                    </a>
+                </div>
+            </div>
+
+            <!--Блок с рекламной навигацией-->
+            <div class="home-advertising-nav-container">
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-1.png" alt="Реклама-1">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-2.png" alt="Реклама-2">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item home-advertising-nav-item-split">
+                    <a href="#">
+                        <img src="/images/advertising/advert-3.png" alt="Реклама-3">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-5.png" alt="Реклама-5">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-6.png" alt="Реклама-6">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-7.png" alt="Реклама-7">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-8.png" alt="Реклама-8">
+                    </a>
+                </div>
+            </div>
+
+            <!--Блок с продуктами категории-->
+            <div class="home-category-product-container">
+                <div class="home-category-banner-container">
+                    <div class="home-category-banner">
+                        <img src="#" alt="Банер категории бутылок">
+                    </div>
+                    <a href="#" class="home-category-banner-link">
+                        <span>Посмотреть все</span>
+                        <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
+                    </a>
+                </div>
+                <div class="home-product-card-container">
+                    <div class="home-product-card">
+                        <div class="home-product-info">
+                            <div class="home-product-info-top">
+                                <div class="home-product-image">
+                                    <img src="#" alt="Product Name">
+                                </div>
+                                <p class="home-product-name">Название товара</p>
+                            </div>
+                            <h3 class="home-product-price">1,000 сом</h3>
+                        </div>
+                        <div class="home-product-action">
+                            <button>В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-product-card-container">
+                    <div class="home-product-card">
+                        <div class="home-product-info">
+                            <div class="home-product-info-top">
+                                <div class="home-product-image">
+                                    <img src="#" alt="Product Name">
+                                </div>
+                                <p class="home-product-name">Название товара длинное название товара</p>
+                            </div>
+                            <h3 class="home-product-price">1,000 сом</h3>
+                        </div>
+                        <div class="home-product-action">
+                            <button>В корзину</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div th:replace="~{layouts/main :: footer}"></div>
 
 
         <!-- Сообщение об ошибке -->
-        <div id="error-message" class="error-message">
-            <span th:if="${errorMessage}" th:text="${errorMessage}">Ошибка</span>
+        <div id="error-message" class="error-message" th:if="${errorMessage}">
+            <span th:text="${errorMessage}">Ошибка</span>
             <button id="close-btn" class="close-btn">
                 <i class="fa fa-times"></i>
             </button>
@@ -38,5 +166,6 @@
 
         <!-- Скрипт для уведомления -->
         <script src="/js/notification.js"></script>
+        <script src="/js/slider.js"></script>
     </body>
 </html>

@@ -13,13 +13,13 @@ VALUES
 (1,1),
 (2,2);
 
-INSERT INTO Zavod.categories(name)
+INSERT INTO Zavod.categories(name, category_image_name, category_image_type)
 VALUES
-('Бутылки'),
-('Банки'),
-('Прес формы'),
-('Крышки'),
-('Хлопья');
+('Бутылки', 'бутылка', 'JPG'),
+('Банки', 'банка', 'JPG'),
+('Пре-формы', 'пре-форма', 'JPG'),
+('Крышки', 'крышка', 'JPG'),
+('Хлопья', 'стружка', 'JPG');
 
 INSERT INTO Zavod.subcategories(name, category_id)
 VALUES
