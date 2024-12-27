@@ -672,6 +672,10 @@ table {
     align-items: flex-start;
 }
 
+.home-product-card-container:hover .home-product-name {
+    color: #cccccc;
+}
+
 .home-product-action button {
     width: 85px;
     height: 40px;
