@@ -20,6 +20,7 @@ public class PageController {
         try {
             model.addAttribute("categories", categoryService.getAllCategories());
             model.addAttribute("products", productService.getProductsForHomePage());
+            /*throw new EntitiesNotFoundException("Записи не найдены");*/
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
         }

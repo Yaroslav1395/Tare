@@ -58,7 +58,7 @@
                 </div>
                 <!--Отображение категорий-->
                 <div class="home-categories-container">
-                    <div class="home-categories-item" th:each="category : ${categories}">
+                    <div class="home-categories-item" th:each="category : ${categories}" th:if="${categories != null}">
                         <a th:href="@{'/category/' + ${category.id}}">
                             <div class="category-img">
                                 <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}">
@@ -67,6 +67,9 @@
                                 <span th:text="${category.name}"></span>
                             </div>
                         </a>
+                    </div>
+                    <div th:if="${categories == null or categories.isEmpty()}">
+                        <p>Нет доступных категорий для отображения.</p>
                     </div>
                 </div>
                 <!--Отображение кнопки "Все категории"-->
@@ -79,8 +82,10 @@
                     </a>
                 </div>
             </div>
+        </section>
 
-            <!--Блок с рекламной навигацией-->
+        <!--Блок с рекламной навигацией-->
+        <section class="container">
             <div class="home-advertising-nav-container">
                 <div class="home-advertising-nav-item">
                     <a href="#">
@@ -152,7 +157,7 @@
                         </div>
                     </div>
                 </div>
-                <div th:unless="${products != null and products.size() > 1}">
+                <div class="home-products-card-error" th:if="${products == null or products.size() == 0}">
                     <p>Нет доступных товаров для отображения.</p>
                 </div>
                 <div class="swiper-button-prev-custom-bottle">
@@ -187,7 +192,7 @@
                         </div>
                     </div>
                 </div>
-                <div th:unless="${products != null and products.size() > 1}">
+                <div class="home-products-card-error" th:if="${products == null or products.size() <= 1}">
                     <p>Нет доступных товаров для отображения.</p>
                 </div>
                 <div class="swiper-button-prev-custom-jar">
@@ -204,6 +209,26 @@
                         <span>Посмотреть все</span>
                         <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с партнерами-->
+        <section class="container">
+            <div class="home-partners-container">
+                <div class="home-partners-title">
+                    <h3>Партнеры нашего завода</h3>
+                </div>
+                <div class="home-partners-grid-container">
+                    <div class="home-partner-item">
+                        <img src="#" alt="">
+                    </div>
+                    <div class="home-partner-item">
+                        <img src="#" alt="">
+                    </div>
+                    <div class="home-partner-item">
+                        <img src="#" alt="">
+                    </div>
                 </div>
             </div>
         </section>
