@@ -8,6 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.*;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
@@ -23,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +40,29 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ProductListMapper productListMapper;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    @Override
+    @Transactional
+    public Map<Integer, List<ProductForHomeDto>> getProductsForHomePage() {
+        Map<Integer, List<ProductForHomeDto>> productsDtoByCategoryId = new HashMap<>();
+        List<ProductEntity> p1 = productRepository.findAllBySubcategoryId(43);
+        List<ProductEntity> p2 = productRepository.findAllBySubcategoryId(17);
+        p2.addAll(productRepository.findAllBySubcategoryId(27));
+        p1.addAll(productRepository.findAllBySubcategoryId(6));
+        System.out.println(p1.size());
+        System.out.println(p2.size());
+        System.out.println(p1.size());
+        System.out.println(p2.size());
+        System.out.println(p1.size());
+        System.out.println(p2.size());
+        System.out.println(p1.size());
+        System.out.println(p2.size());
+        List<ProductForHomeDto> firsProducts = productListMapper.mapToProductForHomeDtoList(p1);
+        List<ProductForHomeDto> secondProducts = productListMapper.mapToProductForHomeDtoList(p2);
+        productsDtoByCategoryId.put(1, firsProducts);
+        productsDtoByCategoryId.put(2, secondProducts);
+        return productsDtoByCategoryId;
+    }
 
     /**
      * Метод позволяет получить продукт по id

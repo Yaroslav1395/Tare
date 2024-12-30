@@ -1,13 +1,19 @@
 package kg.zavod.Tare.service.product;
 
+import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.product.*;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import org.springframework.data.domain.Pageable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface ProductService {
+
+    Map<Integer, List<ProductForHomeDto>> getProductsForHomePage();
 
     /**
      * Метод позволяет получить продукт по id

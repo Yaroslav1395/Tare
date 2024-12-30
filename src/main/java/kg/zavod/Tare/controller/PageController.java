@@ -3,6 +3,7 @@ package kg.zavod.Tare.controller;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.service.category.CategoryService;
+import kg.zavod.Tare.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class PageController {
     private final CategoryService categoryService;
+    private final ProductService productService;
 
     @GetMapping("/") // Главная страница
     public String home(Model model) {
         try {
             model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("products", productService.getProductsForHomePage());
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
         }

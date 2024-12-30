@@ -7,6 +7,7 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.product.image.*;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +21,15 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring", uses = ColorMapper.class)
 public interface ImageMapper {
+
+    /**
+     * Метод преобразовывает сущность картинки продукта в DTO для главной страницы MVC
+     * @param imageEntity - сущность картинки продукта
+     * @return - DTO картинки продукта
+     */
+    @Mapping(target = "productImageType", source = "imageType", qualifiedByName = "getImageType")
+    ImageForProductHomeDto mapToImageForProductHomeDto(ImageEntity imageEntity);
+
     @Mapping(target = "productId", source = "image.product.id")
     @Mapping(target = "productImageType", source = "image.imageType", qualifiedByName = "getImageType")
     ImageDto mapToImageDto(ImageEntity image);

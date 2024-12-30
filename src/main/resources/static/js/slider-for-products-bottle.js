@@ -1,0 +1,36 @@
+const swiperBottle = new Swiper(".bottle-swiper", {
+  slidesPerView: 4,
+  spaceBetween: 25,
+
+  navigation: {
+    nextEl: ".swiper-button-next-custom-bottle",
+    prevEl: ".swiper-button-prev-custom-bottle",
+  },
+
+  on: {
+    slideChange: function () {
+      updateBottleNavigationButtons(this);
+    },
+    init: function () {
+      updateBottleNavigationButtons(this);
+    },
+  },
+});
+
+// Функция управления видимостью кнопок для bottle
+function updateBottleNavigationButtons(swiperInstance) {
+  const prevButton = document.querySelector(".swiper-button-prev-custom-bottle");
+  const nextButton = document.querySelector(".swiper-button-next-custom-bottle");
+
+  if (swiperInstance.isBeginning) {
+    prevButton.style.display = "none";
+  } else {
+    prevButton.style.display = "flex";
+  }
+
+  if (swiperInstance.isEnd) {
+    nextButton.style.display = "none";
+  } else {
+    nextButton.style.display = "flex";
+  }
+}

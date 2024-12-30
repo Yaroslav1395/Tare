@@ -6,6 +6,7 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.subcategory.*;
+import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ProductListMapper.class)
 public interface SubcategoryMapper {
     SubcategorySimpleDto mapToSubcategorySimpleDto(SubcategoryEntity subcategoryEntity);
 

@@ -1,4 +1,4 @@
-const swiper = new Swiper('.swiper', {
+const swiper_nuv = new Swiper('.home-slider-container', {
     loop: true,
     grabCursor: true,
     slidesPerView: 1,
@@ -7,10 +7,10 @@ const swiper = new Swiper('.swiper', {
 });
 
 // Синхронизация индикаторов
-swiper.on('slideChange', function () {
+swiper_nuv.on('slideChange', function () {
     const indicators = document.querySelectorAll('.home-slider-control-indicator');
     indicators.forEach((indicator, index) => {
-        if (index === swiper.realIndex) {
+        if (index === swiper_nuv.realIndex) {
             indicator.classList.add('active');
         } else {
             indicator.classList.remove('active');
@@ -19,5 +19,5 @@ swiper.on('slideChange', function () {
 });
 
 document.querySelectorAll('.home-slider-control-indicator').forEach((indicator, index) => {
-    indicator.addEventListener('click', () => swiper.slideToLoop(index));
+    indicator.addEventListener('click', () => swiper_nuv.slideToLoop(index));
 });

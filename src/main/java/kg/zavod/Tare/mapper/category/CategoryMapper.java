@@ -5,6 +5,7 @@ import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryListMapper;
 import org.mapstruct.*;
@@ -15,6 +16,15 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = SubcategoryListMapper.class)
 public interface CategoryMapper {
+    /**
+     * Метод позволяет преобразовать сущность категории в DTO для главной страницы
+     * @param categoryEntity - сущность категории
+     * @return - DTO категории
+     */
+    @Mapping(target = "id", source = "categoryEntity.id")
+    @Mapping(target = "name", source = "categoryEntity.name")
+    @Mapping(target = "imageType", source = "categoryEntity.imageType")
+    CategoryForHomeDto mapToCategoryForHomeDto(CategoryEntity categoryEntity);
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "imageType", source = "imageType", qualifiedByName = "getImageType")

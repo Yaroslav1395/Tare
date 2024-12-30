@@ -3,14 +3,25 @@
     <head th:replace="~{layouts/main :: head('Главная')}">
     </head>
     <body>
-        <div th:replace="~{layouts/main :: header}"></div>
-        <div class="container">
+        <!-- Сообщение об ошибке -->
+        <section id="error-message" class="error-message" th:if="${errorMessage}">
+            <span th:text="${errorMessage}">Ошибка</span>
+            <button id="close-btn" class="close-btn">
+                <i class="fa fa-times"></i>
+            </button>
+        </section>
+
+        <!--Шапка сайта-->
+        <section th:replace="~{layouts/main :: header}"></section>
+
+        <!--Блок со слайдером и категориями-->
+        <section class="container">
             <div class="home-grid-slider-container">
                 <div class="home-slider-main-container">
                     <div class="home-slider-container swiper">
                         <div class="swiper-wrapper">
                             <!-- Слайд 1 -->
-                            <div class="home-slide swiper-slide">
+                            <div class="swiper-slide">
                                 <div class="home-slide-img-container">
                                     <img src="/images/sliders/slide-1.png" alt="Слайд 1" class="home-slide-image">
                                 </div>
@@ -107,65 +118,103 @@
                     </a>
                 </div>
             </div>
+        </section>
 
-            <!--Блок с продуктами категории-->
+        <!--Блок с продуктами подкатегорий бутылки-->
+        <section class="container">
             <div class="home-category-product-container">
                 <div class="home-category-banner-container">
                     <div class="home-category-banner">
-                        <img src="#" alt="Банер категории бутылок">
+                        <img src="/images/banners/banner-bottle.png" alt="Банер категории бутылок">
                     </div>
                     <a href="#" class="home-category-banner-link">
                         <span>Посмотреть все</span>
                         <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
                     </a>
                 </div>
-                <div class="home-product-card-container">
-                    <div class="home-product-card">
-                        <div class="home-product-info">
-                            <div class="home-product-info-top">
-                                <div class="home-product-image">
-                                    <img src="#" alt="Product Name">
+                <div class="swiper bottle-swiper" th:if="${products != null and products.size() > 1}">
+                    <div class="home-products-card-container swiper-wrapper">
+                        <div class="home-product-card-container swiper-slide" th:each="product : ${products[1]}">
+                            <div class="home-product-card">
+                                <div class="home-product-info">
+                                    <div class="home-product-info-top">
+                                        <div class="home-product-image">
+                                            <img th:src="'data:image/' + ${product.image.productImageType} + ';base64,' + ${product.image.productImage}" th:alt="${product.name}">
+                                        </div>
+                                        <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
+                                    </div>
+                                    <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                                 </div>
-                                <p class="home-product-name">Название товара</p>
+                                <div class="home-product-action">
+                                    <button>В корзину</button>
+                                </div>
                             </div>
-                            <h3 class="home-product-price">1,000 сом</h3>
-                        </div>
-                        <div class="home-product-action">
-                            <button>В корзину</button>
                         </div>
                     </div>
                 </div>
-                <div class="home-product-card-container">
-                    <div class="home-product-card">
-                        <div class="home-product-info">
-                            <div class="home-product-info-top">
-                                <div class="home-product-image">
-                                    <img src="#" alt="Product Name">
-                                </div>
-                                <p class="home-product-name">Название товара длинное название товара</p>
-                            </div>
-                            <h3 class="home-product-price">1,000 сом</h3>
-                        </div>
-                        <div class="home-product-action">
-                            <button>В корзину</button>
-                        </div>
-                    </div>
+                <div th:unless="${products != null and products.size() > 1}">
+                    <p>Нет доступных товаров для отображения.</p>
+                </div>
+                <div class="swiper-button-prev-custom-bottle">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <div class="swiper-button-next-custom-bottle">
+                    <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!--Блок с продуктами подкатегорий банки-->
+        <section class="container">
+            <div class="home-category-product-container">
+                <div class="swiper jar-swiper" th:if="${products != null and products.size() > 1}">
+                    <div class="home-products-card-container swiper-wrapper">
+                        <div class="home-product-card-container swiper-slide" th:each="product : ${products[2]}">
+                            <div class="home-product-card">
+                                <div class="home-product-info">
+                                    <div class="home-product-info-top">
+                                        <div class="home-product-image">
+                                            <img th:src="'data:image/' + ${product.image.productImageType} + ';base64,' + ${product.image.productImage}" th:alt="${product.name}">
+                                        </div>
+                                        <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
+                                    </div>
+                                    <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
+                                </div>
+                                <div class="home-product-action">
+                                    <button>В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:unless="${products != null and products.size() > 1}">
+                    <p>Нет доступных товаров для отображения.</p>
+                </div>
+                <div class="swiper-button-prev-custom-jar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <div class="swiper-button-next-custom-jar">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+                <div class="home-category-banner-container">
+                    <div class="home-category-banner">
+                        <img src="/images/banners/banner-jar.png" alt="Банер категории бутылок">
+                    </div>
+                    <a href="#" class="home-category-banner-link">
+                        <span>Посмотреть все</span>
+                        <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <div th:replace="~{layouts/main :: footer}"></div>
 
-
-        <!-- Сообщение об ошибке -->
-        <div id="error-message" class="error-message" th:if="${errorMessage}">
-            <span th:text="${errorMessage}">Ошибка</span>
-            <button id="close-btn" class="close-btn">
-                <i class="fa fa-times"></i>
-            </button>
-        </div>
-
         <!-- Скрипт для уведомления -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script src="/js/notification.js"></script>
         <script src="/js/slider.js"></script>
+        <script src="/js/slider-for-products-bottle.js"></script>
+        <script src="/js/slider-for-products-jar.js"></script>
     </body>
 </html>

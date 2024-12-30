@@ -6,6 +6,7 @@ import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.image.*;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
 import kg.zavod.Tare.service.util.UtilService;
 import org.mapstruct.*;
 

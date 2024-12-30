@@ -3,6 +3,7 @@ package kg.zavod.Tare.service.category;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -10,6 +11,13 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import java.util.List;
 
 public interface CategoryService {
+
+    /**
+     * Метод позволяет получить все категории для главной страницы MVC
+     * @return - список категорий
+     * @throws EntitiesNotFoundException - в случае если не найдены категории продуктов
+     */
+    List<CategoryForHomeDto> getAllCategoriesForHomePage() throws EntitiesNotFoundException;
     /**
      * Метод позволяет получить категорию с подкатегориями по id
      * @throws EntityNotFoundException  - в случае если по id ничего не найдено
@@ -49,4 +57,6 @@ public interface CategoryService {
      * @return - удалена или нет
      */
     Boolean deleteCategoryById(Integer id);
+
+
 }

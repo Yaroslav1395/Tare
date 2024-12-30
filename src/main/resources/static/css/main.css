@@ -1,6 +1,6 @@
-/**------------------------Основные стили------------------------**/
-
-/* Сброс всех отступов, полей и границ */
+/******************************************************************************************/
+/************************************Общие стили сайта*************************************/
+/******************************************************************************************/
 *,
 *::before,
 *::after {
@@ -8,8 +8,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
-/* Убираем стандартный шрифт */
 body, html {
     font-family: sans-serif;
     font-size: 100%;
@@ -19,13 +17,11 @@ body, html {
     background: none;
 }
 
-/* Убираем декоративные стили у ссылок */
 a {
     text-decoration: none;
     color: inherit;
 }
 
-/* Убираем декоративные стили у списков */
 ul,
 ol {
     list-style: none;
@@ -49,7 +45,10 @@ table {
     margin: 0 auto;
     box-sizing: border-box;
 }
-/*---- Окно с ошибкой -----*/
+
+/******************************************************************************************/
+/*************************************Стили сообщений**************************************/
+/******************************************************************************************/
 .error-message {
     width: 300px;
     height: 80px;
@@ -96,7 +95,11 @@ table {
     color: #FF4500;
 }
 
-/**------------------------Стили для шапки------------------------**/
+
+/******************************************************************************************/
+/***********************************Стили шапки сайта**************************************/
+/******************************************************************************************/
+/*-----------------------------------Стили для шапки--------------------------------------*/
 .header {
     display: flex;
     justify-content: space-between;
@@ -290,7 +293,11 @@ table {
     height: 35px;
 }
 
-/**------------------------Стили для главной страницы------------------------**/
+/******************************************************************************************/
+/*******************************Стили для главной страницы*********************************/
+/******************************************************************************************/
+/************************************Категории и слайдер***********************************/
+/*----------------------------------Категории---------------------------------------------*/
 .home-grid-slider-container {
     margin-top: 40px;
     display: grid;
@@ -372,7 +379,7 @@ table {
     object-fit: contain;
 }
 
-/**---------------Слайдер-----------------**/
+/*----------------------------------Слайдер---------------------------------------------*/
 .home-slider-main-container {
     grid-column: 2;
     grid-row: 1 / 3;
@@ -385,21 +392,6 @@ table {
     width: 100%;
     margin: auto;
     overflow: hidden;
-}
-
-.swiper-wrapper {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    will-change: transform;
-}
-
-.swiper-slide {
-    flex-shrink: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
 }
 
 .home-slide-img-container {
@@ -501,7 +493,8 @@ table {
     background-color: #acacac; /* Цвет при наведении */
 }
 
-/**---------------Рекламная навигация-----------------**/
+/******************************************************************************************/
+/************************************Рекламная навигация***********************************/
 .home-advertising-nav-container {
     margin-top: 100px;
     width: 100%;
@@ -540,8 +533,9 @@ table {
     height: 340px;
 }
 
-/**---------------Продукты категории-----------------**/
-/* Общий контейнер */
+/******************************************************************************************/
+/************************************Продукты категории************************************/
+/*-----------------------------------Общий контейнер-----------------------------------*/
 .home-category-product-container {
     margin-top: 70px;
     display: flex;
@@ -551,12 +545,13 @@ table {
     position: relative; /* Для корректной работы с absolute */
 }
 
-/* Баннер категории */
+/*-----------------------------------Баннер категории-----------------------------------*/
 .home-category-banner-container {
     width: 220px;
     display: flex;
     flex-direction: column;
     gap: 25px;
+    flex-shrink: 0; /* Предотвращаем сжатие контейнера */
 }
 
 .home-category-banner {
@@ -592,27 +587,39 @@ table {
     margin-left: 4px;
 }
 
-/* Карточки товаров */
+
+/*-----------------------------------Карточка товара-----------------------------------*/
+.home-category-product-container-slider-nav {
+    position: relative;
+}
+
 .home-product-card-container {
     width: 220px;
-    padding: 12px;
+    padding: 16px;
     border: 1px solid #ededed;
     border-radius: 4px;
     overflow: hidden;
-    height: 330px; /* Исходная высота карточки */
+    height: 330px !important; /* Исходная высота карточки */
     position: relative;
     z-index: 1; /* Устанавливаем базовый слой */
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
 }
 
 .home-product-card-container:hover {
-    padding: 11px;
-    height: 380px; /* Увеличиваем до высоты контейнера */
+    padding: 15px;
+    height: 380px !important; /* Увеличиваем до высоты контейнера */
     border: 2px solid #ffda33;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 10; /* Поднимаем карточку над другими элементами */
     box-sizing: border-box;
     cursor: pointer;
+}
+
+.home-product-card-container:hover .swiper-slide {
+     height: 380px !important;
 }
 
 .home-product-card {
@@ -620,6 +627,7 @@ table {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    user-select: none;
 }
 
 .home-product-info {
@@ -628,13 +636,18 @@ table {
     align-items: flex-start;
     justify-content: space-between;
     height: 100%;
+    width: 100%
+}
+
+.home-product-info-top {
+    width: 100%;
 }
 
 .home-product-image {
-    width: 194px;
+    width: 100%;
     height: 180px;
     background-color: rgba(253, 0, 51, 0.18);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .home-product-image img {
@@ -643,28 +656,25 @@ table {
     object-fit: cover;
 }
 
-/* Название товара */
 .home-product-name {
     font-size: 16px;
     font-weight: 300;
     color: #333;
     font-family: 'Inter Tight', serif;
-    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
-/* Цена товара */
 .home-product-price {
     font-size: 25px;
     font-weight: 500;
     font-family: 'Inter Tight', serif;
-    margin-bottom: 10px;
 }
 
-/* Кнопка действия */
 .home-product-action {
     display: none;
     text-align: center;
-    height: 58px;
+    height: 47px;
+    margin-top: 10px;
 }
 
 .home-product-card-container:hover .home-product-action {
@@ -689,5 +699,145 @@ table {
     border-radius: 4px;
     text-align: center;
 }
+
+
+.card-list .card-item {
+    color: #fff;
+    width: 400px;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background-filter: blur(30px);
+}
+
+.card-list .card-item .user-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 40px;
+    border: 3px solid #fff;
+    padding: 4px;
+}
+
+.card-list .card-item .user-profession {
+    font-size: 1.15rem;
+    color: #e3e3e3;
+    font-weight: 500;
+    margin: 14px 0 40px;
+}
+
+.card-list .card-item .message-button {
+    font-size: 1.25rem;
+    padding: 10px 35px;
+    color: #030728;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid transparent;
+    transition: 0.2s ease;
+}
+
+.card-list .card-item .message-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+.home-category-product-container .swiper {
+    height: 100% !important;
+}
+
+.home-category-product-container .swiper-slide {
+    width: 220px !important;
+    box-sizing: border-box;
+}
+
+/*----------------------Навигация продуктов категории бутылки------------------------------*/
+.swiper-button-prev-custom-bottle,
+.swiper-button-next-custom-bottle {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: 2px solid #ededed;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    width: 32px;
+    height: 32px;
+    background-color: #fff;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swiper-button-prev-custom-bottle i,
+.swiper-button-next-custom-bottle i {
+    font-size: 16px !important;
+    color: #333333 !important;
+}
+
+.swiper-button-prev-custom-bottle:hover,
+.swiper-button-next-custom-bottle:hover {
+    background-color: #ffda33;
+    border: none;
+}
+
+.swiper-button-prev-custom-bottle {
+    left: 227px;
+}
+
+.swiper-button-next-custom-bottle {
+    right: -17px;
+}
+
+/*----------------------Навигация продуктов категории банки------------------------------*/
+.swiper-button-prev-custom-jar,
+.swiper-button-next-custom-jar {
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+    z-index: 10;
+    border: 2px solid #ededed;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+    width: 32px;
+    height: 32px;
+    background-color: #fff;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swiper-button-prev-custom-jar i,
+.swiper-button-next-custom-jar i {
+    font-size: 16px !important;
+    color: #333333 !important;
+}
+
+.swiper-button-prev-custom-jar:hover,
+.swiper-button-next-custom-jar:hover {
+    background-color: #ffda33;
+    border: none;
+}
+
+.swiper-button-prev-custom-jar {
+    left: -17px;
+}
+
+.swiper-button-next-custom-jar {
+    right: 227px;
+}
+
+
 
 
