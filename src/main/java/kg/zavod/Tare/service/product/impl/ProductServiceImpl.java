@@ -45,18 +45,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Map<Integer, List<ProductForHomeDto>> getProductsForHomePage() {
         Map<Integer, List<ProductForHomeDto>> productsDtoByCategoryId = new HashMap<>();
-        List<ProductEntity> p1 = productRepository.findAllBySubcategoryId(43);
-        List<ProductEntity> p2 = productRepository.findAllBySubcategoryId(17);
+        List<ProductEntity> p1 = productRepository.findAllBySubcategoryId(42);
+        List<ProductEntity> p2 = productRepository.findAllBySubcategoryId(41);
         p2.addAll(productRepository.findAllBySubcategoryId(27));
         p1.addAll(productRepository.findAllBySubcategoryId(6));
-        System.out.println(p1.size());
-        System.out.println(p2.size());
-        System.out.println(p1.size());
-        System.out.println(p2.size());
-        System.out.println(p1.size());
-        System.out.println(p2.size());
-        System.out.println(p1.size());
-        System.out.println(p2.size());
+        p1.addAll(productRepository.findAllBySubcategoryId(10));
         List<ProductForHomeDto> firsProducts = productListMapper.mapToProductForHomeDtoList(p1);
         List<ProductForHomeDto> secondProducts = productListMapper.mapToProductForHomeDtoList(p2);
         productsDtoByCategoryId.put(1, firsProducts);
