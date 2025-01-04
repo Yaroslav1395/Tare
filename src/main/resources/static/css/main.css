@@ -975,10 +975,6 @@ table {
     transform: scale(1.1);
 }
 
-.thumbnail.active {
-    /*border-color: #007BFF;*/
-}
-
 /* Стиль лупы при наведении */
 .home-certificate-img-container img {
     transition: transform 0.3s ease;
@@ -1019,3 +1015,163 @@ table {
     font-weight: bold;
     cursor: pointer;
 }
+
+/******************************************************************************************/
+/*******************************Стили для блока преимущества*******************************/
+.home-advantages-title-container {
+    margin-top: 70px;
+}
+
+.home-advantages-title-container h2 {
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.home-advantages-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три столбца равной ширины */
+    gap: 20px;
+}
+
+.home-advantage-container {
+    padding: 0 20px 20px 20px;
+    text-align: center;
+    background-color: #f7f7f7;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.home-advantage-container:hover {
+    transform: scale(1.05); /* Легкое увеличение при наведении */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Тень при наведении */
+    background-color: transparent;
+}
+
+.home-advantage-container span {
+    font-size: 70px;
+    color: #ffda33;
+    display: inline-block;
+}
+
+.home-advantage-container h3 {
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.home-advantage-container p {
+    color: #8c8c8c;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/******************************************************************************************/
+/**********************************Стили для блока новости*********************************/
+.home-news-title-container {
+    margin-top: 70px;
+}
+
+.home-news-title-container h2 {
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.home-all-news-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    background-color: #ffda33;
+    padding: 20px;
+}
+
+.home-news-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0 15px;
+    background-color: rgba(247, 247, 247, 0.4);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    height: 210px;
+}
+
+.home-news-container:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-news-text {
+    height: 92px; /* Фиксированная высота блока */
+    overflow: hidden; /* Обрезает текст, выходящий за пределы блока */
+    text-overflow: ellipsis; /* Добавляет многоточия */
+    display: -webkit-box; /* Используется для создания блочных контейнеров */
+    -webkit-line-clamp: 3; /* Указывает количество строк, которые должны быть видимы */
+    -webkit-box-orient: vertical; /* Определяет ориентацию блока */
+}
+
+.home-news-text {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    color: #474747;
+}
+
+.home-news-container h4 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.home-news-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+}
+
+.home-news-bottom p {
+    color: #333333;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.home-news-bottom a {
+    display: flex;
+    align-items: center;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: 'Inter Tight', serif;
+    color: #626355;
+    text-transform: uppercase;
+}
+
+.home-news-bottom a img {
+    height: 20px;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.home-news-bottom a:hover img {
+    transform: translateX(5px);
+}
+/*
+.home-news-container a img {
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.home-news-container a:hover img {
+    transform: translateX(5px);
+}*/
