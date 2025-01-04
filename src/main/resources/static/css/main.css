@@ -40,6 +40,13 @@ table {
     box-sizing: border-box;
 }
 
+.footer-container {
+    margin: 0 auto;
+    padding: 0;
+    background-color: #333333;
+    margin-top: 70px;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -293,6 +300,175 @@ table {
     height: 35px;
 }
 
+/******************************************************************************************/
+/**********************************Стили подвала сайта*************************************/
+/******************************************************************************************/
+/*----------------------------------Стили для подвала-------------------------------------*/
+.footer-top {
+    padding-top: 20px;
+}
+
+.footer-logo-container {
+    font-size: 40px;
+    font-family: 'Anton', serif;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: #f4f4f4;
+}
+
+.footer-center {
+    display:flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.footer-menu {
+    display:flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.footer-menu-item {
+    display:flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right: 35px;
+}
+
+.footer-menu-item a {
+    font-weight: 400;
+    font-size: 13px;
+    font-family: 'Inter Tight', serif;
+    margin-bottom: 8px;
+    color: #f4f4f4;
+}
+
+.footer-menu-item a:hover {
+    color: #ffda33;
+}
+
+.footer-menu-title {
+    font-weight: 500;
+    font-size: 16px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+    margin-bottom: 10px;
+}
+
+.footer-contact {
+    margin-right: 30px;
+}
+
+.footer-contacts-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.footer-contacts-title {
+    font-weight: 500;
+    font-size: 16px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+    margin-bottom: 10px;
+}
+
+.footer-contact-info-address {
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    margin-bottom: 8px;
+    color: #f4f4f4;
+}
+
+.footer-contact-info-phone-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 140px;
+    margin-bottom: 8px;
+}
+
+.footer-contact-info-phone-icon {
+    margin-right: 10px;
+}
+
+.footer-contact-info-phone-container p {
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+}
+
+.footer-contact-info-phone-container i {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #ffda33;
+}
+
+.footer-contact-work-time-title {
+   font-weight: 500;
+   font-size: 15px;
+   font-family: 'Inter Tight', serif;
+   color: #f4f4f4;
+   margin-bottom: 8px;
+}
+
+.footer-contact-work-time-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+}
+
+.footer-contact-work-time-day {
+    width: 63px;
+    margin-right: 10px;
+}
+
+.footer-contact-work-time-day p {
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+}
+
+.footer-contact-work-time {
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+}
+
+.footer-map iframe {
+    width: 370px;
+    height: 266px;
+    filter: invert(100%);
+}
+
+.footer-bottom {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.footer-bottom p {
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+    padding-bottom: 20px;
+}
+
+.footer-bottom p::after {
+    content: " ®";
+}
 /******************************************************************************************/
 /*******************************Стили для главной страницы*********************************/
 /******************************************************************************************/
@@ -1164,14 +1340,3 @@ table {
 .home-news-bottom a:hover img {
     transform: translateX(5px);
 }
-/*
-.home-news-container a img {
-    width: 16px;
-    height: 16px;
-    margin-left: 5px;
-    transition: transform 0.3s ease;
-}
-
-.home-news-container a:hover img {
-    transform: translateX(5px);
-}*/
