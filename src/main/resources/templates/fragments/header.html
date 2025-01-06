@@ -3,43 +3,8 @@
 <body>
 <div class="container-header" th:fragment="header">
     <div class="container">
-        <div class="header">
-            <div class="header-top-left">
-                <div class="logo-container">
-                    <span class="logo">AsiaPlast</span>
-                </div>
-                <div>
-                    <button class="catalog-button">
-                        <svg class="catalog-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 50 50">
-                            <path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"></path>
-                        </svg>
-                        Каталог
-                    </button>
-                </div>
-                <div class="search-container">
-                    <form action="#" class="search-form">
-                        <input type="text" placeholder="Поиск..." class="search-input">
-                    </form>
-                    <button class="search-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="search-icon">
-                            <path d="M10 2a8 8 0 015.292 13.707l4.707 4.707-1.414 1.414-4.707-4.707A8 8 0 1110 2zm0 2a6 6 0 100 12 6 6 0 000-12z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="header-top-right">
-                <div class="profile-button">
-                    <img class="profile-icon" src="/images/icons/icons8-customer-48.png" alt="gender-neutral-user"/>
-                    <a href="#">Профиль</a>
-                </div>
-                <div class="basket-button">
-                    <img class="basket-icon" src="/images/icons/icons8-checkout-25.png" alt="gender-neutral-user"/>
-                    <a href="#">Корзина</a>
-                    <div class="basket-counter"><span>0</span></div>
-                </div>
-            </div>
-        </div>
-        <div th:replace="~{fragments/navbar :: navbar}"></div>
+        <div th:replace="~{fragments/header/header-top :: header-top}"></div>
+        <div th:replace="~{fragments/header/header-navbar :: header-navbar}"></div>
     </div>
 </div>
 </body>

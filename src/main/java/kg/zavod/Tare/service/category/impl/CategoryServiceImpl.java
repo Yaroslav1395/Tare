@@ -12,6 +12,7 @@ import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.subcategory.SubcategorySimpleDto;
 import kg.zavod.Tare.mapper.category.CategoryListMapper;
 import kg.zavod.Tare.mapper.category.CategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
@@ -26,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,7 +89,8 @@ public class CategoryServiceImpl implements CategoryService {
         logger.info("Поиск всех категорий");
         List<CategoryEntity> categories = categoryRepository.findAll();
         if(categories.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одной категории");
-        return categoryListMapper.mapToCategoryDtoList(categories);
+        List<CategoryDto> categoriesDto =  categoryListMapper.mapToCategoryDtoList(categories);
+        return sortBySubcategoryName(categoriesDto);
     }
 
     /**
@@ -143,5 +146,19 @@ public class CategoryServiceImpl implements CategoryService {
         logger.info("Удаление категории");
         categoryRepository.deleteById(id);
         return !categoryRepository.existsById(id);
+    }
+
+    /**
+     * Метод позволяет отсортировать подкатегории для каждой категории
+     * @param categories - список категорий
+     * @return - отсортированный список категорий по подкатегориям
+     */
+    private List<CategoryDto> sortBySubcategoryName(List<CategoryDto> categories) {
+        return categories.stream()
+                .peek(category -> category.setSubcategories(
+                        category.getSubcategories().stream()
+                                .sorted(Comparator.comparing(SubcategorySimpleDto::getName))
+                                .collect(Collectors.toList())))
+                .toList();
     }
 }
