@@ -103,7 +103,27 @@ table {
     color: #FF4500;
 }
 
+/******************************************************************************************/
+/**********************************Стили ссылок страниц************************************/
+/******************************************************************************************/
+.nav-page-container {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: 'Inter Tight', serif;
+    color: #a3a3a3;
+}
 
+.nav-page-container a {
+    margin-right: 5px;
+}
+
+.nav-page-container i {
+    margin-right: 5px;
+}
 /******************************************************************************************/
 /***********************************Стили шапки сайта**************************************/
 /******************************************************************************************/
@@ -1452,4 +1472,53 @@ table {
 
 .home-news-bottom a:hover img {
     transform: translateX(5px);
+}
+
+
+/******************************************************************************************/
+/*****************************Стили страницы категории*************************************/
+/******************************************************************************************/
+/*------------------------------------Основные стили--------------------------------------*/
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Exactly 3 items per row */
+    gap: 20px;
+    padding: 0 20px 20px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    align-content: center;
+    min-height: 75vh;
+}
+
+.category-item {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.category-item:hover h3 {
+    color: #808080;
+}
+
+.category-item-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.category-item-name h3 {
+    margin: 15px 0;
+    font-weight: 400;
+    font-size: 16px;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
 }
