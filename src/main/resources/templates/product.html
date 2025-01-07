@@ -13,33 +13,116 @@
     <!--Шапка сайта-->
     <section th:replace="~{layouts/main :: header}"></section>
 
+    <!--Блок с навигацией-->
     <section class="container">
     <div class="nav-page-container">
         <a href="/">Главная</a>
         <i class="fa-solid fa-arrow-right"></i>
         <a href="/category">Категории</a>
+        <i class="fa-solid fa-arrow-right"></i>
+        <a href="/category">Категория</a>
+        <i class="fa-solid fa-arrow-right"></i>
+        <a href="/category">Подкатегория</a>
     </div>
 </section>
-    <!--Блок с категориями-->
+
+    <!--Блок с продуктом-->
     <section class="container">
-    <div class="category-container">
-        <th:block th:each="category : ${categories}">
-            <div class="category-item">
-                <a th:href="@{'/category/' + ${category.id}}">
-                    <div class="category-item-img">
-                        <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}" />
+        <div class="product-wrapper">
+            <div class="product-images-container">
+                <div class="product-img-container">
+                    <div class="product-img">
+                        <img id="product-main-img" class="" src="/images/products/b-1.jpg" alt="Фото бутылки">
                     </div>
-                    <div class="category-item-name">
-                        <h3 th:text="${category.name}">Название категории</h3>
-                    </div>
-                </a>
+                </div>
             </div>
-        </th:block>
-    </div>
-</section>
+            <div class="product-info-container">
+                <div class="product-info">
+                    <div class="product-info-top">
+                        <div class="product-title-container">
+                            <h1 class="product-title">Название продукта</h1>
+                        </div>
+                        <div class="product-short-info-container">
+                            <p>Краткое описание продукта, краткое описание продукта. Обрезается все после второй
+                                точки, обрезается все после второй точки
+                            </p>
+                        </div>
+                        <div class="product-color-container">
+                            <p>Доступные цвета</p>
+                            <div class="product-color-items">
+                                <div class="product-color-item"></div>
+                                <div class="product-color-item"></div>
+                                <div class="product-color-item"></div>
+                            </div>
+                        </div>
+                        <div class="product-price-container">
+                            <h3>1000 сом</h3>
+                        </div>
+                    </div>
+                    <div class="product-info-bottom">
+                        <div class="product-info-action">
+                            <div class="product-quantity-control">
+                                <button type="button" class="product-quantity-btn decrement">-</button>
+                                <input type="number" id="quantity" min="1" value="1">
+                                <button type="button" class="product-quantity-btn increment">+</button>
+                            </div>
+                            <button class="product-add-basket-btn">В корзину</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-min-images">
+                    <div class="product-thumbnails">
+                        <img src="/images/products/b-1.jpg" alt="Фото бутылки 1" onclick="changeImage(this)">
+                        <img src="/images/products/b-2.jpg" alt="Фото бутылки 2" onclick="changeImage(this)">
+                        <img src="/images/products/b-3.jpg" alt="Фото бутылки 3" onclick="changeImage(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="product-characteristics-title">
+            <div class="product-characteristics-title-btn">
+                <button class="active" data-target="description">Описание</button>
+            </div>
+            <div class="product-characteristics-title-btn">
+                <button data-target="characteristics">Характеристики</button>
+            </div>
+        </div>
+        <div id="description" class="product-characteristics-description active">
+            <p>
+                Обои российского бренда Trend Color (фабрика Палитра) из коллекции Stories. Обои фактурные,
+                водостойкие, что позволяет мыть эти настенные покрытия. Имеют флизелиновую основу и
+                виниловое покрытие. Stories - смелое единство разных стилей, соединяющий в себе однотонные
+                абстракции в современном стиле, рисунок под шпаклевку в стиле лофт, а так же рисунок в виде
+                мрамора или камня в скандинавском стиле гармонично дополняющих друг друга и объединенных
+                уютной текстурой.Тип рисунка: Абстракция и геометрия.Длина обоев: 10.05 м.Ширина: 1.06 м.
+                Раппорт: 32 см.Обои подойдут для: кухни, коридора, спальни, зала, прихожей, детской,
+                гостинной, кабинета, офиса.В этой коллекции были использованы спокойные и немного бледные
+                цвета, что соответствует стилю.Основные цвета - серый и бежевый.
+            </p>
+        </div>
+        <div id="characteristics" class="product-characteristics-container">
+            <div class="product-characteristics-item">
+                <p>Цена, сом</p>
+                <p>1000</p>
+            </div>
+            <div class="product-characteristics-item">
+                <p>Вес, г</p>
+                <p>100</p>
+            </div>
+            <div class="product-characteristics-item">
+                <p>Объем, л</p>
+                <p>0.5</p>
+            </div>
+        </div>
+    </section>
 
     <!--Блок с подвалом-->
     <section th:replace="~{layouts/main :: footer}"></section>
 
+    <!-- Скрипт для функционала -->
+    <script src="/js/product.js"></script>
 </body>
 </html>
