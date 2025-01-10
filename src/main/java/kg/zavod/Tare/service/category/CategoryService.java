@@ -3,14 +3,43 @@ package kg.zavod.Tare.service.category;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForAdminDto;
 import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForSaveAdminDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface CategoryService {
+
+    /**
+     * Метод позволяет получить все категории для админки MVC
+     * @return - список категорий
+     * @throws EntitiesNotFoundException - в случае если ничего не найдено
+     */
+    List<CategoryForAdminDto> getAllCategoriesForAdminPage() throws EntitiesNotFoundException;
+
+    /**
+     * Метод позволяет сохранить категорию. Для админки MVC
+     * @param categoryForSaveDto - данные категории
+     * @throws DuplicateEntityException - в случае если категория уже существует
+     * @throws IOException - в случае если не удалось сохранить картинку
+     * @throws EntityNotFoundException - в случае если формат не картинки поддерживается
+     */
+    void saveCategory(CategoryForSaveAdminDto categoryForSaveDto) throws DuplicateEntityException, IOException, EntityNotFoundException;
+
+    /**
+     * Метод позволяет отредактировать категорию. Для админки MVC
+     * @param categoryForUpdate - данные категории для редактирования
+     * @throws DuplicateEntityException - в случае если категория уже существует
+     * @throws IOException - в случае если не удалось сохранить картинку
+     * @throws EntityNotFoundException - в случае если формат не картинки поддерживается
+     */
+    void updateCategory(CategoryForUpdateAdminDto categoryForUpdate) throws EntityNotFoundException, IOException,DuplicateEntityException;
 
     /**
      * Метод позволяет получить все категории для главной страницы MVC
@@ -18,6 +47,11 @@ public interface CategoryService {
      * @throws EntitiesNotFoundException - в случае если не найдены категории продуктов
      */
     List<CategoryForHomeDto> getAllCategoriesForHomePage() throws EntitiesNotFoundException;
+
+
+
+
+
     /**
      * Метод позволяет получить категорию с подкатегориями по id
      * @throws EntityNotFoundException  - в случае если по id ничего не найдено

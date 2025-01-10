@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section class="container" th:fragment="controls">
+    <div class="admin-controls">
+        <button id="edit-button" class="control-btn control-btn-disabled" onclick="showUpdateForm()">Редактировать</button>
+        <form id="deleteForm" action="#" th:action="@{/admin/category/delete}" method="post" onsubmit="return checkDeleteButtonState()">
+            <input type="hidden" name="id" id="idToDelete"/>
+            <button type="submit" id="delete-button" class="control-btn control-btn-disabled">Удалить</button>
+        </form>
+        <button id="create-button" class="control-btn" onclick="showCreateForm()">Создать</button>
+        <button id="info-button" class="control-btn" onclick="showInstruction()">Инструкция</button>
+    </div>
+</section>
+</body>
+</html>

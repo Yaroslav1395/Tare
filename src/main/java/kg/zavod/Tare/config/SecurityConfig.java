@@ -63,7 +63,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Создает бин который является цепочкой безопасности
+     * Создает бин, который является цепочкой безопасности
      * @param http - конфигурация безопасности
      * @return - цепочка безопасности
      * @throws Exception - выбрасывается в случае ошибки
@@ -94,9 +94,9 @@ public class SecurityConfig {
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("product/basket").permitAll()
-                        .requestMatchers(HttpMethod.POST).authenticated()
-                        .requestMatchers(HttpMethod.PUT).authenticated()
-                        .requestMatchers(HttpMethod.DELETE).authenticated()
+                        .requestMatchers(HttpMethod.POST).permitAll()
+                        .requestMatchers(HttpMethod.PUT).permitAll()
+                        .requestMatchers(HttpMethod.DELETE).permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/role/**").authenticated()
                         .requestMatchers("/auth/logout").authenticated()

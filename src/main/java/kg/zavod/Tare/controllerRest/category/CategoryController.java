@@ -28,13 +28,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@RestController
-@RequestMapping("category")
+@RequestMapping("/rest/category")
 @Tag(name = "Категории", description = "Предоставляет возможность взаимодействовать с категориями")
 @Validated
 @RequiredArgsConstructor
 public class CategoryController {
     private final CategoryService categoryService;
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
+
     @Operation(summary = "Получение категории по идентификатору", description = "Позволит получить категорию по идентификатору")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Успешно"),

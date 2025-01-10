@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@RestController
-@RequestMapping("subcategory")
+@RequestMapping("/rest/subcategory")
 @Tag(name = "Подкатегории", description = "Предоставляет возможность взаимодействовать с подкатегориями")
 @Validated
 @RequiredArgsConstructor

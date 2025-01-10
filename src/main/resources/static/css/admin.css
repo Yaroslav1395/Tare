@@ -1,0 +1,457 @@
+/******************************************************************************************/
+/***********************************Общие стили админки************************************/
+/******************************************************************************************/
+/*-----------------------------Переопределение основных тегов-----------------------------*/
+/* Установим шрифт Inter Tight для всех элементов */
+body {
+    font-family: 'Inter Tight', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Установим шрифт Rubik для всех h-тегов и кнопок */
+h1, h2, h3, h4, h5, h6, button {
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Удалим стандартные стили браузера */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+/* Настройка box-sizing */
+html {
+    box-sizing: border-box;
+}
+
+/* Установим базовый размер шрифта для удобной работы с rem */
+html {
+    font-size: 16px;
+}
+
+/* Дополнительно, чтобы кнопки и другие интерактивные элементы не выглядели по умолчанию */
+button {
+    border: none;
+    cursor: pointer;
+    background: #66A5AD none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #003b46;
+}
+
+/* Удаление подчеркивания у ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Убираем стили списков */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Убираем стили таблиц */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+/*-----------------------------Стили для таблиц-----------------------------*/
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter Tight', sans-serif;
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.admin-table th {
+    background-color: #C4DFE6;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #07575b;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.admin-table td {
+    font-size: 0.85rem;
+}
+
+.admin-table tbody tr:hover {
+    cursor: pointer;
+    background-color: #c4dfe6;
+}
+
+.selected {
+    background-color: #07575b !important;
+    color: #fff;
+}
+
+/*-----------------------------Стили для кнопок-----------------------------*/
+.admin-controls {
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.control-btn {
+    width: 130px;
+    height: 40px;
+}
+
+.control-btn:hover {
+    color: #66A5AD;
+    background-color: #003B46;
+}
+
+.control-btn-disabled {
+    background-color: rgba(102, 165, 173, 0.2) !important;
+}
+
+.form-control-btn {
+    width: 50%;
+    height: 40px;
+}
+
+.form-control-btn:hover {
+    color: #66A5AD;
+    background-color: #003B46;
+}
+
+/*-----------------------------Стили для форм-----------------------------*/
+.form-container {
+    position: absolute;
+    right: -11px;
+    top: 0;
+    height: 100%;
+    width: 400px;
+    background: #ffffff;
+    box-shadow: -8px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid #003b46;
+}
+
+.form-container form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-container.slide-in {
+    transform: translateX(0);
+    margin-right: 11px;
+}
+
+.form-group {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.form-group input {
+    border: 2px solid #c4dfe6;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 17px;
+}
+
+.form-group input:focus {
+    border: 2px solid #003B46;
+    outline: none;
+}
+
+.form-group img {
+    margin: 0 auto;
+}
+
+.form-img-load {
+    background-color: #66a5ad;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #003b46;
+    font-family: 'Rubik', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.form-img-load:hover {
+    color: #66A5AD;
+    background-color: #003B46;
+}
+
+.form-group-button {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-input-none {
+    display: none;
+}
+
+.image-preview {
+    margin-top: 10px;
+    width: 215px;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+/*-----------------------------Стили для инструкции-----------------------------*/
+.instruction-container {
+    position: absolute;
+    left: -8px;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    background: #ffffff;
+    box-shadow: 8px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 0 20px 20px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid #003b46;
+}
+
+.instruction-container.slide-in {
+    transform: translateX(0);
+    margin-left: 8px;
+}
+
+.instruction-container p {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Inter Tight', serif;
+    text-align: justify;
+    padding-right: 20px;
+}
+
+.instruction-container a {
+    color: #003B46;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    text-transform: uppercase;
+}
+
+.instruction-info-container {
+    width: 100%;
+    min-height: 100vh;
+    max-height: 100vh;
+}
+
+.instruction-info {
+    width: 100%;
+    height: 73vh;
+    max-height: 73vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.instruction-controls {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+/******************************************************************************************/
+/*************************************Стили сообщений**************************************/
+/******************************************************************************************/
+.message {
+    width: 300px;
+    height: 150px;
+    position: fixed;
+    top: 18px;
+    right: -320px; /* Скрыто за границей экрана */
+    padding: 10px 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter Tight', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: all 0.5s ease-in-out; /* Плавная анимация */
+    z-index: 1000;
+}
+
+.message.visible {
+    right: 20px; /* Видимое состояние */
+}
+
+.error {
+    color: #8B0000;
+    border: 2px solid #8B0000;
+    background-color: rgba(141, 3, 58, 0.32);
+}
+
+.success {
+    color: #238b00;
+    border: 2px solid #238b00;
+    background-color: rgba(141, 215, 103, 0.47);
+}
+
+.error-message.visible {
+    right: 20px; /* Видимое состояние */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #8B0000;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.close-btn-error {
+    color: #8B0000;
+}
+
+.close-btn-success {
+    color: #238b00;
+}
+
+.close-btn-error:hover {
+    color: #FF4500;
+}
+
+.close-btn-success:hover {
+    color: #6cd249;
+}
+
+/******************************************************************************************/
+/*******************************Стили для шапки админки************************************/
+/******************************************************************************************/
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.admin-header nav {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background-color: #003B46;
+    color: #fff;
+    font-size: 16px;
+    padding: 0 30px;
+}
+
+.admin-header nav a {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-family: 'Rubik', sans-serif;
+    transition: color 0.3s;
+    color: #C4DFE6;
+}
+
+.admin-header nav a:hover {
+    color: #66A5AD;
+}
+
+/******************************************************************************************/
+/******************************Стили для подвала админки***********************************/
+/******************************************************************************************/
+.admin-footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.admin-footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.admin-footer .footer-links p {
+    color: #ccc;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.admin-footer .footer-links p:hover {
+    color: white;
+}
+
+/******************************************************************************************/
+/**********************************Стили для категорий*************************************/
+/******************************************************************************************/
+.category-container {
+    margin-top: 1rem;
+    min-height: 83vh;
+    position: relative;
+    overflow: hidden;
+}
