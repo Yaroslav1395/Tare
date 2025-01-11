@@ -71,6 +71,18 @@ table {
     box-sizing: border-box;
 }
 
+.sticky-container {
+    width: 1200px;
+    margin: 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 1005;
+}
+
+.relative-container {
+    position: relative;
+}
+
 /*-----------------------------Стили для таблиц-----------------------------*/
 .admin-table {
     width: 100%;
@@ -117,12 +129,16 @@ table {
 
 /*-----------------------------Стили для кнопок-----------------------------*/
 .admin-controls {
-    width: 100%;
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 20px;
+    position: relative;
+        width: 100%;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        z-index: 1004;
+        background-color: #c4dfe6;
+        border-bottom: 1px solid #003b46;
 }
 
 .control-btn {
@@ -136,7 +152,7 @@ table {
 }
 
 .control-btn-disabled {
-    background-color: rgba(102, 165, 173, 0.2) !important;
+    background-color: rgba(102, 165, 173, 0.5) !important;
 }
 
 .form-control-btn {
@@ -153,15 +169,16 @@ table {
 .form-container {
     position: absolute;
     right: -11px;
-    top: 0;
-    height: 100%;
+    top: 74px;
+    height: calc(100vh - 75px);
     width: 400px;
     background: #ffffff;
     box-shadow: -8px 0 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    transform: translateX(100%);
+    padding: 10px;
+    transform: translateX(-600%);
     transition: transform 0.3s ease-in-out;
     border: 1px solid #003b46;
+    z-index: 1006;
 }
 
 .form-container form {
@@ -169,7 +186,7 @@ table {
     align-items: flex-start;
     justify-content: flex-start;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
 .form-container.slide-in {
@@ -190,7 +207,7 @@ table {
 .form-group input {
     border: 2px solid #c4dfe6;
     width: 100%;
-    height: 40px;
+    height: 44px;
     padding: 10px;
     font-size: 17px;
 }
@@ -200,6 +217,14 @@ table {
     outline: none;
 }
 
+.form-group select {
+    width: 100%;
+    height: 44px;
+    border: 2px solid #c4dfe6;
+    font-size: 17px;
+    padding: 10px;
+}
+
 .form-group img {
     margin: 0 auto;
 }
@@ -207,7 +232,7 @@ table {
 .form-img-load {
     background-color: #66a5ad;
     width: 100%;
-    height: 40px;
+    height: 44px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -223,7 +248,7 @@ table {
 }
 
 .form-group-button {
-    margin-top: 30px;
+    margin-top: 5px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -246,16 +271,18 @@ table {
 /*-----------------------------Стили для инструкции-----------------------------*/
 .instruction-container {
     position: absolute;
+    z-index: 1001;
     left: -8px;
-    top: 0;
-    height: 100%;
+    top: 76px;
+    height: calc(100vh - 75px);
     width: 50%;
     background: #ffffff;
     box-shadow: 8px 0 5px rgba(0, 0, 0, 0.1);
     padding: 20px 0 20px 20px;
-    transform: translateX(-100%);
+    transform: translateX(-300%);
     transition: transform 0.3s ease-in-out;
     border: 1px solid #003b46;
+    z-index: 1006;
 }
 
 .instruction-container.slide-in {
@@ -281,14 +308,12 @@ table {
 
 .instruction-info-container {
     width: 100%;
-    min-height: 100vh;
-    max-height: 100vh;
+    height: 90%;
 }
 
 .instruction-info {
     width: 100%;
-    height: 73vh;
-    max-height: 73vh;
+    height: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
@@ -327,7 +352,7 @@ table {
     border-radius: 5px;
     box-sizing: border-box;
     transition: all 0.5s ease-in-out; /* Плавная анимация */
-    z-index: 1000;
+    z-index: 1010;
 }
 
 .message.visible {
@@ -337,13 +362,13 @@ table {
 .error {
     color: #8B0000;
     border: 2px solid #8B0000;
-    background-color: rgba(141, 3, 58, 0.32);
+    background-color: rgba(255, 125, 103, 1);
 }
 
 .success {
     color: #238b00;
     border: 2px solid #238b00;
-    background-color: rgba(141, 215, 103, 0.47);
+    background-color: rgba(163, 248, 119, 1);
 }
 
 .error-message.visible {
@@ -450,8 +475,7 @@ table {
 /**********************************Стили для категорий*************************************/
 /******************************************************************************************/
 .category-container {
-    margin-top: 1rem;
-    min-height: 83vh;
     position: relative;
+    min-height: calc(100vh - 136px);
     overflow: hidden;
 }

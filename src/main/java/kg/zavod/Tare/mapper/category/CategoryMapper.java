@@ -20,12 +20,17 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = SubcategoryListMapper.class)
 public interface CategoryMapper {
-
-
+    /**
+     * Метод позволяет получить сущность категории из DTO. Используется для редактирования категории через админку MVC
+     * @param categoryForUpdateDto - DTO категории для редактирования
+     * @param categoryImageType - тип картинки
+     * @param imagePath - путь к картинке на сервере
+     * @param categoryEntity - сущность категории
+     */
     @Mapping(target = "categoryImage", source = "imagePath")
     @Mapping(target = "categoryImageName", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "imageType", source = "categoryImageType")
-    CategoryEntity mapToCategoryEntity(CategoryForUpdateAdminDto categoryForUpdateDto, ImageType categoryImageType, String imagePath, @MappingTarget CategoryEntity categoryEntity);
+    void mapToCategoryEntity(CategoryForUpdateAdminDto categoryForUpdateDto, ImageType categoryImageType, String imagePath, @MappingTarget CategoryEntity categoryEntity);
 
     /**
      * Метод позволяет получить сущность категории из DTO. Используется для сохранения категории через админку MVC

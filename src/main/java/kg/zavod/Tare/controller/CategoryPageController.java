@@ -2,9 +2,7 @@ package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.category.mvc.CategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.category.mvc.CategoryForUpdateAdminDto;
-import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
-import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,7 +35,7 @@ public class CategoryPageController {
         try {
             model.addAttribute("categorySave", new CategoryForSaveAdminDto());
             model.addAttribute("categoryUpdate", new CategoryForUpdateAdminDto());
-            model.addAttribute("categories", categoryService.getAllCategoriesForAdminPage());
+            model.addAttribute("categories", categoryService.getAllCategoriesForAdmin());
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
         }

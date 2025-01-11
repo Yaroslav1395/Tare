@@ -21,7 +21,7 @@ public interface CategoryService {
      * @return - список категорий
      * @throws EntitiesNotFoundException - в случае если ничего не найдено
      */
-    List<CategoryForAdminDto> getAllCategoriesForAdminPage() throws EntitiesNotFoundException;
+    List<CategoryForAdminDto> getAllCategoriesForAdmin() throws EntitiesNotFoundException;
 
     /**
      * Метод позволяет сохранить категорию. Для админки MVC

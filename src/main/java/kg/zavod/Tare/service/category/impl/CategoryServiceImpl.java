@@ -27,18 +27,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-//TODO: путь для сохранения
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final SubcategoryRepository subcategoryRepository;
@@ -46,7 +42,6 @@ public class CategoryServiceImpl implements CategoryService {
     private final ProductRepository productRepository;
     private final CategoryMapper categoryMapper;
     private final CategoryListMapper categoryListMapper;
-
     @Value("${file.save.basic.path}")
     private String basicPath;
     @Value("${base.url.load}")
@@ -60,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws EntitiesNotFoundException - в случае если ничего не найдено
      */
     @Override
-    public List<CategoryForAdminDto> getAllCategoriesForAdminPage() throws EntitiesNotFoundException {
+    public List<CategoryForAdminDto> getAllCategoriesForAdmin() throws EntitiesNotFoundException {
         logger.info("Получение всех категорий для админки");
         List<CategoryEntity> categories = categoryRepository.findAll();
         if(categories.isEmpty()) throw new EntitiesNotFoundException("Категорий не найдено");
@@ -81,7 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
         logger.info("Попытка сохранение категории через админку MVC");
         boolean isDuplicateName = categoryRepository.findByName(categoryForSaveDto.getName()).isPresent();
         if(isDuplicateName) throw new DuplicateEntityException("Такое название категории уже существует");
-        String path = saveImage(categoryForSaveDto.getMultipartFile(), "categories");
+        String path = UtilService.saveImage(categoryForSaveDto.getMultipartFile(), "categories", basicPath);
         ImageType categoryImageType = UtilService.getImageTypeFrom(categoryForSaveDto.getMultipartFile());
         CategoryEntity category = categoryMapper.mapToCategoryEntity(categoryForSaveDto, path, categoryImageType);
         categoryRepository.save(category);
@@ -106,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setName(categoryForUpdate.getName());
         }else {
             ImageType categoryImageType = UtilService.getImageTypeFrom(categoryForUpdate.getMultipartFile());
-            String path = saveImage(categoryForUpdate.getMultipartFile(), "categories");
+            String path = UtilService.saveImage(categoryForUpdate.getMultipartFile(), "categories", basicPath);
             categoryMapper.mapToCategoryEntity(categoryForUpdate, categoryImageType, path, category);
         }
         logger.info("Сохранение отредактированных данных категории. MVC");
@@ -238,27 +233,5 @@ public class CategoryServiceImpl implements CategoryService {
                                 .sorted(Comparator.comparing(SubcategorySimpleDto::getName))
                                 .collect(Collectors.toList())))
                 .toList();
-    }
-
-
-    public String saveImage(MultipartFile file, String folder) throws IOException {
-        String uploadDir = basicPath + folder;
-        File uploadPath = new File(uploadDir);
-        if (!uploadPath.exists()) {
-            boolean created = uploadPath.mkdirs();
-            if (!created) {
-                throw new IOException("Не удалось создать директорию для загрузки файлов: " + uploadDir);
-            }
-        }
-
-        if (file.isEmpty()) {
-            throw new IOException("Файл отсутствует или пустой");
-        }
-        String originalFilename = file.getOriginalFilename();
-        String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String uniqueFilename = UUID.randomUUID().toString() + extension;
-        File newfile = new File(uploadPath, uniqueFilename);
-        file.transferTo(newfile);
-        return folder + "/" + uniqueFilename;
     }
 }

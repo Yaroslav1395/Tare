@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<section class="container" th:fragment="controls">
+<section class="container" th:fragment="controls(deleteUrl)">
     <div class="admin-controls">
         <button id="edit-button" class="control-btn control-btn-disabled" onclick="showUpdateForm()">Редактировать</button>
-        <form id="deleteForm" action="#" th:action="@{/admin/category/delete}" method="post" onsubmit="return checkDeleteButtonState()">
+        <form id="deleteForm" action="#" th:action="${deleteUrl}" method="post" onsubmit="return checkDeleteButtonState()">
             <input type="hidden" name="id" id="idToDelete"/>
             <button type="submit" id="delete-button" class="control-btn control-btn-disabled">Удалить</button>
         </form>
