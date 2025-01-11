@@ -9,6 +9,7 @@ import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.ProductDto;
 import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
 import kg.zavod.Tare.dto.product.product.ProductForUpdateDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
@@ -16,13 +17,24 @@ import kg.zavod.Tare.mapper.product.image.ImageMapper;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {SubcategoryMapper.class, CharacteristicValueListMapper.class, ImageListMapper.class, ImageMapper.class})
 public interface ProductMapper {
+    /**
+     * Метод позволяет преобразовать сущность продукта в DTO.
+     * Используется для админки MVC
+     * @param product - сущность продукта
+     * @return - DTO продукта
+     */
+    @Mapping(target = "subcategory", source = "product.subcategory.name")
+    ProductForAdminDto mapToProductEntityToDtoMvc(ProductEntity product);
+
+
+
+
 
     /**
      * Метод преобразовывает сущность продукта в DTO для главной страницы MVC

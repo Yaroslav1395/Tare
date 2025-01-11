@@ -25,7 +25,7 @@ public class ColorPageController {
     private static final Logger logger = LoggerFactory.getLogger(ColorPageController.class);
 
     @GetMapping("/admin/colors")
-    public String subcategoriesForAdminPage(Model model) {
+    public String colorsForAdminPage(Model model) {
         logger.info("Запрос на открытие страницы цветов для админки");
         try {
             model.addAttribute("colorSave", new ColorForSaveAdminDto());
@@ -38,7 +38,7 @@ public class ColorPageController {
     }
 
     @PostMapping("/admin/color")
-    public String saveSubcategory(@ModelAttribute ColorForSaveAdminDto colorForSaveDto, RedirectAttributes redirectAttributes) {
+    public String saveColor(@ModelAttribute ColorForSaveAdminDto colorForSaveDto, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на сохранение цвета");
         try {
             colorService.saveColor(colorForSaveDto);
@@ -52,7 +52,7 @@ public class ColorPageController {
     }
 
     @PostMapping("/admin/color/update")
-    public String updateCategory(@ModelAttribute ColorForUpdateAdminDto colorForUpdateAdminDto, RedirectAttributes redirectAttributes) {
+    public String updateColor(@ModelAttribute ColorForUpdateAdminDto colorForUpdateAdminDto, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на редактирование цвета");
         try {
             colorService.updateColor(colorForUpdateAdminDto);
@@ -66,7 +66,7 @@ public class ColorPageController {
     }
 
     @PostMapping("/admin/color/delete")
-    public String deleteSubcategory(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteColor(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на удаление цвета");
         try {
             colorService.deleteColorById(id);

@@ -53,7 +53,7 @@ public class SubcategoryPageController {
     }
 
     @PostMapping("/admin/subcategory/update")
-    public String updateCategory(@ModelAttribute SubcategoryForUpdateAdminDto subcategoryForUpdateDto, RedirectAttributes redirectAttributes) {
+    public String updateSubcategory(@ModelAttribute SubcategoryForUpdateAdminDto subcategoryForUpdateDto, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на редактирование категорий");
         try {
             subcategoryService.updateSubcategory(subcategoryForUpdateDto);

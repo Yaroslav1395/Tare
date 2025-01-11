@@ -8,6 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.*;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
@@ -24,10 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +38,24 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
     private final ProductListMapper productListMapper;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    /**
+     * Метод позволяет получить все продукты. Используется в админке MVC
+     * @return - список продуктов
+     * @throws EntitiesNotFoundException - в случае если продукты не найдены
+     */
+    @Override
+    public List<ProductForAdminDto> getProductsForAdmin() throws EntitiesNotFoundException {
+        logger.info("Попытка получения продуктов для админки MVC");
+        List<ProductEntity> products = productRepository.findAll();
+        if(products.isEmpty()) throw new EntitiesNotFoundException("Продуктов не найдено");
+        List<ProductForAdminDto> productsDto = productListMapper.mapToProductForAdminDtoMvc(products);
+        productsDto.sort(Comparator.comparing(ProductForAdminDto::getSubcategory));
+        return productListMapper.mapToProductForAdminDtoMvc(products);
+    }
+
+
+
 
     @Override
     @Transactional

@@ -495,9 +495,29 @@ table {
 }
 
 .form-group-color input {
-   border: 2px solid #c4dfe6;
-   height: 100%;
-   width: 100%;
-   background-color: none !important;
-   background: none;
+    border: 2px solid #c4dfe6;
+    height: 100%;
+    width: 100%;
+    background-color: none !important;
+    background: none;
+}
+
+/******************************************************************************************/
+/**********************************Стили для продуктов*************************************/
+/******************************************************************************************/
+.form-group-subcategory-filter select {
+    height: 40px;
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #003b46;
+    background-color: #66a5ad;
+    padding: 0 4px 0 4px;
+    cursor: pointer;
+}
+
+#subcategorySelect:focus {
+    border-color: #66a5ad;
+    outline: none;
 }

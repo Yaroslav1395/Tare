@@ -19,7 +19,7 @@
 </head>
 <body>
     <section th:replace="~{fragments/admin/admin-header :: header}" th:fragment="header"></section>
-    <section th:replace="~{fragments/admin/admin-controls :: controls(deleteUrl=${deleteUrl})}" th:fragment="controls(deleteUrl)"></section>
+    <section th:replace="~{fragments/admin/admin-controls :: controls(deleteUrl=${deleteUrl}, subcategoriesForFilter=${subcategoriesForFilter})}" th:fragment="controls(deleteUrl)"></section>
     <section th:replace="~{fragments/admin/admin-footer :: footer}" th:fragment="footer"></section>
 
     <script src="/notification.js"></script>

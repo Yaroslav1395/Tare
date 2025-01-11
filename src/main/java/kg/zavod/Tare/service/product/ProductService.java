@@ -4,14 +4,24 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.product.*;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import org.springframework.data.domain.Pageable;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
+
+    /**
+     * Метод позволяет получить все продукты. Используется в админке MVC
+     * @return - список продуктов
+     * @throws EntitiesNotFoundException - в случае если продукты не найдены
+     */
+    List<ProductForAdminDto> getProductsForAdmin() throws EntitiesNotFoundException;
+
+
+
 
     Map<Integer, List<ProductForHomeDto>> getProductsForHomePage();
 
