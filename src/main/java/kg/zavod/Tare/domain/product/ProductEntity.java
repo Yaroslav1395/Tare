@@ -22,6 +22,7 @@ public class ProductEntity {
     private String name;
     @Column(name = "id_from_factory_bd")
     private Integer idFromFactoryBd;
+    private String description;
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
     private SubcategoryEntity subcategory;

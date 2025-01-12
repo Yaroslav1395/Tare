@@ -187,6 +187,7 @@ table {
     justify-content: flex-start;
     flex-direction: column;
     gap: 5px;
+    height: 100%;
 }
 
 .form-container.slide-in {
@@ -520,4 +521,73 @@ table {
 #subcategorySelect:focus {
     border-color: #66a5ad;
     outline: none;
+}
+
+.form-container-product {
+    width: 810px !important;
+}
+
+.form-product {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    height: 100%;
+    gap: 10px !important;
+}
+
+.form-product-left {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.form-group-characteristic {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.form-product-left-characteristics {
+    height: 50%;
+    width: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.form-group-characteristic input {
+    margin-right: 10px;
+    width: 100px;
+    height: 33px;
+}
+
+.form-product-right {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group-textarea {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.form-group-textarea textarea {
+    flex-grow: 1;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 17px;
+    font-family: 'Inter Tight';
+    font-weight: 400;
+    border: 2px solid #c4dfe6;
+    padding: 10px;
 }
