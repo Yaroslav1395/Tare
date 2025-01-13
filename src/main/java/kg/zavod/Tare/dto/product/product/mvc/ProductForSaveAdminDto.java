@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveWithProductDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,4 +43,11 @@ public class ProductForSaveAdminDto {
     @Schema(description = "Значения характеристик продукта")
     @NotEmpty(message = "Продукт должен иметь хотя бы одну характеристику")
     private List<@Valid CharacteristicValueForSaveAdminDto> characteristicsValue;
+    @Schema(description = "Картинки продукта")
+    @NotEmpty(message = "Продукт должен иметь хотя бы одну картинку")
+    private List<ImageForSaveAdminDto> images;
+
+    public ProductForSaveAdminDto(List<ImageForSaveAdminDto> images) {
+        this.images = images;
+    }
 }

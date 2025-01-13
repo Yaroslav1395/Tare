@@ -5,6 +5,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -13,6 +14,31 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring", uses = CharacteristicValueMapper.class)
 public interface CharacteristicValueListMapper {
+
+    /**
+     * Метод позволяет преобразовать список значений характеристик в сущности.
+     * Используется в админке MVC
+     * @param characteristicValuesForSave - список значений характеристик
+     * @param product - продукт
+     * @param characteristics - характеристики
+     * @param characteristicValueMapper - преобразователь значения характеристики
+     * @return - преобразованные значения характеристик в сущности
+     * @throws EntityNotFoundException - в случае если подходящие характеристики не будут найдены по id
+     */
+    default ArrayList<ProductCharacteristicEntity> mapToCharacteristicValueDtoListMvcForSave(List<CharacteristicValueForSaveAdminDto> characteristicValuesForSave, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics, CharacteristicValueMapper characteristicValueMapper) throws EntityNotFoundException {
+        if (characteristicValuesForSave == null) {
+            return new ArrayList<>();
+        }
+        ArrayList<ProductCharacteristicEntity> productCharacteristicEntities = new ArrayList<>();
+        for (CharacteristicValueForSaveAdminDto characteristicValue : characteristicValuesForSave) {
+            productCharacteristicEntities.add(characteristicValueMapper.mapToCharacteristicEntityMvc(characteristicValue, product, characteristics));
+        }
+        return productCharacteristicEntities;
+    }
+
+
+
+
     List<CharacteristicValueDto> mapToCharacteristicValueDtoList(List<ProductCharacteristicEntity> productCharacteristicsValue);
 
     default ArrayList<ProductCharacteristicEntity> mapToCharacteristicValueDtoListForSave(List<CharacteristicValueForSaveWithProductDto> characteristicValuesForSave, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics, CharacteristicValueMapper characteristicValueMapper) throws EntityNotFoundException {

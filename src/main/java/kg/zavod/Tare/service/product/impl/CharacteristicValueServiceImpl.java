@@ -5,9 +5,11 @@ import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueMapper;
 import kg.zavod.Tare.repository.product.CharacteristicRepository;
@@ -33,6 +35,31 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
     private final CharacteristicValueMapper characteristicValueMapper;
     private final CharacteristicValueListMapper characteristicValueListMapper;
     private static final Logger logger = LoggerFactory.getLogger(ColorServiceImpl.class);
+
+
+    /**
+     * Метод позволяет сохранить список значений характеристик для продукта.
+     * Используется в админке MVC
+     * @param characteristicsValueForSave - список значений характеристик для сохранения
+     * @param product - продукт для которого необходимо записать значения характеристик
+     * @throws EntitiesNotFoundException - в случае если характеристики не будут найдены
+     */
+    @Override
+    public void saveCharacteristicsValueMvc(List<CharacteristicValueForSaveAdminDto> characteristicsValueForSave, ProductEntity product) throws EntitiesNotFoundException, EntityNotFoundException {
+        logger.info("Попытка сохранения значений характеристик продукта mvc");
+        characteristicsValueForSave.removeIf(value -> value.getValue() == null);
+        Set<Integer> characteristicIds = getCharacteristicIdsMvcFrom(characteristicsValueForSave);
+        logger.info("Поиск характеристик по id mvc");
+        List<CharacteristicEntity> characteristics = characteristicRepository.findAllById(characteristicIds);
+        if(characteristics.isEmpty()) throw new EntitiesNotFoundException("Ни одна характеристика по id не найдена");
+        Map<Integer, CharacteristicEntity> characteristicsMap = getCharacteristicMapFrom(characteristics);
+        logger.info("Преобразование значений характеристик в сущность mvc");
+        List<ProductCharacteristicEntity> characteristicValueEntity = characteristicValueListMapper.mapToCharacteristicValueDtoListMvcForSave(characteristicsValueForSave, product, characteristicsMap, characteristicValueMapper);
+        logger.info("Сохранение значений характеристик mvc");
+        characteristicValueRepository.saveAll(characteristicValueEntity);
+    }
+
+
 
     /**
      * Метод позволяет сохранить список значений характеристик
@@ -91,6 +118,18 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
         logger.info("Получение id характеристик из списка значений характеристик");
         return characteristicsValues.stream()
                 .map(CharacteristicValueForSaveWithProductDto::getCharacteristicId)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Метод позволяет собрать id характеристик из списка значений характеристик
+     * @param characteristicsValues - список значений характеристик
+     * @return - список id характеристик
+     */
+    private Set<Integer> getCharacteristicIdsMvcFrom(List<CharacteristicValueForSaveAdminDto> characteristicsValues){
+        logger.info("Получение id характеристик из списка значений характеристик mvc");
+        return characteristicsValues.stream()
+                .map(CharacteristicValueForSaveAdminDto::getCharacteristicId)
                 .collect(Collectors.toSet());
     }
 

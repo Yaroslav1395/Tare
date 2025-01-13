@@ -11,6 +11,7 @@ import kg.zavod.Tare.dto.product.product.ProductForSaveDto;
 import kg.zavod.Tare.dto.product.product.ProductForUpdateDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageMapper;
@@ -32,6 +33,17 @@ public interface ProductMapper {
     @Mapping(target = "subcategory", source = "product.subcategory.name")
     ProductForAdminDto mapToProductEntityToDtoMvc(ProductEntity product);
 
+    /**
+     * Метод позволяет преобразовать DTO продукта в сущность продукта.
+     * @param productForSaveAdminDto - DTO продукта
+     * @return - сущность продукта
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "productForSaveAdminDto.name")
+    @Mapping(target = "subcategory", source = "subcategory")
+    @Mapping(target = "images", ignore = true)
+    @Mapping(target = "productCharacteristics", ignore = true)
+    ProductEntity mapToProductEntity(ProductForSaveAdminDto productForSaveAdminDto, SubcategoryEntity subcategory);
 
 
 
@@ -46,19 +58,23 @@ public interface ProductMapper {
     @Mapping(target = "price", source = "productCharacteristics", qualifiedByName = "getPriceFromCharacteristics")
     @Mapping(target = "image", source = "images", qualifiedByName = "getFirstImage")
     ProductForHomeDto mapToProductForHomeDto(ProductEntity productEntity);
+
     @Mapping(target = "id", source = "product.id")
     @Mapping(target = "price", source = "productCharacteristics", qualifiedByName = "getPriceFromCharacteristics")
     ProductDto mapToProductDto(ProductEntity product);
+
     @Mapping(target = "id", source = "product.id")
     @Mapping(target = "productCharacteristics", source = "productCharacteristics")
     @Mapping(target = "images", source = "images")
     ProductDto mapToProductDto(ProductEntity product, List<CharacteristicValueDto> productCharacteristics, List<ImageDto> images);
+
     @Mapping(target = "id", source = "product.id")
     @Mapping(target = "productCharacteristics", source = "characteristicsValue")
     @Mapping(target = "images", source = "images")
     @Mapping(target = "subcategory", source = "subcategory")
     @Mapping(target = "name", source = "product.name")
     ProductDto mapToProductDto(ProductEntity product, List<ImageDto> images, List<CharacteristicValueDto> characteristicsValue, SubcategoryEntity subcategory);
+
     @Mapping(target = "subcategory", source = "subcategory")
     @Mapping(target = "name", source = "product.name")
     @Mapping(target = "images", ignore = true)

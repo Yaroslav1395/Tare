@@ -100,7 +100,6 @@ function validateForm() {
         imageError.textContent = 'Размер файла не должен превышать 60 KB';
         imageError.style.display = 'block';
         isValid = false;
-        console.log(isValid)
     }
     return isValid;
 }

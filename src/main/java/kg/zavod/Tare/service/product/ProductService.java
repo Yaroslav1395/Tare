@@ -1,13 +1,14 @@
 package kg.zavod.Tare.service.product;
 
-import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,12 @@ public interface ProductService {
      */
     List<ProductForAdminDto> getProductsForAdmin() throws EntitiesNotFoundException;
 
+    /**
+     * Метод позволяет сохранить продукт. Используется в админке MVC
+     * @param productForSaveAdminDto - продукт для сохранения
+     * @throws EntityNotFoundException - в случае если подкатегория, цвет для картинки или характеристика не будут найдены
+     */
+    void saveProductAdminMvc(ProductForSaveAdminDto productForSaveAdminDto) throws EntityNotFoundException, EntitiesNotFoundException, IOException;
 
 
 

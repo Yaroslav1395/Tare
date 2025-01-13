@@ -1,11 +1,7 @@
 function filterTableBySubcategory() {
     const selectedOption = document.getElementById('subcategorySelect').selectedOptions[0];
-    const selectedSubcategoryId = selectedOption.value;  // Получаем id подкатегории
-    const selectedSubcategoryName = selectedOption.text;  // Получаем текст подкатегории
-
-    console.log("Selected ID: " + selectedSubcategoryId);
-    console.log("Selected Text: " + selectedSubcategoryName);
-
+    const selectedSubcategoryId = selectedOption.value;
+    const selectedSubcategoryName = selectedOption.text;
 
     const tableRows = document.querySelectorAll('#productTable tbody tr');
 
@@ -17,4 +13,121 @@ function filterTableBySubcategory() {
             row.style.display = 'none';
         }
     });
+}
+
+function addImageCard() {
+    const cards = document.querySelectorAll('.form-product-left-images-item');
+    const hiddenCards = Array.from(cards).filter(card => card.style.display === 'none');
+
+    if (hiddenCards.length > 0) {
+        const cardToShow = hiddenCards[0];
+        cardToShow.style.display = 'flex';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.form-product-left-images-item');
+    cards.forEach(card => {
+        card.style.display = 'none';
+    });
+    if (cards.length > 0) {
+        cards[0].style.display = 'flex';
+    }
+});
+
+function previewImagesProduct(input) {
+    const inputId = input.id;
+    const index = inputId.match(/\d+/)[0];
+    const imgId = `file-img-${index}`;
+    const imgElement = document.getElementById(imgId);
+    const imageError = document.getElementById('imageError');
+    const saveButton = document.getElementById('saveButton');
+    if (imgElement && input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imgElement.src = e.target.result;
+            imgElement.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+
+    const maxSize = 60 * 1024; // 60 KB
+    if (input.files.length > 0) {
+        const file = input.files[0];
+        if (file.size > maxSize) {
+            imageError.textContent = 'Размер файла не должен превышать 60 KB';
+            imageError.style.display = 'block';
+            saveButton.disabled = true;
+        } else {
+            imageError.style.display = 'none';
+            saveButton.disabled = false;
+        }
+    } else {
+        imageError.textContent = 'Выберите картинку';
+        imageError.style.display = 'block';
+        saveButton.disabled = true;
+    }
+}
+
+function validateSaveProductForm(form) {
+    const imageError = document.getElementById('imageError');
+    let isValid = true;
+    imageError.style.display = 'none';
+
+    let isImageValid = false;
+    const imageItems = form.querySelectorAll('.form-product-left-images-item');
+    imageItems.forEach((imageItem, index) => {
+        const imageInput = imageItem.querySelector('input[type="file"]');
+        const file = imageInput.files[0];
+        const colorSelect = imageItem.querySelector('select.color-select');
+        const colorId = colorSelect.value;
+
+        if (file && colorId) {
+            if (file.size <= 60 * 1024) {
+                isImageValid = true;
+            } else {
+                imageError.textContent = 'Размер файла не должен превышать 60 KB';
+                imageError.style.display = 'block';
+                isValid = false;
+                return isValid;
+            }
+        } else if (file) {
+            imageError.textContent = 'Цвет и картинка обязательны';
+            imageError.style.display = 'block';
+            isValid = false;
+            return isValid;
+        }
+    });
+    if (!isImageValid) {
+        imageError.style.display = 'block';
+        isValid = false;
+    }
+    return isValid;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInputs = document.querySelectorAll('.image-input');
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            previewImagesProduct(this); // Передаем текущий input в функцию
+        });
+    });
+});
+
+function removeImage(button) {
+    const buttonId = button.id;
+    const index = buttonId.match(/\d+/)[0];
+    const imageItem = document.getElementById('file-img-' + index);
+    const fileInput = document.getElementById('file-input-' + index);
+    fileInput.value = '';
+    const parentContainer = document.querySelector('.form-product-left-images');
+    const item = parentContainer.querySelector('.form-product-left-images-item:nth-child(' + (parseInt(index) + 1) + ')');
+    item.style.display = 'none';
+    const imgElement = document.getElementById('file-img-' + index);
+    if (imgElement) {
+        imgElement.style.display = 'none';
+    }
+    if (imageItem) {
+        imageItem.style.display = 'none';
+    }
 }

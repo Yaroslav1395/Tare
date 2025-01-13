@@ -9,6 +9,7 @@ import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,6 +19,38 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface CharacteristicValueMapper {
+
+    /**
+     * Метод позволяет преобразовать DTO значения характеристики в сущность.
+     * Используется в админке mvc.
+     * @param characteristicValue - значение характеристики для сохранения
+     * @param product - продукт
+     * @param characteristics - словарь характеристик
+     * @return - сущность значения характеристики
+     * @throws EntityNotFoundException - в случае если в словаре характеристик не найдено подходящего значения по id
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "value", source = "characteristicValue.value")
+    @Mapping(target = "product", source = "product")
+    @Mapping(target = "characteristic", expression = "java(getCharacteristicFromMvc(characteristicValue, characteristics))")
+    ProductCharacteristicEntity mapToCharacteristicEntityMvc(CharacteristicValueForSaveAdminDto characteristicValue, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException;
+
+
+    /**
+     * Метод позволяет найти нужную характеристику для значения характеристики из словаря характеристик.
+     * Используется в админке mvc.
+     * @param characteristicValue - значение характеристики для сохранения
+     * @param characteristics - словарь характеристик
+     * @return - найденная характеристика
+     * @throws EntityNotFoundException - в случае если характеристика не найдена
+     */
+    default CharacteristicEntity getCharacteristicFromMvc(CharacteristicValueForSaveAdminDto characteristicValue, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException {
+        CharacteristicEntity characteristic = characteristics.get(characteristicValue.getCharacteristicId());
+        if(characteristic == null) throw new EntityNotFoundException("По id " + characteristicValue.getValue() + " не найдена характеристика");
+        return characteristic;
+    }
+
+
     @Mapping(target = "id", source = "productCharacteristic.id")
     @Mapping(target = "characteristicName", source = "productCharacteristic.characteristic.name")
     CharacteristicValueDto mapToCharacteristicValueDto(ProductCharacteristicEntity productCharacteristic);

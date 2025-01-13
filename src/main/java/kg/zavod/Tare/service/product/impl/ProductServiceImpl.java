@@ -10,6 +10,7 @@ import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
@@ -25,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,7 +56,22 @@ public class ProductServiceImpl implements ProductService {
         return productListMapper.mapToProductForAdminDtoMvc(products);
     }
 
-
+    /**
+     * Метод позволяет сохранить продукт. Используется в админке MVC
+     * @param productForSaveAdminDto - продукт для сохранения
+     * @throws EntityNotFoundException - в случае если подкатегория, цвет для картинки или характеристика не будут найдены
+     */
+    @Override
+    @Transactional
+    public void saveProductAdminMvc(ProductForSaveAdminDto productForSaveAdminDto) throws EntityNotFoundException, EntitiesNotFoundException, IOException {
+        logger.info("Попытка сохранения продукта");
+        SubcategoryEntity subcategory = subcategoryRepository.findById(productForSaveAdminDto.getSubcategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Не найдено по id подкатегории для продукта"));
+        ProductEntity productForSave = productMapper.mapToProductEntity(productForSaveAdminDto, subcategory);
+        ProductEntity savedProduct = productRepository.save(productForSave);
+        imageService.saveImagesAdminMvc(productForSaveAdminDto.getImages(), savedProduct);
+        characteristicValueService.saveCharacteristicsValueMvc(productForSaveAdminDto.getCharacteristicsValue(), savedProduct);
+    }
 
 
     @Override

@@ -8,6 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,6 +22,17 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring", uses = ColorMapper.class)
 public interface ImageMapper {
+
+    @Mapping(target = "productImage", source = "imageForSaveDto.imagePath")
+    @Mapping(target = "productImageName", source = "imageForSaveDto.productImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "color", expression = "java(getColorFromMvc(imageForSaveDto, colors))")
+    @Mapping(target = "imageType", source = "productImageType")
+    @Mapping(target = "product", source = "product")
+    @Mapping(target = "id", ignore = true)
+    ImageEntity mapToImageEntityMvc(ImageForSaveAdminDto imageForSaveDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
+
+
+
 
     /**
      * Метод преобразовывает сущность картинки продукта в DTO для главной страницы MVC
@@ -110,6 +122,19 @@ public interface ImageMapper {
      * @throws EntityNotFoundException - в случае если цвет не найден
      */
     default ColorEntity getColorFrom(ImageForSaveWithProductDto imageForSaveDto, Map<Integer, ColorEntity> colors) throws EntityNotFoundException {
+        ColorEntity color = colors.get(imageForSaveDto.getColorId());
+        if(color == null) throw new EntityNotFoundException("По id " + imageForSaveDto.getColorId() + "не найдено цвета");
+        return color;
+    }
+
+    /**
+     * Метод позволяет найти нужный цвет для картинки из словаря цветов
+     * @param imageForSaveDto - картинка для сохранения
+     * @param colors - словарь цветов
+     * @return - найденный цвет
+     * @throws EntityNotFoundException - в случае если цвет не найден
+     */
+    default ColorEntity getColorFromMvc(ImageForSaveAdminDto imageForSaveDto, Map<Integer, ColorEntity> colors) throws EntityNotFoundException {
         ColorEntity color = colors.get(imageForSaveDto.getColorId());
         if(color == null) throw new EntityNotFoundException("По id " + imageForSaveDto.getColorId() + "не найдено цвета");
         return color;

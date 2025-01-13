@@ -63,7 +63,7 @@
         </div>
         <!--Блок с формой создания-->
         <div class="form-container form-container-product" id="create-form">
-            <form class="form-product" th:action="@{/admin/product}" th:object="${productSave}" action="#" method="post" enctype="multipart/form-data">
+            <form class="form-product" th:action="@{/admin/product}" th:object="${productSave}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateSaveProductForm(this)">
                 <div class="form-product-left">
                     <div class="form-product-left-characteristics">
                         <div class="form-group">
@@ -87,12 +87,35 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-product-left-images">
-                        <div class="form-product-left-images-item">
-                            <div class="form-product-left-images-img">
-                                <img>
-                            </div>
-                            <div class="form-product-left-images-color">
+                    <div class="form-product-left-images-container">
+                        <button type="button" class="form-control-btn add-image-btn" onclick="addImageCard()">Добавить фотографию</button>
+                        <small id="imageError" style="color: red; display: none;">Выберете картинку</small>
+                        <div class="form-product-left-images">
+                            <div th:id="images-item-__${iterStat.index}__" th:each="image, iterStat : ${productSave.images}" class="form-product-left-images-item">
+                                <div class="form-product-left-images-img">
+                                    <input type="file" accept="image/*" class="image-input"
+                                           name="productSave.images[__${iterStat.index}__].productImage"
+                                           th:field="*{images[__${iterStat.index}__].productImage}"
+                                           th:id="file-input-__${iterStat.index}__"
+                                           style="display: none;" />
+                                    <img th:id="file-img-__${iterStat.index}__" src="#" alt="Preview" style="display: none;" />
+                                </div>
+                                <div class="add-photo-btn-container">
+                                    <label th:for="file-input-__${iterStat.index}__" class="add-photo-btn">фото</label>
+                                </div>
+                                <div class="form-product-left-images-color">
+                                    <select th:field="*{images[__${iterStat.index}__].colorId}" class="color-select"
+                                            name="productSave.images[__${iterStat.index}__].colorId">
+                                        <option value="">цвет</option>
+                                        <option th:each="color : ${colors}"
+                                                th:value="${color.id}"
+                                                th:text="${color.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="remove-photo-btn-container">
+                                    <button th:id="file-del-__${iterStat.index}__" type="button" class="remove-photo-btn" onclick="removeImage(this)">X</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -125,7 +148,7 @@
                         <small id="descriptionError" style="color: red; display: none;">Описание продукта</small>
                     </div>
                     <div class="form-group-button">
-                        <button type="submit" class="form-control-btn">Сохранить</button>
+                        <button id="saveButton" type="submit" class="form-control-btn">Сохранить</button>
                         <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
                     </div>
                 </div>

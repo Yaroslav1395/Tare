@@ -6,10 +6,21 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 
 import java.util.List;
 
 public interface CharacteristicValueService {
+    /**
+     * Метод позволяет сохранить список значений характеристик для продукта.
+     * Используется в админке MVC
+     * @param characteristicsValueForSave - список значений характеристик для сохранения
+     * @param product - продукт для которого необходимо записать значения характеристик
+     * @throws EntitiesNotFoundException - в случае если характеристики не будут найдены
+     */
+    void saveCharacteristicsValueMvc(List<CharacteristicValueForSaveAdminDto> characteristicsValueForSave, ProductEntity product) throws EntitiesNotFoundException, EntityNotFoundException;
+
+
     /**
      * Метод позволяет сохранить список значений характеристик
      * @param characteristicsValueForSave - список значений характеристик для сохранения
