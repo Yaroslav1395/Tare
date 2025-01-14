@@ -31,6 +31,7 @@ public interface ProductMapper {
      * @return - DTO продукта
      */
     @Mapping(target = "subcategory", source = "product.subcategory.name")
+    @Mapping(target = "characteristics", source = "product.productCharacteristics")
     ProductForAdminDto mapToProductEntityToDtoMvc(ProductEntity product);
 
     /**

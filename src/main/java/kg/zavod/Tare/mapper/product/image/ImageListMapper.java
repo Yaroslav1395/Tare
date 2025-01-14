@@ -6,7 +6,7 @@ import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.image.*;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.service.util.UtilService;
 import org.mapstruct.*;
@@ -36,6 +36,15 @@ public interface ImageListMapper {
         }
         return imageEntities;
     }
+
+    /**
+     * Метод позволяет преобразовать список сущностей в список DTO картинок продукта. Используется в админке MVC
+     * @param images - список сущностей
+     * @return - список DTO картинок
+     */
+    List<ImageForAdminDto> mapToImageForAdminDtoList(List<ImageEntity> images);
+
+
 
 
 

@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.product.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
@@ -7,7 +8,9 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.image.*;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageMapper;
 import kg.zavod.Tare.repository.product.ColorRepository;

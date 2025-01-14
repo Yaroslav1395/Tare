@@ -7,6 +7,7 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.product.image.*;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
@@ -23,6 +24,15 @@ import java.util.Map;
 @Mapper(componentModel = "spring", uses = ColorMapper.class)
 public interface ImageMapper {
 
+    /**
+     * Метод позволяет преобразовать DTO картинки продукта в сущность картинки продукта.
+     * @param imageForSaveDto - DTO картинки продукта
+     * @param colors - список цветов
+     * @param product - сущность продукта
+     * @param productImageType - тип картинки
+     * @return - сущность картинки продукта
+     * @throws EntityNotFoundException - в случае если подходящие цветы не будут найдены по id
+     */
     @Mapping(target = "productImage", source = "imageForSaveDto.imagePath")
     @Mapping(target = "productImageName", source = "imageForSaveDto.productImage", qualifiedByName = "getNameFromMultipart")
     @Mapping(target = "color", expression = "java(getColorFromMvc(imageForSaveDto, colors))")
@@ -31,7 +41,14 @@ public interface ImageMapper {
     @Mapping(target = "id", ignore = true)
     ImageEntity mapToImageEntityMvc(ImageForSaveAdminDto imageForSaveDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
-
+    /**
+     * Метод позволяет преобразовать сущность картинки продукта в DTO для админки MVC
+     * @param imageEntity - сущность картинки продукта
+     * @return - DTO картинки продукта
+     */
+    @Mapping(target = "id", source = "imageEntity.id")
+    @Mapping(target = "colorId", source = "imageEntity.color.id")
+    ImageForAdminDto mapToImageForAdminDto(ImageEntity imageEntity);
 
 
     /**
@@ -41,6 +58,14 @@ public interface ImageMapper {
      */
     @Mapping(target = "productImageType", source = "imageType", qualifiedByName = "getImageType")
     ImageForProductHomeDto mapToImageForProductHomeDto(ImageEntity imageEntity);
+
+
+
+
+
+
+
+
 
     @Mapping(target = "productId", source = "image.product.id")
     @Mapping(target = "productImageType", source = "image.imageType", qualifiedByName = "getImageType")

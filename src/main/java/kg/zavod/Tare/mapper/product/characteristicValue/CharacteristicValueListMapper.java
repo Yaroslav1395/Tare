@@ -2,9 +2,11 @@ package kg.zavod.Tare.mapper.product.characteristicValue;
 
 import kg.zavod.Tare.domain.product.*;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import org.mapstruct.Mapper;
 
@@ -35,6 +37,15 @@ public interface CharacteristicValueListMapper {
         }
         return productCharacteristicEntities;
     }
+
+    /**
+     * Метод позволяет преобразовать список сущностей значений характеристик в список DTO.
+     * Используется в админке MVC.
+     * @param productCharacteristicsValue - список сущностей значений характеристик
+     * @return - список DTO значений характеристик
+     */
+    List<CharacteristicValueForAdminDto> mapToCharacteristicValueForAdminDtoList(List<ProductCharacteristicEntity> productCharacteristicsValue);
+
 
 
 

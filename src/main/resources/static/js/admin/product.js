@@ -131,3 +131,39 @@ function removeImage(button) {
         imageItem.style.display = 'none';
     }
 }
+
+
+function showUpdateForm() {
+    if (!selectedRow) return;
+
+    const id = selectedRow.cells[0].textContent;
+    const name = selectedRow.cells[1].textContent;
+    const idFromFactoryBd = selectedRow.cells[2].textContent;
+    const subcategoryName = selectedRow.cells[3].textContent;
+
+    document.getElementById('id').value = id;
+    document.getElementById('nameUpdate').value = name;
+    document.getElementById('idFromFactoryBdUpdate').value = idFromFactoryBd;
+    const subcategorySelect = document.getElementById('subcategoryUpdate');
+    Array.from(subcategorySelect.options).forEach(option => {
+        if (option.textContent === subcategoryName) {
+            option.selected = true;
+        }
+    });
+
+    const productCharacteristics = JSON.parse(productCharacteristicsMap);
+    const productChar = productCharacteristics[id] || {};
+
+    for (const [characteristicId, value] of Object.entries(productChar)) {
+        console.log(value.characteristicId);
+        const characteristicId = document.getElementById(`characteristic_id-update-` + value.characteristicId);
+        const characteristicValueId = document.getElementById(`characteristic_value-id-update-` + value.characteristicId);
+        if (characteristicId && characteristicValueId) {
+            characteristicId.value = value.value;
+            characteristicValueId.value = value.id;
+        }
+    }
+
+    const formContainer = document.getElementById('edit-form');
+    formContainer.classList.add('slide-in');
+}

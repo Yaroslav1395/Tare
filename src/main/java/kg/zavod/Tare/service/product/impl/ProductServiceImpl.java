@@ -21,6 +21,7 @@ import kg.zavod.Tare.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,8 @@ public class ProductServiceImpl implements ProductService {
     private final CharacteristicValueService characteristicValueService;
     private final ProductMapper productMapper;
     private final ProductListMapper productListMapper;
+    @Value("${base.url.load}")
+    private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     /**
@@ -47,11 +50,14 @@ public class ProductServiceImpl implements ProductService {
      * @throws EntitiesNotFoundException - в случае если продукты не найдены
      */
     @Override
+    @Transactional
     public List<ProductForAdminDto> getProductsForAdmin() throws EntitiesNotFoundException {
         logger.info("Попытка получения продуктов для админки MVC");
         List<ProductEntity> products = productRepository.findAll();
         if(products.isEmpty()) throw new EntitiesNotFoundException("Продуктов не найдено");
         List<ProductForAdminDto> productsDto = productListMapper.mapToProductForAdminDtoMvc(products);
+        productsDto.forEach(product -> product.getImages().forEach(image ->
+                image.setProductImage(baseUrlForLoad + image.getProductImage())));
         productsDto.sort(Comparator.comparing(ProductForAdminDto::getSubcategory));
         return productListMapper.mapToProductForAdminDtoMvc(products);
     }

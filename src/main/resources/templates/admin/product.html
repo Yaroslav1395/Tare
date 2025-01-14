@@ -155,22 +155,75 @@
             </form>
         </div>
         <!--Блок с формой редактирования-->
-        <!--<div class="form-container" id="edit-form">
-            <form th:action="@{/admin/characteristic/update}" th:object="${characteristicUpdate}" action="#" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+        <div class="form-container form-container-product" id="edit-form">
+            <form class="form-product" th:action="@{/admin/product/update}" th:object="${productUpdate}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-product-left">
+                    <div class="form-product-left-characteristics">
+                        <div class="form-group">
+                            <label>Характеристики продукта:</label>
+                            <div th:each="characteristic : ${characteristics}" class="form-group-characteristic">
+                                <input th:field="*{characteristicsValue[__${characteristic.id}__].value}"
+                                       type="number"
+                                       th:id="characteristic_id-update-__${characteristic.id}__"
+                                       name="characteristicsValue[__${characteristic.id}__].value"
+                                       class="form-control"
+                                       min="0"
+                                       th:attrappend="required=${characteristic.name == 'Цена' || characteristic.name == 'Объем' || characteristic.name == 'Фасовка' ? 'required' : null}" />
+                                <label th:for="'characteristic_' + ${characteristic.id}">
+                                    <span th:text="${characteristic.name}"></span>
+                                </label>
+                                <input type="hidden"
+                                       th:name="characteristicsValue[__${characteristic.id}__].characteristicId"
+                                       th:value="${characteristic.id}">
+                                <input type="hidden"
+                                       th:field="*{characteristicsValue[__${characteristic.id}__].id}"
+                                       th:id="characteristic_value-id-update-__${characteristic.id}__">
+                                <small class="error" style="color: red; display: none;"
+                                       th:if="${characteristic.name == 'Цена' || characteristic.name == 'Объем' || characteristic.name == 'Фасовка'}">Введите значение</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-product-left-images-container">
+
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="name">Название категории:</label>
-                    <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
-                    <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
-                </div>
-                <div class="form-group-button">
-                    <button type="submit" class="form-control-btn">Сохранить</button>
-                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                <div class="form-product-right">
+                    <div class="form-group">
+                        <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Название продукта:</label>
+                        <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+                        <small id="nameUpdateError" style="color: red; display: none;">Введите название</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="idFromFactoryBd">Артикул продукта:</label>
+                        <input th:field="*{idFromFactoryBd}" type="number" id="idFromFactoryBdUpdate" name="idFromFactoryBd" class="form-control" required min="1" />
+                        <small id="idFromFactoryBdUpdateError" style="color: red; display: none;">Введите корректный артикул</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="subcategory">Подкатегория:</label>
+                        <select th:field="*{subcategoryId}" id="subcategoryUpdate" name="subcategory" class="form-control" required>
+                            <option value="" disabled selected>Выберите категорию</option>
+                            <option th:each="subcategory : ${subcategoriesForFilter}"
+                                    th:value="${subcategory.id}"
+                                    th:text="${subcategory.name}">
+                            </option>
+                        </select>
+                        <small id="categoryUpdateError" style="color: red; display: none;">Выберите подкатегорию</small>
+                    </div>
+                    <div class="form-group form-group-textarea">
+                        <label for="descriptionUpdate">Описание продукта:</label>
+                        <textarea th:field="*{description}" id="descriptionUpdate" name="description" class="form-control" rows="4" required></textarea>
+                        <small id="descriptionUpdateError" style="color: red; display: none;">Описание продукта</small>
+                    </div>
+                    <div class="form-group-button">
+                        <button type="submit" class="form-control-btn">Сохранить</button>
+                        <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                    </div>
                 </div>
             </form>
-        </div>-->
+        </div>
     </section>
 
     <!--Блок с таблицей-->
@@ -190,6 +243,7 @@
                 <td th:text="${product.name}"></td>
                 <td th:text="${product.idFromFactoryBd}"></td>
                 <td th:text="${product.subcategory}"></td>
+                <td th:text="${product.description}"  style="display: none"></td>
             </tr>
             </tbody>
         </table>
@@ -198,6 +252,10 @@
     <!--Блок с подвалом-->
     <section th:replace="~{layouts/admin :: footer}"></section>
 
+    <script th:inline="javascript">
+        const productImagesMap = /*[[${productImagesJson}]]*/ {};
+        const productCharacteristicsMap = /*[[${productCharacteristicValuesJson}]]*/ {};
+    </script>
     <script src="/js/notification.js"></script>
     <script src="/js/admin/general.js"></script>
     <script src="/js/admin/product.js"></script>

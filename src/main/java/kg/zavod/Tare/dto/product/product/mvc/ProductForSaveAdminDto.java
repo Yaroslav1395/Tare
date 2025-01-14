@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -47,7 +48,11 @@ public class ProductForSaveAdminDto {
     @NotEmpty(message = "Продукт должен иметь хотя бы одну картинку")
     private List<ImageForSaveAdminDto> images;
 
-    public ProductForSaveAdminDto(List<ImageForSaveAdminDto> images) {
-        this.images = images;
+    public ProductForSaveAdminDto(int index) {
+        List<ImageForSaveAdminDto> imageList = new ArrayList<>();
+        for (int i = 0; i < index; i++) {
+            imageList.add(new ImageForSaveAdminDto());
+        }
+        this.images = imageList;
     }
 }

@@ -5,10 +5,12 @@ import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
 import org.mapstruct.Mapper;
@@ -35,6 +37,16 @@ public interface CharacteristicValueMapper {
     @Mapping(target = "characteristic", expression = "java(getCharacteristicFromMvc(characteristicValue, characteristics))")
     ProductCharacteristicEntity mapToCharacteristicEntityMvc(CharacteristicValueForSaveAdminDto characteristicValue, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException;
 
+    /**
+     * Метод позволяет преобразовать сущность значения характеристики в DTO.
+     * Используется в админке mvc.
+     * @param productCharacteristic - сущность значения характеристики
+     * @return - DTO значения характеристики
+     */
+    @Mapping(target = "id", source = "productCharacteristic.id")
+    @Mapping(target = "value", source = "productCharacteristic.value")
+    @Mapping(target = "characteristicId", source = "productCharacteristic.characteristic.id")
+    CharacteristicValueForAdminDto mapToCharacteristicValueForAdminDto(ProductCharacteristicEntity productCharacteristic);
 
     /**
      * Метод позволяет найти нужную характеристику для значения характеристики из словаря характеристик.
@@ -49,6 +61,15 @@ public interface CharacteristicValueMapper {
         if(characteristic == null) throw new EntityNotFoundException("По id " + characteristicValue.getValue() + " не найдена характеристика");
         return characteristic;
     }
+
+
+
+
+
+
+
+
+
 
 
     @Mapping(target = "id", source = "productCharacteristic.id")

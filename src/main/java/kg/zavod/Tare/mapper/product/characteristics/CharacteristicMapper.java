@@ -37,6 +37,10 @@ public interface CharacteristicMapper {
     void updateCharacteristicEntityMvc(CharacteristicForUpdateAdminDto characteristicDto, @MappingTarget CharacteristicEntity characteristic);
 
 
+
+
+
+
     CharacteristicDto mapToCharacteristicDto(CharacteristicEntity characteristic);
     CharacteristicEntity mapToCharacteristicEntity(CharacteristicForSaveDto characteristicForSaveDto);
     void updateCharacteristicEntity(CharacteristicForUpdateDto characteristicForUpdateDto, @MappingTarget CharacteristicEntity characteristic);
