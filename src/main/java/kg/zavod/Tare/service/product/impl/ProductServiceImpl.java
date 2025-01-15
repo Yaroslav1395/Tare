@@ -11,6 +11,7 @@ import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
@@ -59,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
         productsDto.forEach(product -> product.getImages().forEach(image ->
                 image.setProductImage(baseUrlForLoad + image.getProductImage())));
         productsDto.sort(Comparator.comparing(ProductForAdminDto::getSubcategory));
-        return productListMapper.mapToProductForAdminDtoMvc(products);
+        return productsDto;
     }
 
     /**
@@ -79,6 +80,27 @@ public class ProductServiceImpl implements ProductService {
         characteristicValueService.saveCharacteristicsValueMvc(productForSaveAdminDto.getCharacteristicsValue(), savedProduct);
     }
 
+    /**
+     * Метод позволяет отредактировать продукт. Используется в админке MVC
+     * @param productForUpdateAdminDto - продукт для редактирования
+     * @throws EntityNotFoundException - в случае если продукт не будет найден
+     * @throws EntitiesNotFoundException - в случае если подкатегория, цвет для картинки или характеристика не будут найдены
+     * @throws IOException - в случае если не получится сохранить картинку
+     */
+    @Override
+    @Transactional
+    public void updateProductAdminMvc(ProductForUpdateAdminDto productForUpdateAdminDto) throws EntityNotFoundException, EntitiesNotFoundException, IOException {
+        logger.info("Попытка редактирования продукта mvc");
+        ProductEntity product = productRepository.findById(productForUpdateAdminDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Не найдено продукта по id для редактирования"));
+        SubcategoryEntity subcategory = subcategoryRepository.findById(productForUpdateAdminDto.getSubcategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Не найдено по id подкатегории для продукта"));
+        productMapper.updateProductEntity(productForUpdateAdminDto, subcategory, product);
+        productRepository.save(product);
+        characteristicValueService.updateCharacteristicsValueMvc(productForUpdateAdminDto.getCharacteristicsValue(), product);
+        imageService.updateImagesAdminMvc(productForUpdateAdminDto.getImages(), product);
+    }
+
 
     @Override
     @Transactional
@@ -92,6 +114,9 @@ public class ProductServiceImpl implements ProductService {
         productsDtoByCategoryId.put(2, secondProducts);
         return productsDtoByCategoryId;
     }
+
+
+
 
     /**
      * Метод позволяет получить продукт по id

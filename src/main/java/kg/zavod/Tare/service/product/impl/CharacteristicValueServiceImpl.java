@@ -6,10 +6,12 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForUpdateAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueMapper;
 import kg.zavod.Tare.repository.product.CharacteristicRepository;
@@ -59,6 +61,30 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
         characteristicValueRepository.saveAll(characteristicValueEntity);
     }
 
+    /**
+     * Метод позволяет отредактировать список значений характеристик для продукта.
+     * Используется в админке MVC
+     * @param characteristicsValueForUpdate - список значений характеристик для редактирования
+     * @param product - продукт для которого необходимо отредактировать значения характеристик
+     * @throws EntityNotFoundException - в случае если характеристика не будет найдена
+     */
+    @Override
+    /*@Transactional(readOnly = true)*/
+    public void updateCharacteristicsValueMvc(List<CharacteristicValueForUpdateAdminDto> characteristicsValueForUpdate, ProductEntity product) throws EntityNotFoundException {
+        logger.info("Попытка редактирования значений характеристик продукта mvc");
+        List<Integer> characteristicsForDelete = characteristicsValueForUpdate.stream()
+                .filter(characteristic -> characteristic.getValue() == null && characteristic.getId() != null)
+                .map(CharacteristicValueForUpdateAdminDto::getId)
+                .toList();
+        logger.info("Удаление лишних характеристик");
+        characteristicValueRepository.deleteAllById(characteristicsForDelete);
+        Set<Integer> characteristicsId =  getCharacteristicIdsForUpdateMvcFrom(characteristicsValueForUpdate);
+        logger.info("Поиск характеристик");
+        Map<Integer, CharacteristicEntity> characteristics = getCharacteristicMapFrom(characteristicRepository.findAllById(characteristicsId));
+        logger.info("Преобразование значения характеристик в сущности");
+        List<ProductCharacteristicEntity> characteristicsValue = characteristicValueListMapper.mapToCharacteristicValueDtoListMvcForUpdate(characteristicsValueForUpdate, product, characteristics, characteristicValueMapper);
+        characteristicValueRepository.saveAll(characteristicsValue);
+    }
 
 
     /**
@@ -84,6 +110,55 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
         List<ProductCharacteristicEntity> savedCharacteristicsValue = characteristicValueRepository.saveAll(characteristicValueEntity);
         return characteristicValueListMapper.mapToCharacteristicValueDtoList(savedCharacteristicsValue);
     }
+
+    /**
+     * Метод позволяет собрать id характеристик из списка значений характеристик
+     * @param characteristicsValues - список значений характеристик
+     * @return - список id характеристик
+     */
+    private Set<Integer> getCharacteristicIdsMvcFrom(List<CharacteristicValueForSaveAdminDto> characteristicsValues){
+        logger.info("Получение id характеристик из списка значений характеристик mvc");
+        return characteristicsValues.stream()
+                .map(CharacteristicValueForSaveAdminDto::getCharacteristicId)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Метод позволяет собрать id характеристик из списка значений характеристик при редактировании
+     * совместно с продуктом
+     * @param characteristicsValues - список значений характеристик
+     * @return - список id характеристик
+     */
+    private Set<Integer> getCharacteristicIdsForUpdateMvcFrom(List<CharacteristicValueForUpdateAdminDto> characteristicsValues){
+        logger.info("Получение id характеристик из списка значений характеристик при редактировании совместно с продуктом mvc");
+        return characteristicsValues.stream()
+                .map(CharacteristicValueForUpdateAdminDto::getCharacteristicId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Метод позволяет преобразовать список характеристик в словарь
+     * @param characteristics - список характеристик
+     * @return - словарь характеристик
+     */
+    private Map<Integer, CharacteristicEntity> getCharacteristicMapFrom(List<CharacteristicEntity> characteristics){
+        return characteristics.stream()
+                .collect(Collectors.toMap(CharacteristicEntity::getId, characteristic -> characteristic));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Метод необходим для редактирования значения характеристик продукта совместно с продуктом
@@ -122,18 +197,6 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
     }
 
     /**
-     * Метод позволяет собрать id характеристик из списка значений характеристик
-     * @param characteristicsValues - список значений характеристик
-     * @return - список id характеристик
-     */
-    private Set<Integer> getCharacteristicIdsMvcFrom(List<CharacteristicValueForSaveAdminDto> characteristicsValues){
-        logger.info("Получение id характеристик из списка значений характеристик mvc");
-        return characteristicsValues.stream()
-                .map(CharacteristicValueForSaveAdminDto::getCharacteristicId)
-                .collect(Collectors.toSet());
-    }
-
-    /**
      * Метод позволяет собрать id характеристик из списка значений характеристик при редактировании
      * совместно с продуктом
      * @param characteristicsValues - список значений характеристик
@@ -144,16 +207,6 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
         return characteristicsValues.stream()
                 .map(CharacteristicValueForUpdateWithProductDto::getCharacteristicId)
                 .collect(Collectors.toSet());
-    }
-
-    /**
-     * Метод позволяет преобразовать список характеристик в словарь
-     * @param characteristics - список характеристик
-     * @return - словарь характеристик
-     */
-    private Map<Integer, CharacteristicEntity> getCharacteristicMapFrom(List<CharacteristicEntity> characteristics){
-        return characteristics.stream()
-                .collect(Collectors.toMap(CharacteristicEntity::getId, characteristic -> characteristic));
     }
 
     /**

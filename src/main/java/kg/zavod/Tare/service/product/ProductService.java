@@ -6,6 +6,7 @@ import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
@@ -28,9 +29,20 @@ public interface ProductService {
      */
     void saveProductAdminMvc(ProductForSaveAdminDto productForSaveAdminDto) throws EntityNotFoundException, EntitiesNotFoundException, IOException;
 
-
+    /**
+     * Метод позволяет отредактировать продукт. Используется в админке MVC
+     * @param productForUpdateAdminDto - продукт для редактирования
+     * @throws EntityNotFoundException - в случае если продукт не будет найден
+     * @throws EntitiesNotFoundException - в случае если подкатегория, цвет для картинки или характеристика не будут найдены
+     * @throws IOException - в случае если не получится сохранить картинку
+     */
+    void updateProductAdminMvc(ProductForUpdateAdminDto productForUpdateAdminDto) throws EntityNotFoundException, EntitiesNotFoundException, IOException;
 
     Map<Integer, List<ProductForHomeDto>> getProductsForHomePage();
+
+
+
+
 
     /**
      * Метод позволяет получить продукт по id

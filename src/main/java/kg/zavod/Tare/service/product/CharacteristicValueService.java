@@ -7,6 +7,7 @@ import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
 
 import java.util.List;
 
@@ -19,6 +20,15 @@ public interface CharacteristicValueService {
      * @throws EntitiesNotFoundException - в случае если характеристики не будут найдены
      */
     void saveCharacteristicsValueMvc(List<CharacteristicValueForSaveAdminDto> characteristicsValueForSave, ProductEntity product) throws EntitiesNotFoundException, EntityNotFoundException;
+
+    /**
+     * Метод позволяет отредактировать список значений характеристик для продукта.
+     * Используется в админке MVC
+     * @param characteristicsValueForUpdate - список значений характеристик для редактирования
+     * @param product - продукт для которого необходимо отредактировать значения характеристик
+     * @throws EntityNotFoundException - в случае если характеристика не будет найдена
+     */
+    void updateCharacteristicsValueMvc(List<CharacteristicValueForUpdateAdminDto> characteristicsValueForUpdate, ProductEntity product) throws EntityNotFoundException;
 
 
     /**

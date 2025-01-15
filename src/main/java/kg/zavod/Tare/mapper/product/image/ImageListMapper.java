@@ -8,6 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
 import kg.zavod.Tare.service.util.UtilService;
 import org.mapstruct.*;
 
@@ -17,7 +18,7 @@ import java.util.*;
 public interface ImageListMapper {
 
     /**
-     * Метод список DTO картинок продукта в список сущностей. Используется в админке MVC
+     * Метод преобразовывает список DTO картинок продукта в список сущностей. Используется в админке MVC
      * @param images - список картинок продукта
      * @param colors - словарь цветов
      * @param product - сущность продукта
@@ -33,6 +34,27 @@ public interface ImageListMapper {
         for (ImageForSaveAdminDto image : images) {
             ImageType productImageType = UtilService.getImageTypeFrom(image.getProductImage());
             imageEntities.add(imageMapper.mapToImageEntityMvc(image, colors, product, productImageType));
+        }
+        return imageEntities;
+    }
+
+    /**
+     * Метод список DTO картинок продукта в список сущностей. Используется в админке MVC
+     * @param images - список картинок продукта
+     * @param colors - словарь цветов
+     * @param product - сущность продукта
+     * @param imageMapper - маппер картинок
+     * @return - список сущностей
+     * @throws EntityNotFoundException - в случае если не найдено подходящего цвета по id
+     */
+    default ArrayList<ImageEntity> mapToImageEntityListUpdateMvc(List<ImageForUpdateAdminDto> images, Map<Integer, ColorEntity> colors, ProductEntity product, ImageMapper imageMapper) throws EntityNotFoundException {
+        if (images == null) {
+            return new ArrayList<>();
+        }
+        ArrayList<ImageEntity> imageEntities = new ArrayList<>();
+        for (ImageForUpdateAdminDto image : images) {
+            ImageType productImageType = UtilService.getImageTypeFrom(image.getProductImage());
+            imageEntities.add(imageMapper.mapToImageEntityUpdateMvc(image, colors, product, productImageType));
         }
         return imageEntities;
     }

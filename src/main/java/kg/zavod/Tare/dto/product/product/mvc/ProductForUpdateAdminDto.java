@@ -7,11 +7,14 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -44,4 +47,15 @@ public class ProductForUpdateAdminDto {
     @Schema(description = "Значения характеристик продукта")
     @NotEmpty(message = "Продукт должен иметь хотя бы одну характеристику")
     private List<@Valid CharacteristicValueForUpdateAdminDto> characteristicsValue;
+    @Schema(description = "Картинки продукта")
+    @NotEmpty(message = "Продукт должен иметь хотя бы одну картинку")
+    private List<@Valid ImageForUpdateAdminDto> images;
+
+    public ProductForUpdateAdminDto(int index) {
+        List<ImageForUpdateAdminDto> imageList = new ArrayList<>();
+        for (int i = 0; i < index; i++) {
+            imageList.add(new ImageForUpdateAdminDto());
+        }
+        this.images = imageList;
+    }
 }

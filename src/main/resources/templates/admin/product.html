@@ -156,13 +156,13 @@
         </div>
         <!--Блок с формой редактирования-->
         <div class="form-container form-container-product" id="edit-form">
-            <form class="form-product" th:action="@{/admin/product/update}" th:object="${productUpdate}" action="#" method="post" enctype="multipart/form-data">
+            <form class="form-product" th:action="@{/admin/product/update}" th:object="${productUpdate}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateUpdateProductForm(this)">
                 <div class="form-product-left">
                     <div class="form-product-left-characteristics">
                         <div class="form-group">
                             <label>Характеристики продукта:</label>
                             <div th:each="characteristic : ${characteristics}" class="form-group-characteristic">
-                                <input th:field="*{characteristicsValue[__${characteristic.id}__].value}"
+                                <input th:field="*{characteristicsValue[__${characteristic.id - 1}__].value}"
                                        type="number"
                                        th:id="characteristic_id-update-__${characteristic.id}__"
                                        name="characteristicsValue[__${characteristic.id}__].value"
@@ -173,10 +173,10 @@
                                     <span th:text="${characteristic.name}"></span>
                                 </label>
                                 <input type="hidden"
-                                       th:name="characteristicsValue[__${characteristic.id}__].characteristicId"
+                                       th:name="characteristicsValue[__${characteristic.id - 1}__].characteristicId"
                                        th:value="${characteristic.id}">
                                 <input type="hidden"
-                                       th:field="*{characteristicsValue[__${characteristic.id}__].id}"
+                                       th:field="*{characteristicsValue[__${characteristic.id - 1}__].id}"
                                        th:id="characteristic_value-id-update-__${characteristic.id}__">
                                 <small class="error" style="color: red; display: none;"
                                        th:if="${characteristic.name == 'Цена' || characteristic.name == 'Объем' || characteristic.name == 'Фасовка'}">Введите значение</small>
@@ -184,7 +184,41 @@
                         </div>
                     </div>
                     <div class="form-product-left-images-container">
-
+                        <button type="button" class="form-control-btn add-image-btn" onclick="addImageCardUpdate()">Добавить фотографию</button>
+                        <small id="imageUpdateError" style="color: red; display: none;">Выберете картинку</small>
+                        <div class="form-product-left-images" id="form-product-left-images-update">
+                            <div th:id="images-update-item-__${iterStat.index}__" th:each="image, iterStat : ${productUpdate.images}" class="form-product-left-images-item">
+                                <div class="form-product-left-images-img">
+                                    <input type="file" accept="image/*" class="image-input"
+                                           name="productUpdate.images[__${iterStat.index}__].productImage"
+                                           th:field="*{images[__${iterStat.index}__].productImage}"
+                                           th:id="file-update-input-__${iterStat.index}__"
+                                           style="display: none;" />
+                                    <input type="number"
+                                           th:field="*{images[__${iterStat.index}__].id}"
+                                           th:id="id-update-input-__${iterStat.index}__"
+                                           style="display: none;" />
+                                    <img th:id="file-update-img-__${iterStat.index}__" src="#" alt="Preview" style="display: none;" />
+                                </div>
+                                <div class="add-photo-btn-container">
+                                    <label th:for="file-update-input-__${iterStat.index}__" class="add-photo-btn">фото</label>
+                                </div>
+                                <div class="form-product-left-images-color">
+                                    <select th:field="*{images[__${iterStat.index}__].colorId}"
+                                            name="productSave.images[__${iterStat.index}__].colorId"
+                                            class="color-select">
+                                        <option value="">цвет</option>
+                                        <option th:each="color : ${colors}"
+                                                th:value="${color.id}"
+                                                th:text="${color.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="remove-photo-btn-container">
+                                    <button th:id="file-del-__${iterStat.index}__" type="button" class="remove-photo-btn" onclick="removeImageUpdate(this)">X</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="form-product-right">
@@ -218,7 +252,7 @@
                         <small id="descriptionUpdateError" style="color: red; display: none;">Описание продукта</small>
                     </div>
                     <div class="form-group-button">
-                        <button type="submit" class="form-control-btn">Сохранить</button>
+                        <button id="updateButton" type="submit" class="form-control-btn">Сохранить</button>
                         <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
                     </div>
                 </div>

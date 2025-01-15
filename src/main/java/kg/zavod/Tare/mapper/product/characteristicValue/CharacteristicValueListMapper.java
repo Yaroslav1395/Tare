@@ -8,6 +8,7 @@ import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveW
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -34,6 +35,28 @@ public interface CharacteristicValueListMapper {
         ArrayList<ProductCharacteristicEntity> productCharacteristicEntities = new ArrayList<>();
         for (CharacteristicValueForSaveAdminDto characteristicValue : characteristicValuesForSave) {
             productCharacteristicEntities.add(characteristicValueMapper.mapToCharacteristicEntityMvc(characteristicValue, product, characteristics));
+        }
+        return productCharacteristicEntities;
+    }
+
+    /**
+     * Метод необходим для преобразования значений характеристик при их редактировании совместно с продуктом. Используется преобразователь
+     * который, обрабатывает ситуацию, когда id равен null. Так как пользователь не только редактирует, но и может добавить новое
+     * значение характеристики
+     * @param characteristicValuesForUpdate - значения характеристик для преобразования
+     * @param product - продукт
+     * @param characteristics - словарь характеристик
+     * @param characteristicValueMapper - преобразователь значения характеристики
+     * @return - преобразованные значения характеристик в сущности
+     * @throws EntityNotFoundException - в случае если для значения характеристики не будет найдена характеристика
+     */
+    default ArrayList<ProductCharacteristicEntity> mapToCharacteristicValueDtoListMvcForUpdate(List<CharacteristicValueForUpdateAdminDto> characteristicValuesForUpdate, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics, CharacteristicValueMapper characteristicValueMapper) throws EntityNotFoundException {
+        if (characteristicValuesForUpdate == null) {
+            return new ArrayList<>();
+        }
+        ArrayList<ProductCharacteristicEntity> productCharacteristicEntities = new ArrayList<>();
+        for (CharacteristicValueForUpdateAdminDto characteristicValue : characteristicValuesForUpdate) {
+            productCharacteristicEntities.add(characteristicValueMapper.mapToCharacteristicEntityForUpdateMvc(characteristicValue, product, characteristics));
         }
         return productCharacteristicEntities;
     }

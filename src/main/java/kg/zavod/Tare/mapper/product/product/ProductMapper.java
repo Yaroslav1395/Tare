@@ -12,12 +12,14 @@ import kg.zavod.Tare.dto.product.product.ProductForUpdateDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageMapper;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.util.List;
@@ -46,7 +48,20 @@ public interface ProductMapper {
     @Mapping(target = "productCharacteristics", ignore = true)
     ProductEntity mapToProductEntity(ProductForSaveAdminDto productForSaveAdminDto, SubcategoryEntity subcategory);
 
-
+    /**
+     * Метод позволяет отредактировать сущность продукта на основе данных из DTO
+     * @param productForUpdateDto - DTO продукта
+     * @param subcategory - сущность подкатегории
+     * @param productEntity - сущность продукта
+     */
+    @Mapping(target = "id", source = "productForUpdateDto.id")
+    @Mapping(target = "name", source = "productForUpdateDto.name")
+    @Mapping(target = "idFromFactoryBd", source = "productForUpdateDto.idFromFactoryBd")
+    @Mapping(target = "description", source = "productForUpdateDto.description")
+    @Mapping(target = "subcategory", source = "subcategory")
+    @Mapping(target = "images", ignore = true)
+    @Mapping(target = "productCharacteristics", ignore = true)
+    void updateProductEntity(ProductForUpdateAdminDto productForUpdateDto, SubcategoryEntity subcategory, @MappingTarget ProductEntity productEntity);
 
 
     /**
@@ -59,6 +74,13 @@ public interface ProductMapper {
     @Mapping(target = "price", source = "productCharacteristics", qualifiedByName = "getPriceFromCharacteristics")
     @Mapping(target = "image", source = "images", qualifiedByName = "getFirstImage")
     ProductForHomeDto mapToProductForHomeDto(ProductEntity productEntity);
+
+
+
+
+
+
+
 
     @Mapping(target = "id", source = "product.id")
     @Mapping(target = "price", source = "productCharacteristics", qualifiedByName = "getPriceFromCharacteristics")

@@ -10,6 +10,7 @@ import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -42,6 +43,25 @@ public interface ImageMapper {
     ImageEntity mapToImageEntityMvc(ImageForSaveAdminDto imageForSaveDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
     /**
+     * Метод позволяет преобразовать DTO картинки продукта в сущность картинки продукта при редактировании.
+     * @param imageForUpdateDto - DTO картинки продукта
+     * @param colors - список цветов
+     * @param product - сущность продукта
+     * @param productImageType - тип картинки
+     * @return - сущность картинки продукта
+     * @throws EntityNotFoundException - в случае если подходящие цветы не будут найдены по id
+     */
+    @Mapping(target = "productImage", source = "imageForUpdateDto.imagePath")
+    @Mapping(target = "productImageName", source = "imageForUpdateDto.productImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "color", expression = "java(getColorForUpdateFrom(imageForUpdateDto, colors))")
+    @Mapping(target = "imageType", source = "productImageType")
+    @Mapping(target = "product", source = "product")
+    @Mapping(target = "id", expression = "java(getIdMvcFrom(imageForUpdateDto))")
+    ImageEntity mapToImageEntityUpdateMvc(ImageForUpdateAdminDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
+
+
+
+    /**
      * Метод позволяет преобразовать сущность картинки продукта в DTO для админки MVC
      * @param imageEntity - сущность картинки продукта
      * @return - DTO картинки продукта
@@ -59,6 +79,16 @@ public interface ImageMapper {
     @Mapping(target = "productImageType", source = "imageType", qualifiedByName = "getImageType")
     ImageForProductHomeDto mapToImageForProductHomeDto(ImageEntity imageEntity);
 
+
+    /**
+     * Метод необходим для получения id картинки при редактировании совместно с продуктом. Если вызывать преобразование
+     * напрямую, то в случае null будет 500
+     * @param image - картинка для редактирования
+     * @return - id картинки
+     */
+    default Integer getIdMvcFrom(ImageForUpdateAdminDto image){
+        return image.getId();
+    }
 
 
 
@@ -160,6 +190,19 @@ public interface ImageMapper {
      * @throws EntityNotFoundException - в случае если цвет не найден
      */
     default ColorEntity getColorFromMvc(ImageForSaveAdminDto imageForSaveDto, Map<Integer, ColorEntity> colors) throws EntityNotFoundException {
+        ColorEntity color = colors.get(imageForSaveDto.getColorId());
+        if(color == null) throw new EntityNotFoundException("По id " + imageForSaveDto.getColorId() + "не найдено цвета");
+        return color;
+    }
+
+    /**
+     * Метод позволяет найти нужный цвет для картинки из словаря цветов при редактировании
+     * @param imageForSaveDto - картинка для сохранения
+     * @param colors - словарь цветов
+     * @return - найденный цвет
+     * @throws EntityNotFoundException - в случае если цвет не найден
+     */
+    default ColorEntity getColorForUpdateFrom(ImageForUpdateAdminDto imageForSaveDto, Map<Integer, ColorEntity> colors) throws EntityNotFoundException {
         ColorEntity color = colors.get(imageForSaveDto.getColorId());
         if(color == null) throw new EntityNotFoundException("По id " + imageForSaveDto.getColorId() + "не найдено цвета");
         return color;

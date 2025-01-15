@@ -55,7 +55,7 @@ public class ProductPageController {
             model.addAttribute("productImagesJson", getJsonProductImagesFrom(products));
             model.addAttribute("productCharacteristicValuesJson", getJsonCharacteristicValuesFrom(products));
             model.addAttribute("productSave", new ProductForSaveAdminDto(6));
-            model.addAttribute("productUpdate", new ProductForUpdateAdminDto());
+            model.addAttribute("productUpdate", new ProductForUpdateAdminDto(6));
             model.addAttribute("subcategoriesForFilter", subcategoryService.getSubcategoriesForAdmin());
             model.addAttribute("characteristics", characteristicService.getAllCharacteristicsForAdmin());
             model.addAttribute("colors", colorService.getAllColorsForAdmin());
@@ -89,6 +89,7 @@ public class ProductPageController {
     public String updateProduct(@ModelAttribute ProductForUpdateAdminDto productForUpdateAdminDto, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на редактирование продукта");
         try {
+            productService.updateProductAdminMvc(productForUpdateAdminDto);
             redirectAttributes.addFlashAttribute("successMessage", "Продукт отредактирован");
             return "redirect:/admin/products";
         }catch (Exception ex){
