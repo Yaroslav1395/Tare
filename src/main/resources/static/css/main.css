@@ -1524,6 +1524,175 @@ table {
 }
 
 /******************************************************************************************/
+/****************************Стили страницы продуктов**************************************/
+/******************************************************************************************/
+/*------------------------------Стили для картинки----------------------------------------*/
+.products-container {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.products-product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    user-select: none;
+    border: 1px solid #ededed;
+    padding: 2px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Добавляем плавный переход */
+}
+
+.products-product-card:hover {
+    padding: 1px;
+    /*height: 380px !important;*/ /* Увеличиваем до высоты контейнера */
+    border: 2px solid #ffda33;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.products-product-card:hover .products-product-action {
+    display: flex;
+    align-items: flex-start;
+}
+
+.products-product-card-container:hover .products-product-name {
+    color: #cccccc;
+}
+
+.products-product-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.products-product-info-top {
+    width: 100%;
+}
+
+.products-product-image {
+    width: 100%;
+    height: 220px;
+    padding: 10px 40px;
+}
+
+.products-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.products-product-name {
+    font-size: 16px;
+    font-weight: 300;
+    color: #333;
+    font-family: 'Inter Tight', serif;
+    padding: 0 10px;
+}
+
+.products-product-characteristics {
+    margin-top: 5px;
+}
+
+.characteristics-list {
+    list-style: none; /* Убираем стандартные маркеры */
+    padding: 0 10px;
+    margin: 0;
+}
+
+.characteristics-list li {
+    margin-bottom: 0px;
+    position: relative;
+    padding-left: 13px;
+    font-size: 13px;
+    font-family: 'Inter Tight';
+    font-weight: 300;
+    color: #333333;
+}
+
+.characteristics-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 7px;
+    height: 7px;
+    border: 1px solid #333333;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.products-product-colors {
+    margin-top: 7px;
+    padding: 0 10px;
+}
+
+.colors-list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 8px;
+}
+
+.color-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 2px solid #ededed;
+    box-shadow: inset 0 0 0 3px #ffffff;
+}
+
+.color-circle:hover {
+    cursor: pointer;
+    border: 2px solid #ffda33;
+}
+
+.products-product-price {
+     margin: 5px 0;
+     font-size: 25px;
+     font-weight: 500;
+     font-family: 'Inter Tight', serif;
+     padding: 0 10px;
+}
+
+.products-product-action {
+    display: none;
+    text-align: center;
+    height: 47px;
+    margin-top: 10px;
+}
+
+.products-product-action button {
+    width: 85px;
+    height: 40px;
+    background-color: #ffda33;
+    border: none;
+    font-family: 'Rubik', serif;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    color: #333;
+    border-radius: 4px;
+    text-align: center;
+}
+
+
+
+
+
+/******************************************************************************************/
 /*****************************Стили страницы продукта**************************************/
 /******************************************************************************************/
 /*----------------------------------Стили для картинки------------------------------------*/
@@ -1641,9 +1810,9 @@ table {
     width: 40px;
     height: 40px;
     background-color: #ffd725;
-    border-radius: 50%; /* Делает элемент круглым */
-    border: 1px solid #ededed; /* Толщина внешней границы */
-    box-shadow: inset 0 0 0 3px #ffffff; /* Внутренний отступ внутри круга */
+    border-radius: 50%;
+    border: 1px solid #ededed;
+    box-shadow: inset 0 0 0 3px #ffffff;
 }
 
 .product-price-container {

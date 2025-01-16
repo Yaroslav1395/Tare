@@ -29,7 +29,7 @@
         <div class="category-container">
             <th:block th:each="subcategory : ${subcategories}">
                 <div class="category-item">
-                    <a th:href="@{'/products/' + ${subcategory.id}}">
+                    <a th:href="@{'/products/subcategory/' + ${subcategory.id}}">
                         <div class="category-item-img">
                             <img th:src="${subcategory.subcategoryImage}" th:alt="${subcategory.name}" />
                         </div>

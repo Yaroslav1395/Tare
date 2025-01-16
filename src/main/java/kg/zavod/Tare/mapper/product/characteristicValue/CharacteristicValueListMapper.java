@@ -9,6 +9,7 @@ import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdat
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUserDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -17,6 +18,20 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring", uses = CharacteristicValueMapper.class)
 public interface CharacteristicValueListMapper {
+    /**
+     * Метод позволяет преобразовать список сущностей значений характеристик в список DTO для клиента MVC.
+     * @param productCharacteristicsValue - список сущностей значений характеристик
+     * @return - список DTO значений характеристик
+     */
+    List<CharacteristicValueForUserDto> mapToCharacteristicValueForUserDtoList(List<ProductCharacteristicEntity> productCharacteristicsValue);
+
+    /**
+     * Метод позволяет преобразовать список сущностей значений характеристик в список DTO.
+     * Используется в админке MVC.
+     * @param productCharacteristicsValue - список сущностей значений характеристик
+     * @return - список DTO значений характеристик
+     */
+    List<CharacteristicValueForAdminDto> mapToCharacteristicValueForAdminDtoList(List<ProductCharacteristicEntity> productCharacteristicsValue);
 
     /**
      * Метод позволяет преобразовать список значений характеристик в сущности.
@@ -61,13 +76,12 @@ public interface CharacteristicValueListMapper {
         return productCharacteristicEntities;
     }
 
-    /**
-     * Метод позволяет преобразовать список сущностей значений характеристик в список DTO.
-     * Используется в админке MVC.
-     * @param productCharacteristicsValue - список сущностей значений характеристик
-     * @return - список DTO значений характеристик
-     */
-    List<CharacteristicValueForAdminDto> mapToCharacteristicValueForAdminDtoList(List<ProductCharacteristicEntity> productCharacteristicsValue);
+
+
+
+
+
+
 
 
 

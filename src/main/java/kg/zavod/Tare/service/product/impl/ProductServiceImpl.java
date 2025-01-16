@@ -8,10 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
 import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.*;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.product.mvc.*;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import kg.zavod.Tare.mapper.product.product.ProductMapper;
 import kg.zavod.Tare.repository.category.SubcategoryRepository;
@@ -44,6 +41,24 @@ public class ProductServiceImpl implements ProductService {
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    /**
+     * Метод позволяет получить продукты для клиента по id подкатегории. Используется в клиенте MVC
+     * @param subcategoryId - id подкатегории
+     * @return - список продуктов
+     * @throws EntitiesNotFoundException - в случае если продукты не найдены
+     */
+    @Override
+    @Transactional
+    public List<ProductForUserDto> getProductsForUserBySubcategoryId(Integer subcategoryId) throws EntitiesNotFoundException {
+        logger.info("Попытка получения продуктов по id подкатегории для клиента MVC");
+        List<ProductEntity> products = productRepository.findAllBySubcategoryId(subcategoryId);
+        if(products.isEmpty()) throw new EntitiesNotFoundException("Продуктов не найдено");
+        List<ProductForUserDto> productsDto = productListMapper.mapToProductForUserDtoList(products);
+        productsDto.forEach(product -> product.getImages().forEach(
+                image -> image.setProductImage(baseUrlForLoad + image.getProductImage())));
+        return productsDto;
+    }
 
     /**
      * Метод позволяет получить все продукты. Используется в админке MVC

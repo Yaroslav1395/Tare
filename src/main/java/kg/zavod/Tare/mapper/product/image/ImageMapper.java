@@ -7,10 +7,7 @@ import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.product.image.*;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForProductHomeDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.image.mvc.*;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -24,6 +21,13 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring", uses = ColorMapper.class)
 public interface ImageMapper {
+    /**
+     * Метод позволяет преобразовать сущность картинки продукта в DTO картинки продукта для клиента MVC.
+     * @param imageEntity - сущность картинки продукта
+     * @return - DTO картинки продукта
+     */
+    @Mapping(target = "color", source = "imageEntity.color.hexCode")
+    ImageForUserDto mapToImageForUserDto(ImageEntity imageEntity);
 
     /**
      * Метод позволяет преобразовать DTO картинки продукта в сущность картинки продукта.
@@ -59,8 +63,6 @@ public interface ImageMapper {
     @Mapping(target = "id", expression = "java(getIdMvcFrom(imageForUpdateDto))")
     ImageEntity mapToImageEntityUpdateMvc(ImageForUpdateAdminDto imageForUpdateDto, Map<Integer, ColorEntity> colors, ProductEntity product, ImageType productImageType) throws EntityNotFoundException;
 
-
-
     /**
      * Метод позволяет преобразовать сущность картинки продукта в DTO для админки MVC
      * @param imageEntity - сущность картинки продукта
@@ -70,7 +72,6 @@ public interface ImageMapper {
     @Mapping(target = "colorId", source = "imageEntity.color.id")
     ImageForAdminDto mapToImageForAdminDto(ImageEntity imageEntity);
 
-
     /**
      * Метод преобразовывает сущность картинки продукта в DTO для главной страницы MVC
      * @param imageEntity - сущность картинки продукта
@@ -78,7 +79,6 @@ public interface ImageMapper {
      */
     @Mapping(target = "productImageType", source = "imageType", qualifiedByName = "getImageType")
     ImageForProductHomeDto mapToImageForProductHomeDto(ImageEntity imageEntity);
-
 
     /**
      * Метод необходим для получения id картинки при редактировании совместно с продуктом. Если вызывать преобразование
@@ -89,6 +89,9 @@ public interface ImageMapper {
     default Integer getIdMvcFrom(ImageForUpdateAdminDto image){
         return image.getId();
     }
+
+
+
 
 
 

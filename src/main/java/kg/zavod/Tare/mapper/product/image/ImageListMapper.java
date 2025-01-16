@@ -9,6 +9,7 @@ import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForUserDto;
 import kg.zavod.Tare.service.util.UtilService;
 import org.mapstruct.*;
 
@@ -16,6 +17,20 @@ import java.util.*;
 
 @Mapper(componentModel = "spring", uses = ImageMapper.class)
 public interface ImageListMapper {
+
+    /**
+     * Метод позволяет преобразовать список сущностей в список DTO картинок продукта. Используется в клиенте MVC
+     * @param images - список сущностей картинок
+     * @return - список DTO картинок
+     */
+    List<ImageForUserDto> mapToImageForUserDtoList(List<ImageEntity> images);
+
+    /**
+     * Метод позволяет преобразовать список сущностей в список DTO картинок продукта. Используется в админке MVC
+     * @param images - список сущностей
+     * @return - список DTO картинок
+     */
+    List<ImageForAdminDto> mapToImageForAdminDtoList(List<ImageEntity> images);
 
     /**
      * Метод преобразовывает список DTO картинок продукта в список сущностей. Используется в админке MVC
@@ -59,12 +74,9 @@ public interface ImageListMapper {
         return imageEntities;
     }
 
-    /**
-     * Метод позволяет преобразовать список сущностей в список DTO картинок продукта. Используется в админке MVC
-     * @param images - список сущностей
-     * @return - список DTO картинок
-     */
-    List<ImageForAdminDto> mapToImageForAdminDtoList(List<ImageEntity> images);
+
+
+
 
 
 

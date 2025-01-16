@@ -1,10 +1,14 @@
 package kg.zavod.Tare.dto.product.product.mvc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUserDto;
+import kg.zavod.Tare.dto.product.image.mvc.ImageForUserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,5 +21,9 @@ public class ProductForUserDto {
     @Schema(description = "Название продукта")
     private String name;
     @Schema(description = "Цена продукта")
-    private Integer price;
+    private Double price;
+    @Schema(description = "Характеристики продукта")
+    private List<CharacteristicValueForUserDto> productCharacteristics;
+    @Schema(description = "Картинки продукта")
+    private List<ImageForUserDto> images;
 }

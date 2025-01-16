@@ -12,6 +12,7 @@ import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
 import kg.zavod.Tare.service.category.SubcategoryService;
 import kg.zavod.Tare.service.product.CharacteristicService;
@@ -44,15 +45,16 @@ public class ProductPageController {
 
 
 
-    @GetMapping("/products/{subcategoryId}")
+    @GetMapping("/products/subcategory/{subcategoryId}")
     public String products(Model model, @PathVariable Integer subcategoryId) {
         logger.info("Запрос на получение продуктов по подкатегории");
         try {
-            model.addAttribute("products", productService.getProductsForUserBySubcategoryId(subcategoryId));
+            List<ProductForUserDto> p = productService.getProductsForUserBySubcategoryId(subcategoryId);
+            model.addAttribute("products", p);
         } catch (EntitiesNotFoundException ex) {
             model.addAttribute("errorMessage", ex.getMessage());
         }
-        return "product";
+        return "products";
     }
 
     @GetMapping("/admin/products")

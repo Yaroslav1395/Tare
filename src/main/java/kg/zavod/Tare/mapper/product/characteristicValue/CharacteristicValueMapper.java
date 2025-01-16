@@ -13,6 +13,7 @@ import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdat
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUserDto;
 import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,6 +23,15 @@ import java.util.Map;
 
 @Mapper(componentModel = "spring")
 public interface CharacteristicValueMapper {
+
+    /**
+     * Метод позволяет преобразовать сущность значения характеристики в DTO.
+     * @param characteristicValue - сущность значения характеристики
+     * @return - DTO значения характеристики
+     */
+    @Mapping(target = "characteristicName", source = "characteristicValue.characteristic.name")
+    @Mapping(target = "value", source = "characteristicValue.value")
+    CharacteristicValueForUserDto mapToCharacteristicValueForUserDto(ProductCharacteristicEntity characteristicValue);
 
     /**
      * Метод позволяет преобразовать DTO значения характеристики в сущность.
