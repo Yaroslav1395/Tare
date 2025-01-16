@@ -3,6 +3,7 @@ package kg.zavod.Tare.dto.product.characteristicValue.mvc;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +23,6 @@ public class CharacteristicValueForSaveAdminDto {
     private Integer characteristicId;
     @Schema(description = "Значение характеристики")
     @NotNull(message = "Значение характеристики не может быть null")
-    @Min(value = 0, message = "Значение характеристики не может быть отрицательным числом")
-    private Integer value;
+    @NotEmpty(message = "Значение характеристики не может быть пустым")
+    private String value;
 }

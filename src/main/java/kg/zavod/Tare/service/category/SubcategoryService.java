@@ -10,11 +10,21 @@ import kg.zavod.Tare.dto.subcategory.SubcategoryForUpdateDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface SubcategoryService {
+
+    /**
+     * Метод позволяет получить подкатегории для страницы подкатегории по id категории. Используется в MVC
+     * @param categoryId - id категории
+     * @return - список подкатегорий
+     * @throws EntitiesNotFoundException - в случае если ничего не найдено
+     */
+    List<SubcategoryForUserDto> getSubcategoryForUserByCategoryId(Integer categoryId) throws EntitiesNotFoundException;
+
     /**
      * Метод позволяет получить подкатегории для админки. Используется в MVC
      * @return - список подкатегорий
@@ -39,6 +49,17 @@ public interface SubcategoryService {
      * @throws EntityNotFoundException - в случае если формат не картинки поддерживается
      */
     void updateSubcategory(SubcategoryForUpdateAdminDto subcategoryForUpdate) throws EntityNotFoundException, IOException,DuplicateEntityException;
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Метод позволяет получить подкатегорию со списком id продуктов по id

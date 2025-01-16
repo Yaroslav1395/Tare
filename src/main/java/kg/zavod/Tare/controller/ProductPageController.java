@@ -24,10 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -45,6 +42,18 @@ public class ProductPageController {
     private final ObjectMapper objectMapper;
     private static final Logger logger = LoggerFactory.getLogger(ProductPageController.class);
 
+
+
+    @GetMapping("/products/{subcategoryId}")
+    public String products(Model model, @PathVariable Integer subcategoryId) {
+        logger.info("Запрос на получение продуктов по подкатегории");
+        try {
+            model.addAttribute("products", productService.getProductsForUserBySubcategoryId(subcategoryId));
+        } catch (EntitiesNotFoundException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "product";
+    }
 
     @GetMapping("/admin/products")
     public String productsForAdminPage(Model model) {
@@ -134,6 +143,7 @@ public class ProductPageController {
      * @throws JsonProcessingException - исключение при преобразовании в json
      */
     private String getJsonProductImagesFrom(List<ProductForAdminDto> products) throws JsonProcessingException {
+        if(products == null) return null;
         Map<Integer, List<ImageForAdminDto>> productImagesMap = products.stream()
                 .collect(Collectors.toMap(
                         ProductForAdminDto::getId,
@@ -150,6 +160,7 @@ public class ProductPageController {
      * @throws JsonProcessingException - исключение при преобразовании в json
      */
     private String getJsonCharacteristicValuesFrom(List<ProductForAdminDto> products) throws JsonProcessingException {
+        if(products == null) return null;
         Map<String, List<CharacteristicValueForAdminDto>> productValuesMap = products.stream()
                 .collect(Collectors.toMap(
                         product -> product.getId().toString(),

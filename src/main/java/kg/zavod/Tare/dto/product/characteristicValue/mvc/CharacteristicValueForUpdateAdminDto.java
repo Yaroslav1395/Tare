@@ -27,5 +27,5 @@ public class CharacteristicValueForUpdateAdminDto {
     @Schema(description = "Значение характеристики")
     @NotNull(message = "Значение характеристики не может быть null")
     @Min(value = 0, message = "Значение характеристики не может быть отрицательным числом")
-    private Integer value;
+    private String value;
 }

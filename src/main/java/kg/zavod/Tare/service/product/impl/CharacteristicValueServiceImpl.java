@@ -50,6 +50,7 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
     public void saveCharacteristicsValueMvc(List<CharacteristicValueForSaveAdminDto> characteristicsValueForSave, ProductEntity product) throws EntitiesNotFoundException, EntityNotFoundException {
         logger.info("Попытка сохранения значений характеристик продукта mvc");
         characteristicsValueForSave.removeIf(value -> value.getValue() == null);
+        characteristicsValueForSave.removeIf(value -> value.getValue().isEmpty());
         Set<Integer> characteristicIds = getCharacteristicIdsMvcFrom(characteristicsValueForSave);
         logger.info("Поиск характеристик по id mvc");
         List<CharacteristicEntity> characteristics = characteristicRepository.findAllById(characteristicIds);
@@ -69,15 +70,17 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
      * @throws EntityNotFoundException - в случае если характеристика не будет найдена
      */
     @Override
-    /*@Transactional(readOnly = true)*/
+    //TODO: отредактировать
     public void updateCharacteristicsValueMvc(List<CharacteristicValueForUpdateAdminDto> characteristicsValueForUpdate, ProductEntity product) throws EntityNotFoundException {
         logger.info("Попытка редактирования значений характеристик продукта mvc");
         List<Integer> characteristicsForDelete = characteristicsValueForUpdate.stream()
-                .filter(characteristic -> characteristic.getValue() == null && characteristic.getId() != null)
+                .filter(characteristic -> (characteristic.getValue() == null || characteristic.getValue().isEmpty()) && characteristic.getId() != null)
                 .map(CharacteristicValueForUpdateAdminDto::getId)
                 .toList();
+        characteristicsValueForUpdate.removeIf(characteristic -> characteristic.getValue() == null);
+        characteristicsValueForUpdate.removeIf(value -> value.getValue().isEmpty());
         logger.info("Удаление лишних характеристик");
-        characteristicValueRepository.deleteAllById(characteristicsForDelete);
+        characteristicValueRepository.deleteAllByIdIn(characteristicsForDelete);
         Set<Integer> characteristicsId =  getCharacteristicIdsForUpdateMvcFrom(characteristicsValueForUpdate);
         logger.info("Поиск характеристик");
         Map<Integer, CharacteristicEntity> characteristics = getCharacteristicMapFrom(characteristicRepository.findAllById(characteristicsId));

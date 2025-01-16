@@ -12,6 +12,13 @@ import java.util.Optional;
 @Repository
 public interface SubcategoryRepository extends JpaRepository<SubcategoryEntity, Integer> {
 
+    /**
+     * Метод позволяет найти все подкатегории по id категории
+     * @param categoryId - id категории
+     * @return - подкатегории
+     */
+    List<SubcategoryEntity> findAllByCategoryId(Integer categoryId);
+
     @Query("SELECT s FROM SubcategoryEntity s WHERE s.category.id IN :categoriesId")
     List<SubcategoryEntity> findAllByCategoryIds(@Param("categoriesId") List<Integer> categoriesId);
 

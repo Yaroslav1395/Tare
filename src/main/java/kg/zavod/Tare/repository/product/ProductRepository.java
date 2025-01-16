@@ -25,7 +25,13 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
             "WHERE row_num <= 1; ", nativeQuery = true)
     List<ProductEntity> findAllSubcategoryProductWithLimit6(List<Integer> subcategoriesId);
 
+    /**
+     * Метод позволяет найти продукты по id подкатегории
+     * @param subcategoryId - id подкатегории
+     * @return - список продуктов
+     */
     List<ProductEntity> findAllBySubcategoryId(Integer subcategoryId);
+
     /**
      * Метод позволяет получить из базы продукты в подкатегории с пагинацией
      * @param subcategoryId - id подкатегории

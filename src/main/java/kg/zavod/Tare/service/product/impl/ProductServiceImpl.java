@@ -243,7 +243,7 @@ public class ProductServiceImpl implements ProductService {
      * @param characteristics - характеристики продукта
      * @return - словарь характеристик, название, значение
      */
-    private Map<String, Integer> getCharacteristicsValue(List<ProductCharacteristicEntity> characteristics){
+    private Map<String, Double> getCharacteristicsValue(List<ProductCharacteristicEntity> characteristics){
         Set<String> requiredCharacteristics = Set.of("Цена", "Объем");
         return characteristics.stream()
                 .filter(c -> requiredCharacteristics.contains(c.getCharacteristic().getName()))
@@ -265,10 +265,10 @@ public class ProductServiceImpl implements ProductService {
         for (ProductFromBasketDro product : products) {
             ProductEntity productEntity = productMap.get(product.getId());
             if (productEntity == null) return baseMessage;
-            Map<String, Integer> characteristicValues = getCharacteristicsValue(productEntity.getProductCharacteristics());
-            Integer price = characteristicValues.get("Цена");
+            Map<String, Double> characteristicValues = getCharacteristicsValue(productEntity.getProductCharacteristics());
+            Double price = characteristicValues.get("Цена");
             if (price == null) return baseMessage;
-            int positionPriceSum = price * product.getAmount();
+            double positionPriceSum = price * product.getAmount();
             message.append("%0A").append(count).append(".%20").append(productEntity.getName()).append("%20Количество:%20")
                     .append(product.getAmount()).append("%0A%20").append("Цена:%20").append(price).append("%20Сумма:%20")
                     .append(positionPriceSum);

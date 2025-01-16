@@ -9,6 +9,7 @@ import kg.zavod.Tare.dto.subcategory.*;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,6 +24,12 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = ProductListMapper.class)
 public interface SubcategoryMapper {
+    /**
+     * Метод позволяет преобразовать сущность подкатегории в DTO. Используется в MVC на страницы подкатегорий
+     * @param subcategoryEntity - сущность подкатегории
+     * @return - DTO подкатегории
+     */
+    SubcategoryForUserDto mapToSubcategoryForUserDto(SubcategoryEntity subcategoryEntity);
 
     /**
      * Метод позволяет преобразовать сущность подкатегории в DTO для админки. Используется в MVC
@@ -64,6 +71,8 @@ public interface SubcategoryMapper {
     @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
     @Mapping(target = "category", source = "category")
     void mapToSubcategoryEntity(SubcategoryForUpdateAdminDto subcategoryForUpdate, ImageType subcategoryImageType, String imagePath, CategoryEntity category, @MappingTarget SubcategoryEntity subcategory);
+
+
 
 
 

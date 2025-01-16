@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -23,6 +20,16 @@ public class SubcategoryPageController {
     private final CategoryService categoryService;
     private final SubcategoryService subcategoryService;
     private static final Logger logger = LoggerFactory.getLogger(SubcategoryPageController.class);
+
+    @GetMapping("/subcategory/{categoryId}")
+    public String subcategory(Model model, @PathVariable Integer categoryId) {
+        try {
+            model.addAttribute("subcategories", subcategoryService.getSubcategoryForUserByCategoryId(categoryId));
+        }catch (EntitiesNotFoundException ex){
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "subcategory";
+    }
 
     @GetMapping("/admin/subcategories")
     public String subcategoriesForAdminPage(Model model) {

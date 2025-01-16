@@ -33,7 +33,7 @@ public interface CharacteristicValueMapper {
      * @throws EntityNotFoundException - в случае если в словаре характеристик не найдено подходящего значения по id
      */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "value", source = "characteristicValue.value")
+    @Mapping(target = "value",  expression = "java(parseCharacteristicValueToDouble(characteristicValue))")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "characteristic", expression = "java(getCharacteristicFromMvc(characteristicValue, characteristics))")
     ProductCharacteristicEntity mapToCharacteristicEntityMvc(CharacteristicValueForSaveAdminDto characteristicValue, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException;
@@ -48,7 +48,7 @@ public interface CharacteristicValueMapper {
      * @throws EntityNotFoundException - в случае если в словаре характеристик не найдено подходящего значения по id
      */
     @Mapping(target = "id", expression = "java(getIdFromMvc(characteristicValue))")
-    @Mapping(target = "value", source = "characteristicValue.value")
+    @Mapping(target = "value", expression = "java(parseCharacteristicValueToDoubleOnUpdate(characteristicValue))")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "characteristic", expression = "java(getCharacteristicFromOnUpdateMvc(characteristicValue, characteristics))")
     ProductCharacteristicEntity mapToCharacteristicEntityForUpdateMvc(CharacteristicValueForUpdateAdminDto characteristicValue, ProductEntity product, Map<Integer, CharacteristicEntity> characteristics) throws EntityNotFoundException;
@@ -76,6 +76,24 @@ public interface CharacteristicValueMapper {
         CharacteristicEntity characteristic = characteristics.get(characteristicValue.getCharacteristicId());
         if(characteristic == null) throw new EntityNotFoundException("По id " + characteristicValue.getValue() + " не найдена характеристика");
         return characteristic;
+    }
+
+    /**
+     * Метод позволяет преобразовать значение характеристики из строки в дробное число
+     * @param characteristicValue - значение характеристики
+     * @return - дробное число
+     */
+    default Double parseCharacteristicValueToDouble(CharacteristicValueForSaveAdminDto characteristicValue) {
+        return Double.parseDouble(characteristicValue.getValue());
+    }
+
+    /**
+     * Метод позволяет преобразовать значение характеристики из строки в дробное число при редактировании
+     * @param characteristicValue - значение характеристики
+     * @return - дробное число
+     */
+    default Double parseCharacteristicValueToDoubleOnUpdate(CharacteristicValueForUpdateAdminDto characteristicValue) {
+        return Double.parseDouble(characteristicValue.getValue());
     }
 
     /**

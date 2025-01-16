@@ -23,5 +23,5 @@ public class ProductCharacteristicEntity {
     @JoinColumn(name = "characteristic_id")
     private CharacteristicEntity characteristic;
     @Column(name = "val")
-    private Integer value;
+    private Double value;
 }

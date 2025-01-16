@@ -17,5 +17,5 @@ public class CharacteristicValueForAdminDto {
     @Schema(description = "Id характеристики")
     private Integer characteristicId;
     @Schema(description = "Значение характеристики")
-    private Integer value;
+    private Double value;
 }

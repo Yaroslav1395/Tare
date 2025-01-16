@@ -12,6 +12,7 @@ import kg.zavod.Tare.dto.subcategory.SubcategoryForUpdateDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryListMapper;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
@@ -41,6 +42,20 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(SubcategoryServiceImpl.class);
+
+    /**
+     * Метод позволяет получить подкатегории для страницы подкатегории по id категории. Используется в MVC
+     * @param categoryId - id категории
+     * @return - список подкатегорий
+     * @throws EntitiesNotFoundException - в случае если ничего не найдено
+     */
+    @Override
+    public List<SubcategoryForUserDto> getSubcategoryForUserByCategoryId(Integer categoryId) throws EntitiesNotFoundException {
+        logger.info("Попытка получения подкатегорий для страницы подкатегории по id категории");
+        List<SubcategoryEntity> subcategories = subcategoryRepository.findAllByCategoryId(categoryId);
+        if(subcategories.isEmpty()) throw new EntitiesNotFoundException("Подкатегорий не найдено");
+        return subcategoryListMapper.mapToSubcategoryForUserDtoList(subcategories);
+    }
 
     /**
      * Метод позволяет получить подкатегории для админки. Используется в MVC

@@ -133,11 +133,11 @@ public interface ProductMapper {
      * @return - цена
      */
     @Named("getPriceFromCharacteristics")
-    default Integer getPriceFromCharacteristics(List<ProductCharacteristicEntity> productCharacteristics){
+    default Double getPriceFromCharacteristics(List<ProductCharacteristicEntity> productCharacteristics){
         return productCharacteristics.stream()
                 .filter(characteristicValue -> "Цена".equals(characteristicValue.getCharacteristic().getName()))
                 .findFirst()
                 .map(ProductCharacteristicEntity::getValue)
-                .orElse(0);
+                .orElse(0D);
     }
 }
