@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.product.impl;
 
+import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
@@ -41,6 +42,23 @@ public class ProductServiceImpl implements ProductService {
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    /**
+     * Метод позволяет найти продукт по id для клиента MVC
+     * @param productId - id продукта
+     * @return - продукт
+     * @throws EntityNotFoundException - в случае если продукт не найден
+     */
+    @Override
+    @Transactional
+    public ProductForUserDto getProductForUserById(Integer productId) throws EntityNotFoundException {
+        logger.info("Попытка получения продукта по id для клиента MVC");
+        ProductEntity product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Продукт не найден"));
+        ProductForUserDto productDto = productMapper.mapToProductForUserDto(product);
+        prepareProductForProductPage(product, productDto);
+        return productDto;
+    }
 
     /**
      * Метод позволяет получить продукты для клиента по id подкатегории. Используется в клиенте MVC
@@ -128,6 +146,21 @@ public class ProductServiceImpl implements ProductService {
         productsDtoByCategoryId.put(1, firsProducts);
         productsDtoByCategoryId.put(2, secondProducts);
         return productsDtoByCategoryId;
+    }
+
+    /**
+     * Метод подготавливает продукт для страницы продукта. Данные необходимы для навигации
+     * @param product - сущность продукта
+     * @param productForUserDto - dto продукта
+     */
+    private void prepareProductForProductPage(ProductEntity product, ProductForUserDto productForUserDto) {
+        SubcategoryEntity subcategory = product.getSubcategory();
+        CategoryEntity category = subcategory.getCategory();
+        productForUserDto.setCategoryId(category.getId());
+        productForUserDto.setCategoryName(category.getName());
+        productForUserDto.setSubcategoryId(subcategory.getId());
+        productForUserDto.setSubcategoryName(subcategory.getName());
+        productForUserDto.getImages().forEach(image -> image.setProductImage(baseUrlForLoad + image.getProductImage()));
     }
 
 

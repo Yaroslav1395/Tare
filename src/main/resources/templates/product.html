@@ -4,27 +4,29 @@
 <body>
     <!-- Сообщение об ошибке -->
     <section id="error-message" class="error-message" th:if="${errorMessage}">
-    <span th:text="${errorMessage}">Ошибка</span>
-    <button id="close-btn" class="close-btn">
-        <i class="fa fa-times"></i>
-    </button>
-</section>
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
 
     <!--Шапка сайта-->
     <section th:replace="~{layouts/main :: header}"></section>
 
     <!--Блок с навигацией-->
     <section class="container">
-    <div class="nav-page-container">
-        <a href="/">Главная</a>
-        <i class="fa-solid fa-arrow-right"></i>
-        <a href="/category">Категории</a>
-        <i class="fa-solid fa-arrow-right"></i>
-        <a href="/category">Категория</a>
-        <i class="fa-solid fa-arrow-right"></i>
-        <a href="/category">Подкатегория</a>
-    </div>
-</section>
+        <div class="nav-page-container">
+            <a href="/">Главная</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href= "/category">Категории</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a th:href= "@{'/subcategory/' + ${product.categoryId}}" th:text="${product.categoryName}">Подкатегория категории</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a th:href= "@{'/products/subcategory/' + ${product.subcategoryId}}" th:text="${product.subcategoryName}">Продукты подкатегории</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <p th:text="${product.name}">Конкретный продукт</p>
+        </div>
+    </section>
 
     <!--Блок с продуктом-->
     <section class="container">
@@ -32,7 +34,9 @@
             <div class="product-images-container">
                 <div class="product-img-container">
                     <div class="product-img">
-                        <img id="product-main-img" class="" src="/images/products/b-1.jpg" alt="Фото бутылки">
+                        <img id="product-main-img"
+                             th:src="@{${product.images[0].productImage}}"
+                             th:alt="${product.images[0].productImageName}">
                     </div>
                 </div>
             </div>
@@ -40,23 +44,28 @@
                 <div class="product-info">
                     <div class="product-info-top">
                         <div class="product-title-container">
-                            <h1 class="product-title">Название продукта</h1>
+                            <h1 class="product-title" th:text="${product.name}">Название продукта</h1>
                         </div>
                         <div class="product-short-info-container">
-                            <p>Краткое описание продукта, краткое описание продукта. Обрезается все после второй
-                                точки, обрезается все после второй точки
+                            <p th:text="${product.shortDescription}">
+                                Краткое описание продукта
                             </p>
+                        </div>
+                        <div class="product-article-container">
+                            <p th:text="'Артикул: ' + ${product.idFromFactoryBd}">1515</p>
                         </div>
                         <div class="product-color-container">
                             <p>Доступные цвета</p>
                             <div class="product-color-items">
-                                <div class="product-color-item"></div>
-                                <div class="product-color-item"></div>
-                                <div class="product-color-item"></div>
+                                <div th:each="image : ${product.images}"
+                                     th:if="${image.color != null and !image.color.isEmpty()}"
+                                     th:style="|background-color: ${image.color};|"
+                                     class="product-color-item">
+                                </div>
                             </div>
                         </div>
                         <div class="product-price-container">
-                            <h3>1000 сом</h3>
+                            <h3 th:text="${product.price} + ' сом'">1000 сом</h3>
                         </div>
                     </div>
                     <div class="product-info-bottom">
@@ -72,9 +81,11 @@
                 </div>
                 <div class="product-min-images">
                     <div class="product-thumbnails">
-                        <img src="/images/products/b-1.jpg" alt="Фото бутылки 1" onclick="changeImage(this)">
-                        <img src="/images/products/b-2.jpg" alt="Фото бутылки 2" onclick="changeImage(this)">
-                        <img src="/images/products/b-3.jpg" alt="Фото бутылки 3" onclick="changeImage(this)">
+                        <div th:each="image : ${product.images}">
+                            <img th:src="@{${image.productImage}}"
+                                 th:alt="${image.productImageName}"
+                                 onclick="changeImage(this)">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,30 +102,16 @@
             </div>
         </div>
         <div id="description" class="product-characteristics-description active">
-            <p>
-                Обои российского бренда Trend Color (фабрика Палитра) из коллекции Stories. Обои фактурные,
-                водостойкие, что позволяет мыть эти настенные покрытия. Имеют флизелиновую основу и
-                виниловое покрытие. Stories - смелое единство разных стилей, соединяющий в себе однотонные
-                абстракции в современном стиле, рисунок под шпаклевку в стиле лофт, а так же рисунок в виде
-                мрамора или камня в скандинавском стиле гармонично дополняющих друг друга и объединенных
-                уютной текстурой.Тип рисунка: Абстракция и геометрия.Длина обоев: 10.05 м.Ширина: 1.06 м.
-                Раппорт: 32 см.Обои подойдут для: кухни, коридора, спальни, зала, прихожей, детской,
-                гостинной, кабинета, офиса.В этой коллекции были использованы спокойные и немного бледные
-                цвета, что соответствует стилю.Основные цвета - серый и бежевый.
+            <p th:text="${product.description}">
+                Полное описание
             </p>
         </div>
         <div id="characteristics" class="product-characteristics-container">
-            <div class="product-characteristics-item">
-                <p>Цена, сом</p>
-                <p>1000</p>
-            </div>
-            <div class="product-characteristics-item">
-                <p>Вес, г</p>
-                <p>100</p>
-            </div>
-            <div class="product-characteristics-item">
-                <p>Объем, л</p>
-                <p>0.5</p>
+            <div th:each="characteristic : ${product.productCharacteristics}">
+                <div class="product-characteristics-item" th:if="${characteristic.value != null and characteristic.value != 0}">
+                    <p th:text="${characteristic.characteristicName}">Название характеристики</p>
+                    <p th:text="${characteristic.value}">Значение характеристики</p>
+                </div>
             </div>
         </div>
     </section>
@@ -123,7 +120,7 @@
     <section th:replace="~{layouts/main :: footer}"></section>
 
     <!-- Скрипт для функционала -->
-    <script src="/notification.js"></script>
+    <script src="/js/notification.js"></script>
     <script src="/js/header-catalog.js"></script>
     <script src="/js/product.js"></script>
 </body>

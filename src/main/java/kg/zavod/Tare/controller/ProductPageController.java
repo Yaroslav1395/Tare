@@ -63,15 +63,14 @@ public class ProductPageController {
     }
 
     @GetMapping("/product/{productId}")
-    public String home(Model model, @PathVariable Integer productId) {
-        /*try {
-            logger.info("Отображение главной страницы");
-            model.addAttribute("categories", categoryService.getAllCategories());
-            model.addAttribute("products", productService.getProductsForHomePage());
-            *//*throw new EntitiesNotFoundException("Записи не найдены");*//*
-        }catch (EntitiesNotFoundException ex){
+    public String product(Model model, @PathVariable Integer productId) {
+        logger.info("Запрос на отображение продукта");
+        try {
+            model.addAttribute("product", productService.getProductForUserById(productId));
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+        }catch (EntityNotFoundException | EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
-        }*/
+        }
         return "product";
     }
 

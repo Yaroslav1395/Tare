@@ -72,6 +72,18 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     /**
+     * Ме6тод позволяет получить подкатегорию по id продукта. Используется в MVC
+     * @param productId - id продукта
+     * @return - подкатегория
+     * @throws EntityNotFoundException - в случае если подкатегория не будет найдена
+     */
+    @Override
+    public SubcategoryForUserDto getSubcategoryByProductId(Integer productId) throws EntityNotFoundException {
+        logger.info("Попытка получения подкатегорий для страницы продукта по id продукта");
+        return null;
+    }
+
+    /**
      * Метод позволяет получить подкатегории для админки. Используется в MVC
      * @return - список подкатегорий
      * @throws EntitiesNotFoundException - в случае если ничего не найдено

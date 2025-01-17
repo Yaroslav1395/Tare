@@ -33,6 +33,14 @@ public interface SubcategoryService {
     List<SubcategoryForUserDto> getSubcategoryForUserByCategoryId(Integer categoryId) throws EntitiesNotFoundException;
 
     /**
+     * Ме6тод позволяет получить подкатегорию по id продукта. Используется в MVC
+     * @param productId - id продукта
+     * @return - подкатегория
+     * @throws EntityNotFoundException - в случае если подкатегория не будет найдена
+     */
+    SubcategoryForUserDto getSubcategoryByProductId(Integer productId) throws EntityNotFoundException;
+
+    /**
      * Метод позволяет получить подкатегории для админки. Используется в MVC
      * @return - список подкатегорий
      * @throws EntitiesNotFoundException - в случае если ничего не найдено

@@ -24,6 +24,8 @@ public class ProductDto {
     private Integer idFromFactoryBd;
     @Schema(description = "Название продукта")
     private String name;
+    @Schema(description = "Описание продукта")
+    private String description;
     @Schema(description = "Подкатегория продукта")
     private SubcategoryForProductDto subcategory;
     @Schema(description = "Значения характеристик продукта")

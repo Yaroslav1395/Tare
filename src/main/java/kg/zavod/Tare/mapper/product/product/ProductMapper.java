@@ -31,6 +31,9 @@ public interface ProductMapper {
     @Mapping(target = "id", source = "product.id")
     @Mapping(target = "name", source = "product.name")
     @Mapping(target = "price", source = "productCharacteristics", qualifiedByName = "getPriceFromCharacteristics")
+    @Mapping(target = "description", source = "product.description")
+    @Mapping(target = "shortDescription", source = "product.description", qualifiedByName = "getShortDescription")
+    @Mapping(target = "idFromFactoryBd", source = "product.idFromFactoryBd")
     ProductForUserDto mapToProductForUserDto(ProductEntity product);
 
     /**
@@ -94,6 +97,21 @@ public interface ProductMapper {
                 .findFirst()
                 .map(ProductCharacteristicEntity::getValue)
                 .orElse(0D);
+    }
+
+    /**
+     * Метод позволяет обрезать описание продукта после второй точки
+     * @param description - описание продукта
+     * @return - обрезанное описание продукта
+     */
+    @Named("getShortDescription")
+    default String getShortDescription(String description) {
+        if (description == null || description.isEmpty()) return description;
+        int firstDot = description.indexOf('.');
+        if (firstDot == -1)  return description;
+        int secondDot = description.indexOf('.', firstDot + 1);
+        if (secondDot == -1) return description;
+        return description.substring(0, secondDot + 1);
     }
 
     /**

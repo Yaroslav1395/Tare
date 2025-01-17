@@ -12,6 +12,14 @@ import java.util.Map;
 
 public interface ProductService {
     /**
+     * Метод позволяет найти продукт по id для клиента MVC
+     * @param productId - id продукта
+     * @return - продукт
+     * @throws EntityNotFoundException - в случае если продукт не найден
+     */
+    ProductForUserDto getProductForUserById(Integer productId) throws EntityNotFoundException;
+
+    /**
      * Метод позволяет получить продукты для клиента по id подкатегории. Используется в клиенте MVC
      * @param subcategoryId - id подкатегории
      * @return - список продуктов

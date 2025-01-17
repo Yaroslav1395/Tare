@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Корзина')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с категориями-->
+    <section class="container basket-container">
+        <div class="basket-title">
+            <h1>Корзина</h1>
+        </div>
+        <div class="basket-items-container">
+            <div class="basket-item">
+                <div class="basket-item-img-container">
+                    <img src="#">
+                </div>
+                <div class="basket-item-name-container">
+                    <p>Название продукта</p>
+                </div>
+                <div class="basket-item-price-container">
+                    <p>1.0 сом/шт</p>
+                </div>
+                <div class="basket-item-packaging-container">
+                    <p>99 шт</p>
+                </div>
+                <div class="basket-quantity-control">
+                    <button type="button" class="basket-quantity-btn decrement">-</button>
+                    <input type="number" id="quantity" min="1" value="1">
+                    <button type="button" class="basket-quantity-btn increment">+</button>
+                </div>
+                <div class="basket-item-delete-container">
+                    <button>x</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+
+</body>
+</html>
