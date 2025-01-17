@@ -20,7 +20,7 @@
             <i class="fa-solid fa-arrow-right"></i>
             <a href="/category">Категории</a>
             <i class="fa-solid fa-arrow-right"></i>
-            <a href="/subcategory">Подкатегории</a>
+            <p th:text="${category.name}">Конкретная категория</p>
         </div>
     </section>
 
@@ -47,5 +47,6 @@
 
     <!-- Скрипт для функционала -->
     <script src="/js/header-catalog.js"></script>
+    <script src="/js/category.js"></script>
 </body>
 </html>

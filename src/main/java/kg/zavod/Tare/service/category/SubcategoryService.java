@@ -18,6 +18,13 @@ import java.util.List;
 public interface SubcategoryService {
 
     /**
+     * Метод позволяет получить подкатегорию для клиента MVC.
+     * @param subcategoryId - id подкатегории
+     * @return - подкатегория
+     * @throws EntityNotFoundException - в случае если подкатегория не будет найдена
+     */
+    SubcategoryForUserDto getSubcategoryForUserById(Integer subcategoryId) throws EntityNotFoundException;
+    /**
      * Метод позволяет получить подкатегории для страницы подкатегории по id категории. Используется в MVC
      * @param categoryId - id категории
      * @return - список подкатегорий

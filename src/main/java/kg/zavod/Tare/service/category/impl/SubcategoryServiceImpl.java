@@ -44,6 +44,20 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     private static final Logger logger = LoggerFactory.getLogger(SubcategoryServiceImpl.class);
 
     /**
+     * Метод позволяет получить подкатегорию для клиента MVC.
+     * @param subcategoryId - id подкатегории
+     * @return - подкатегория
+     * @throws EntityNotFoundException - в случае если подкатегория не будет найдена
+     */
+    @Override
+    public SubcategoryForUserDto getSubcategoryForUserById(Integer subcategoryId) throws EntityNotFoundException {
+        logger.info("Попытка получения подкатегории по id");
+        SubcategoryEntity subcategory = subcategoryRepository.findById(subcategoryId)
+                .orElseThrow(() -> new EntityNotFoundException("Не найдена подкатегория по id"));
+        return subcategoryMapper.mapToSubcategoryForUserDto(subcategory);
+    }
+
+    /**
      * Метод позволяет получить подкатегории для страницы подкатегории по id категории. Используется в MVC
      * @param categoryId - id категории
      * @return - список подкатегорий

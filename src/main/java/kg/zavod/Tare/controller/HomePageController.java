@@ -22,7 +22,7 @@ public class HomePageController {
     public String home(Model model) {
         try {
             logger.info("Отображение главной страницы");
-            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
             model.addAttribute("products", productService.getProductsForHomePage());
             /*throw new EntitiesNotFoundException("Записи не найдены");*/
         }catch (EntitiesNotFoundException ex){

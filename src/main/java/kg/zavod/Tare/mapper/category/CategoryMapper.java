@@ -5,10 +5,7 @@ import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForAdminDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForSaveAdminDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.category.mvc.*;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryListMapper;
 import org.mapstruct.*;
@@ -20,6 +17,14 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = SubcategoryListMapper.class)
 public interface CategoryMapper {
+    /**
+     * Метод преобразует сущность категории в DTO для клиента
+     * @param category - сущность категории
+     * @return - DTO категории
+     */
+    @Mapping(target = "id", source = "category.id")
+    @Mapping(target = "name", source = "category.name")
+    CategoryForUserDto mapToCategoryForUserDto(CategoryEntity category);
     /**
      * Метод позволяет получить сущность категории из DTO. Используется для редактирования категории через админку MVC
      * @param categoryForUpdateDto - DTO категории для редактирования

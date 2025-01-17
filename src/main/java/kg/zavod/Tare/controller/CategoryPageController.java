@@ -22,6 +22,7 @@ public class CategoryPageController {
     @GetMapping("/category") // Главная страница
     public String category(Model model) {
         try {
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
             model.addAttribute("categories", categoryService.getAllCategories());
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());

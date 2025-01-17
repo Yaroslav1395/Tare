@@ -70,8 +70,8 @@
                 </div>
                 <!--Отображение категорий-->
                 <div class="home-categories-container">
-                    <div class="home-categories-item" th:each="category : ${categories}" th:if="${categories != null}">
-                        <a th:href="@{'/category/' + ${category.id}}">
+                    <div class="home-categories-item" th:each="category : ${categoriesForCatalog}" th:if="${categoriesForCatalog != null}">
+                        <a th:href="@{'/subcategory/' + ${category.id}}">
                             <div class="category-img">
                                 <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}">
                             </div>
@@ -80,7 +80,7 @@
                             </div>
                         </a>
                     </div>
-                    <div th:if="${categories == null or categories.isEmpty()}">
+                    <div th:if="${categoriesForCatalog == null or categoriesForCatalog.isEmpty()}">
                         <p>Нет доступных категорий для отображения.</p>
                     </div>
                 </div>

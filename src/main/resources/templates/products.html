@@ -16,11 +16,13 @@
     <!--Блок с навигацией-->
     <section class="container">
         <div class="nav-page-container">
-            <a href="/">Главная</a>
+            <a href="/home">Главная</a>
             <i class="fa-solid fa-arrow-right"></i>
-            <a href="/category">Категории</a>
+            <a href= "/category">Категории</a>
             <i class="fa-solid fa-arrow-right"></i>
-            <a href="/subcategory">Подкатегории</a>
+            <a th:href= "@{'/subcategory/' + ${subcategory.categoryId}}" th:text="${subcategory.categoryName}">Подкатегория категории</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <p th:text="${subcategory.name}">Конкретная подкатегория</p>
         </div>
     </section>
 
@@ -28,38 +30,42 @@
     <section class="container">
         <div class="products-container">
             <th:block th:each="product : ${products}">
-                <div class="products-product-card">
-                    <div class="products-product-info">
-                        <div class="products-product-info-top">
-                            <div class="products-product-image">
-                                <img th:id="'image-container-' + ${product.id}"
-                                     th:src="${product.images[0].productImage}"
-                                     th:alt="${product.images[0].productImageName}">
+                <div class="products-product-card-wrapper">
+                    <div class="products-product-card">
+                        <div class="products-product-info">
+                            <a th:href="@{'/product/' + ${product.id}}">
+                                <div class="products-product-info-top">
+                                    <div class="products-product-image">
+                                        <img th:id="'image-container-' + ${product.id}"
+                                             th:src="${product.images[0].productImage}"
+                                             th:alt="${product.images[0].productImageName}">
+                                    </div>
+                                    <p class="products-product-name" th:text="${product.name}">Название товара 1</p>
+                                </div>
+                                <div class="products-product-characteristics">
+                                    <ul class="characteristics-list">
+                                        <li th:each="characteristic : ${product.productCharacteristics}"
+                                            th:if="${characteristic.value != null and characteristic.value != 0 and characteristic.characteristicName != 'Цена, сом'}"
+                                            th:text="${characteristic.characteristicName + ': ' + characteristic.value}"></li>
+                                    </ul>
+                                </div>
+                            </a>
+                            <div class="products-product-colors">
+                                <ul class="colors-list">
+                                    <li th:each="image : ${product.images}"
+                                        th:if="${image.color != null and !image.color.isEmpty()}"
+                                        th:style="|background-color: ${image.color};|"
+                                        th:id="${product.id} + '*' +${image.productImage}"
+                                        onclick="updateProductImage(this)"
+                                        class="color-circle">
+                                    </li>
+                                </ul>
                             </div>
-                            <p class="products-product-name" th:text="${product.name}">Название товара 1</p>
+                            <h3 class="products-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                         </div>
-                        <div class="products-product-characteristics">
-                            <ul class="characteristics-list">
-                                <li th:each="characteristic : ${product.productCharacteristics}"
-                                    th:if="${characteristic.value != null and characteristic.value != 0 and characteristic.characteristicName != 'Цена, сом'}"
-                                    th:text="${characteristic.characteristicName + ': ' + characteristic.value}"></li>
-                            </ul>
+                        <div class="products-product-action">
+                            <button>В корзину</button>
                         </div>
-                        <div class="products-product-colors">
-                            <ul class="colors-list">
-                                <li th:each="image : ${product.images}"
-                                    th:if="${image.color != null and !image.color.isEmpty()}"
-                                    th:style="|background-color: ${image.color};|"
-                                    th:id="${product.id} + '*' +${image.productImage}"
-                                    onclick="updateProductImage(this)"
-                                    class="color-circle">
-                                </li>
-                            </ul>
-                        </div>
-                        <h3 class="products-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
-                    </div>
-                    <div class="products-product-action">
-                        <button>В корзину</button>
                     </div>
                 </div>
             </th:block>

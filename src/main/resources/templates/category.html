@@ -27,7 +27,7 @@
         <div class="category-container">
             <th:block th:each="category : ${categories}">
                 <div class="category-item">
-                    <a th:href="@{'/category/' + ${category.id}}">
+                    <a th:href="@{'/subcategory/' + ${category.id}}">
                         <div class="category-item-img">
                             <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}" />
                         </div>
@@ -45,5 +45,6 @@
 
     <!-- Скрипт для функционала -->
     <script src="/js/header-catalog.js"></script>
+    <script src="/js/category.js"></script>
 </body>
 </html>

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kg.zavod.Tare.controllerRest.category.CategoryController;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
+import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.color.ColorForUpdateDto;
 import kg.zavod.Tare.dto.product.color.mvc.ColorForSaveAdminDto;
@@ -14,6 +15,7 @@ import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.service.category.CategoryService;
 import kg.zavod.Tare.service.category.SubcategoryService;
 import kg.zavod.Tare.service.product.CharacteristicService;
 import kg.zavod.Tare.service.product.ColorService;
@@ -37,10 +39,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductPageController {
     private final ProductService productService;
+    private final CategoryService categoryService;
     private final SubcategoryService subcategoryService;
     private final CharacteristicService characteristicService;
     private final ColorService colorService;
-    private final ObjectMapper objectMapper;
     private static final Logger logger = LoggerFactory.getLogger(ProductPageController.class);
 
 
@@ -49,12 +51,28 @@ public class ProductPageController {
     public String products(Model model, @PathVariable Integer subcategoryId) {
         logger.info("Запрос на получение продуктов по подкатегории");
         try {
-            List<ProductForUserDto> p = productService.getProductsForUserBySubcategoryId(subcategoryId);
-            model.addAttribute("products", p);
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+            model.addAttribute("subcategory", subcategoryService.getSubcategoryForUserById(subcategoryId));
+            model.addAttribute("products", productService.getProductsForUserBySubcategoryId(subcategoryId));
         } catch (EntitiesNotFoundException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+        } catch (EntityNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
         }
         return "products";
+    }
+
+    @GetMapping("/product/{productId}")
+    public String home(Model model, @PathVariable Integer productId) {
+        /*try {
+            logger.info("Отображение главной страницы");
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("products", productService.getProductsForHomePage());
+            *//*throw new EntitiesNotFoundException("Записи не найдены");*//*
+        }catch (EntitiesNotFoundException ex){
+            model.addAttribute("errorMessage", ex.getMessage());
+        }*/
+        return "product";
     }
 
     @GetMapping("/admin/products")
@@ -122,20 +140,6 @@ public class ProductPageController {
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/admin/products";
         }
-    }
-
-
-    @GetMapping("/product") // Главная страница
-    public String home(Model model) {
-        /*try {
-            logger.info("Отображение главной страницы");
-            model.addAttribute("categories", categoryService.getAllCategories());
-            model.addAttribute("products", productService.getProductsForHomePage());
-            *//*throw new EntitiesNotFoundException("Записи не найдены");*//*
-        }catch (EntitiesNotFoundException ex){
-            model.addAttribute("errorMessage", ex.getMessage());
-        }*/
-        return "product";
     }
 
     /**

@@ -1,6 +1,7 @@
 package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
+import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
 import kg.zavod.Tare.service.category.CategoryService;
@@ -24,8 +25,12 @@ public class SubcategoryPageController {
     @GetMapping("/subcategory/{categoryId}")
     public String subcategory(Model model, @PathVariable Integer categoryId) {
         try {
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+            model.addAttribute("category", categoryService.getCategoryForUserById(categoryId));
             model.addAttribute("subcategories", subcategoryService.getSubcategoryForUserByCategoryId(categoryId));
         }catch (EntitiesNotFoundException ex){
+            model.addAttribute("errorMessage", ex.getMessage());
+        } catch (EntityNotFoundException ex) {
             model.addAttribute("errorMessage", ex.getMessage());
         }
         return "subcategory";

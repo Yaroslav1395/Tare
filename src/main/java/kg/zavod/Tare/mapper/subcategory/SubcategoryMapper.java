@@ -29,6 +29,10 @@ public interface SubcategoryMapper {
      * @param subcategoryEntity - сущность подкатегории
      * @return - DTO подкатегории
      */
+    @Mapping(target = "id", source = "subcategoryEntity.id")
+    @Mapping(target = "name", source = "subcategoryEntity.name")
+    @Mapping(target = "categoryName", source = "subcategoryEntity.category.name")
+    @Mapping(target = "categoryId", source = "subcategoryEntity.category.id")
     SubcategoryForUserDto mapToSubcategoryForUserDto(SubcategoryEntity subcategoryEntity);
 
     /**

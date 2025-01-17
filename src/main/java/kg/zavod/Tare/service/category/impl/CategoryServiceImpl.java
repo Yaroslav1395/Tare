@@ -5,10 +5,7 @@ import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.dto.category.CategoryDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForAdminDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForSaveAdminDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.category.mvc.*;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -48,6 +45,20 @@ public class CategoryServiceImpl implements CategoryService {
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
+
+    /**
+     * Метод позволяет получить категорию для клиента по id
+     * @param categoryId - id категории
+     * @return - категория
+     * @throws EntityNotFoundException - в случае если категория не будет найдена
+     */
+    @Override
+    public CategoryForUserDto getCategoryForUserById(Integer categoryId) throws EntityNotFoundException {
+        logger.info("Попытка получения категории по id");
+        CategoryEntity category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new EntityNotFoundException("Не найдена категория по id"));
+        return categoryMapper.mapToCategoryForUserDto(category);
+    }
 
     /**
      * Метод позволяет получить все категории для админки MVC

@@ -18,4 +18,8 @@ public class SubcategoryForUserDto {
     private String name;
     @Schema(description = "Картинка подкатегории")
     private String subcategoryImage;
+    @Schema(description = "Id категории")
+    private Integer categoryId;
+    @Schema(description = "Название категории")
+    private String categoryName;
 }
