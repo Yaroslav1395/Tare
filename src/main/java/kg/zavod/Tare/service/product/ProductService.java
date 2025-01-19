@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.product;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.product.*;
@@ -11,6 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
+    /**
+     * Метод позволяет найти продукты для корзины. Принимает строку JSON и преобразует в список объектов
+     * @param products - список продуктов как JSON
+     * @return - список продуктов для корзины
+     */
+    List<ProductForBasketDto> getProductsForBasket(String products) throws JsonProcessingException;
     /**
      * Метод позволяет найти продукт по id для клиента MVC
      * @param productId - id продукта

@@ -73,7 +73,7 @@
                     <div class="home-categories-item" th:each="category : ${categoriesForCatalog}" th:if="${categoriesForCatalog != null}">
                         <a th:href="@{'/subcategory/' + ${category.id}}">
                             <div class="category-img">
-                                <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}">
+                                <img th:src="${category.categoryImage}" th:alt="${category.name}">
                             </div>
                             <div>
                                 <span th:text="${category.name}"></span>
@@ -430,5 +430,6 @@
         <script src="/js/slider-for-products-jar.js"></script>
         <script src="/js/certificate-loop.js"></script>
         <script src="/js/header-catalog.js"></script>
+        <script src="/js/basket.js"></script>
     </body>
 </html>

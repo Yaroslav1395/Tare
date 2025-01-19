@@ -10,6 +10,9 @@
         </button>
     </section>
 
+    <!-- Сообщение об успехе -->
+    <section id="notification" class="notification hidden"></section>
+
     <!--Шапка сайта-->
     <section th:replace="~{layouts/main :: header}"></section>
 
@@ -64,7 +67,7 @@
                             <h3 class="products-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                         </div>
                         <div class="products-product-action">
-                            <button>В корзину</button>
+                            <button onclick="addToCart(this)" th:data-id="${product.id}">В корзину</button>
                         </div>
                     </div>
                 </div>
@@ -78,5 +81,6 @@
     <!-- Скрипт для функционала -->
     <script src="/js/header-catalog.js"></script>
     <script src="/js/products.js"></script>
+    <script src="/js/basket.js"></script>
 </body>
 </html>

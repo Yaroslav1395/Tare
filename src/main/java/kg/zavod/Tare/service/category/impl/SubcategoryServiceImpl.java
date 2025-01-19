@@ -68,7 +68,9 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         logger.info("Попытка получения подкатегорий для страницы подкатегории по id категории");
         List<SubcategoryEntity> subcategories = subcategoryRepository.findAllByCategoryId(categoryId);
         if(subcategories.isEmpty()) throw new EntitiesNotFoundException("Подкатегорий не найдено");
-        return subcategoryListMapper.mapToSubcategoryForUserDtoList(subcategories);
+        List<SubcategoryForUserDto> subcategoriesDto = subcategoryListMapper.mapToSubcategoryForUserDtoList(subcategories);
+        subcategoriesDto.forEach(subcategory -> subcategory.setSubcategoryImage(baseUrlForLoad + subcategory.getSubcategoryImage()));
+        return subcategoriesDto;
     }
 
     /**

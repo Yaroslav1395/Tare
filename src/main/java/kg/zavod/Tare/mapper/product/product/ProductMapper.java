@@ -31,6 +31,7 @@ public interface ProductMapper {
     @Mapping(target = "id", source = "product.id")
     @Mapping(target = "name", source = "product.name")
     @Mapping(target = "price", source = "productCharacteristics", qualifiedByName = "getPriceFromCharacteristics")
+    @Mapping(target = "packaging", source = "productCharacteristics", qualifiedByName = "getPackagingFromCharacteristics")
     @Mapping(target = "description", source = "product.description")
     @Mapping(target = "shortDescription", source = "product.description", qualifiedByName = "getShortDescription")
     @Mapping(target = "idFromFactoryBd", source = "product.idFromFactoryBd")
@@ -94,6 +95,20 @@ public interface ProductMapper {
     default Double getPriceFromCharacteristics(List<ProductCharacteristicEntity> productCharacteristics){
         return productCharacteristics.stream()
                 .filter(characteristicValue -> "Цена, сом".equals(characteristicValue.getCharacteristic().getName()))
+                .findFirst()
+                .map(ProductCharacteristicEntity::getValue)
+                .orElse(0D);
+    }
+
+    /**
+     * Метод позволяет найти цену продукта в характеристиках
+     * @param productCharacteristics - характеристики продукта
+     * @return - цена
+     */
+    @Named("getPackagingFromCharacteristics")
+    default Double getPackagingFromCharacteristics(List<ProductCharacteristicEntity> productCharacteristics){
+        return productCharacteristics.stream()
+                .filter(characteristicValue -> "Фасовка, шт".equals(characteristicValue.getCharacteristic().getName()))
                 .findFirst()
                 .map(ProductCharacteristicEntity::getValue)
                 .orElse(0D);

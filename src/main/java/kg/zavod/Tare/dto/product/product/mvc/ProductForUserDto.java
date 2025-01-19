@@ -22,15 +22,21 @@ public class ProductForUserDto {
     private String name;
     @Schema(description = "Цена продукта")
     private Double price;
+    @Schema(description = "Фасовка")
+    private Double packaging;
     @Schema(description = "Описание продукта")
     private String description;
     @Schema(description = "Короткое описание продукта")
     private String shortDescription;
     @Schema(description = "Артикул")
     private Integer idFromFactoryBd;
+    @Schema(description = "Id категории")
     private Integer categoryId;
+    @Schema(description = "Название категории")
     private String categoryName;
+    @Schema(description = "Id подкатегории")
     private Integer subcategoryId;
+    @Schema(description = "Название подкатегории")
     private String subcategoryName;
     @Schema(description = "Характеристики продукта")
     private List<CharacteristicValueForUserDto> productCharacteristics;

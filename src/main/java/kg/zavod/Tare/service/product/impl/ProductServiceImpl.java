@@ -1,5 +1,8 @@
 package kg.zavod.Tare.service.product.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kg.zavod.Tare.domain.category.CategoryEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
@@ -39,9 +42,27 @@ public class ProductServiceImpl implements ProductService {
     private final CharacteristicValueService characteristicValueService;
     private final ProductMapper productMapper;
     private final ProductListMapper productListMapper;
+    private final ObjectMapper objectMapper;
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    /**
+     * Метод позволяет найти продукты для корзины. Принимает строку JSON и преобразует в список объектов
+     * @param products - список продуктов как JSON
+     * @return - список продуктов для корзины
+     */
+    @Override
+    @Transactional
+    public List<ProductForBasketDto> getProductsForBasket(String products) throws JsonProcessingException {
+        logger.info("Попытка получения продуктов для корзины");
+        List<ProductForOpenBasketDto> productList = parseJsonToProductForOpenBasket(products);
+        List<Integer> productsId = getProductIdsFromProductForOpenBasket(productList);
+        List<ProductEntity> productsEntity = productRepository.findAllById(productsId);
+        List<ProductForUserDto> productsForUser = productListMapper.mapToProductForUserDtoList(productsEntity);
+        setHostToImageLoad(productsForUser);
+        return buildProductForBasketList(productList, productsForUser);
+    }
 
     /**
      * Метод позволяет найти продукт по id для клиента MVC
@@ -73,8 +94,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> products = productRepository.findAllBySubcategoryId(subcategoryId);
         if(products.isEmpty()) throw new EntitiesNotFoundException("Продуктов не найдено");
         List<ProductForUserDto> productsDto = productListMapper.mapToProductForUserDtoList(products);
-        productsDto.forEach(product -> product.getImages().forEach(
-                image -> image.setProductImage(baseUrlForLoad + image.getProductImage())));
+        setHostToImageLoad(productsDto);
         return productsDto;
     }
 
@@ -162,6 +182,62 @@ public class ProductServiceImpl implements ProductService {
         productForUserDto.setSubcategoryName(subcategory.getName());
         productForUserDto.getImages().forEach(image -> image.setProductImage(baseUrlForLoad + image.getProductImage()));
     }
+
+    /**
+     * Метод позволяет преобразовать JSON в объект для открытия страницы корзина
+     * @param json - список как JSON
+     * @return - список продуктов
+     * @throws JsonProcessingException - в случае если не удалось преобразовать
+     */
+    private List<ProductForOpenBasketDto> parseJsonToProductForOpenBasket(String json) throws JsonProcessingException {
+        logger.info("Преобразование из JSON в объект");
+        return objectMapper.readValue(json, new TypeReference<>() {});
+    }
+
+    /**
+     * Метод позволяет получить список id продуктов преобразовывая их из String в Integer
+     * @param products - список продуктов
+     * @return - список id
+     */
+    private List<Integer> getProductIdsFromProductForOpenBasket(List<ProductForOpenBasketDto> products) {
+        logger.info("Получение списка id из списка продуктов");
+        return products.stream()
+                .map(product -> Integer.parseInt(product.getId())).toList();
+    }
+
+    /**
+     * Метод добавляет к картинкам хост для загрузки
+     * @param productsForUser - список продуктов
+     */
+    private void setHostToImageLoad(List<ProductForUserDto> productsForUser) {
+        logger.info("Добавления хоста к пути картинки");
+        productsForUser.forEach(product -> product.getImages().forEach(
+                image -> image.setProductImage(baseUrlForLoad + image.getProductImage())));
+    }
+
+    /**
+     * Метод позволяет сопоставить продукт на его количество, и создает объект для отображения в корзине
+     * @param productList - список с количеством
+     * @param productsForUser - список объектов
+     * @return - сопоставленный список продуктов на количество
+     */
+    private List<ProductForBasketDto> buildProductForBasketList(List<ProductForOpenBasketDto> productList, List<ProductForUserDto> productsForUser){
+        logger.info("Сопоставление продукта с количеством");
+        List<ProductForBasketDto> productsForBasket = new ArrayList<>();
+        for(ProductForOpenBasketDto product : productList){
+            for(ProductForUserDto productForUser : productsForUser) {
+                if (Integer.parseInt(product.getId()) == productForUser.getId()) {
+                    productsForBasket.add(new ProductForBasketDto(productForUser, product.getCount()));
+                }
+            }
+        }
+        return productsForBasket;
+    }
+
+
+
+
+
 
 
 

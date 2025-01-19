@@ -75,7 +75,11 @@
                                 <input type="number" id="quantity" min="1" value="1">
                                 <button type="button" class="product-quantity-btn increment">+</button>
                             </div>
-                            <button class="product-add-basket-btn">В корзину</button>
+                            <button  onclick="addToCart(this)"
+                                     th:data-id="${product.id}"
+                                     class="product-add-basket-btn">
+                                В корзину
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -123,5 +127,6 @@
     <script src="/js/notification.js"></script>
     <script src="/js/header-catalog.js"></script>
     <script src="/js/product.js"></script>
+    <script src="/js/basket.js"></script>
 </body>
 </html>

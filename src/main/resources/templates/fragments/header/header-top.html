@@ -37,9 +37,13 @@
             </div>
             <div class="basket-button">
                 <img class="basket-icon" src="/images/icons/icons8-checkout-25.png" alt="gender-neutral-user"/>
-                <a href="#">Корзина</a>
+                <a href="#" onclick="submitBasket()">Корзина</a>
                 <div class="basket-counter"><span>0</span></div>
             </div>
+            <!-- Скрытая форма для отправки данных -->
+            <form id="basketForm" method="POST" action="/basket" style="display:none;">
+                <input type="hidden" name="products" id="productsInput">
+            </form>
         </div>
         <div th:replace="~{fragments/header/header-catalog :: header-catalog-modal}"></div>
     </div>

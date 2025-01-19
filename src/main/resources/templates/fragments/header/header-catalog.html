@@ -10,7 +10,7 @@
             <!-- Изображение категории -->
             <div class="header-catalog-modal-item-img">
                 <a th:href="'/subcategory/' + ${category.id}">
-                    <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.categoryImageName}">
+                    <img th:src="${category.categoryImage}" th:alt="${category.categoryImageName}">
                 </a>
             </div>
             <!-- Название категории -->

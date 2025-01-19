@@ -103,6 +103,33 @@ table {
     color: #FF4500;
 }
 
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50; /* Зеленый цвет для успешных сообщений */
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.notification.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
 /******************************************************************************************/
 /**********************************Стили ссылок страниц************************************/
 /******************************************************************************************/
@@ -2050,7 +2077,7 @@ table {
 /*------------------------------Стили для картинки----------------------------------------*/
 .basket-container {
     min-height: 100vh;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .basket-title {
@@ -2058,7 +2085,7 @@ table {
     font-family: 'Inter Tight', serif;
     color: #333333;
     font-size: 25px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .basket-title h1 {
@@ -2096,8 +2123,23 @@ table {
     width: 50%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 35px;
+    justify-content: space-between;
+}
+
+.basket-item-left-one {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
+    gap: 20px;
+}
+
+.basket-item-left-three {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     width: 50%;
+     gap: 20px;
 }
 
 .basket-item-img-container img {

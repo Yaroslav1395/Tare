@@ -4,6 +4,7 @@ import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
 import kg.zavod.Tare.service.category.CategoryService;
 import kg.zavod.Tare.service.category.SubcategoryService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class SubcategoryPageController {
         try {
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
             model.addAttribute("category", categoryService.getCategoryForUserById(categoryId));
+            List<SubcategoryForUserDto> s = subcategoryService.getSubcategoryForUserByCategoryId(categoryId);
             model.addAttribute("subcategories", subcategoryService.getSubcategoryForUserByCategoryId(categoryId));
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());

@@ -29,7 +29,7 @@
                 <div class="category-item">
                     <a th:href="@{'/subcategory/' + ${category.id}}">
                         <div class="category-item-img">
-                            <img th:src="'data:image/' + ${category.imageType} + ';base64,' + ${category.categoryImage}" th:alt="${category.name}" />
+                            <img th:src="${category.categoryImage}" th:alt="${category.name}" />
                         </div>
                         <div class="category-item-name">
                             <h3 th:text="${category.name}">Название категории</h3>
@@ -46,5 +46,6 @@
     <!-- Скрипт для функционала -->
     <script src="/js/header-catalog.js"></script>
     <script src="/js/category.js"></script>
+    <script src="/js/basket.js"></script>
 </body>
 </html>
