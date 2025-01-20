@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @Schema(description = "Класс необходим для создания партнера")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PartnerForSaveDto {
+public class PartnerForSaveAdminDto {
     @Schema(description = "Название партнера")
     @NotNull(message = "Название партнера не может быть null")
     @NotEmpty(message = "Название партнера не может быть пустым")

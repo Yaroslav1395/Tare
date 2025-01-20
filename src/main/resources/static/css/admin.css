@@ -681,14 +681,6 @@ table {
     padding: 5px;
 }
 
-
-
-
-
-
-
-
-
 .form-product-right {
     height: 100%;
     width: 50%;
@@ -715,4 +707,54 @@ table {
     font-weight: 400;
     border: 2px solid #c4dfe6;
     padding: 10px;
+}
+
+/******************************************************************************************/
+/**********************************Стили для партнеров*************************************/
+/******************************************************************************************/
+.form-container-partner {
+    width: 810px !important;
+}
+
+.form-partner {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    height: 100%;
+    gap: 10px !important;
+}
+
+.form-group-partner-img {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.image-preview-product {
+    width: 100%;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+.form-group-partner-img img {
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.image-preview-logo {
+    width: 100%;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+.form-group-partner-img img {
+    margin: 0 auto;
+    object-fit: contain;
 }

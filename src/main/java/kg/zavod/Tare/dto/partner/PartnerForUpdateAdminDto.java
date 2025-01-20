@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @Schema(description = "Класс необходим для создания партнера")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PartnerForUpdateDto {
+public class PartnerForUpdateAdminDto {
     @Schema(description = "Id партнера")
     @NotNull(message = "Id партнера не может быть null")
     @Min(value = 1, message = "Id партнера не может быть меньше 1-го")

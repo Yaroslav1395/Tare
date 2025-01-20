@@ -25,6 +25,7 @@ public interface CategoryMapper {
     @Mapping(target = "id", source = "category.id")
     @Mapping(target = "name", source = "category.name")
     CategoryForUserDto mapToCategoryForUserDto(CategoryEntity category);
+
     /**
      * Метод позволяет получить сущность категории из DTO. Используется для редактирования категории через админку MVC
      * @param categoryForUpdateDto - DTO категории для редактирования

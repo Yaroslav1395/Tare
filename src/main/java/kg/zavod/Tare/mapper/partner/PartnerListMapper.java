@@ -1,12 +1,18 @@
 package kg.zavod.Tare.mapper.partner;
 
 import kg.zavod.Tare.domain.PartnerEntity;
-import kg.zavod.Tare.dto.partner.PartnerDto;
+import kg.zavod.Tare.dto.partner.PartnerForAdminDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = PartnerMapper.class)
 public interface PartnerListMapper {
-    List<PartnerDto> mapToPartnerDtoList(List<PartnerEntity> partners);
+    /**
+     * Метод позволяет преобразовать список сущностей партнеров в список DTO.
+     * Используется в админке
+     * @param partners - список сущностей
+     * @return - список DTO
+     */
+    List<PartnerForAdminDto> mapToPartnerDtoList(List<PartnerEntity> partners);
 }

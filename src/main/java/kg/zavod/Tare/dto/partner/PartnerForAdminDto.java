@@ -1,10 +1,6 @@
 package kg.zavod.Tare.dto.partner;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Класс описывает партнера")
-public class PartnerDto {
+public class PartnerForAdminDto {
     @Schema(description = "Id партнера")
     private Integer id;
     @Schema(description = "Название партнера")

@@ -3,9 +3,9 @@ package kg.zavod.Tare.mapper.partner;
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.PartnerEntity;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
-import kg.zavod.Tare.dto.partner.PartnerDto;
-import kg.zavod.Tare.dto.partner.PartnerForSaveDto;
-import kg.zavod.Tare.dto.partner.PartnerForUpdateDto;
+import kg.zavod.Tare.dto.partner.PartnerForAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -17,25 +17,64 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface PartnerMapper {
-    @Mapping(target = "logoImageType", source = "partnerEntity.logoImageType", qualifiedByName = "getImageType")
-    @Mapping(target = "productImageType", source = "partnerEntity.productImageType", qualifiedByName = "getImageType")
-    PartnerDto mapToPartnerDto(PartnerEntity partnerEntity);
+    /**
+     * Метод позволяет преобразовать сущность партнера в DTO.
+     * Используется в админке.
+     * @param partnerEntity - сущность партнера
+     * @return - DTO партнера
+     */
+    @Mapping(target = "logoImageType", source = "partnerEntity.logoImageType")
+    @Mapping(target = "productImageType", source = "partnerEntity.productImageType")
+    PartnerForAdminDto mapToPartnerDto(PartnerEntity partnerEntity);
 
+    /**
+     * Метод позволяет преобразовать DTO партнера в сущность при сохранении через админку
+     * @param partnerForSaveAdminDto - партнер для сохранения
+     * @param logoImageType - тип лого картинки
+     * @param logoPath - путь лого картинки
+     * @param productImageType - тип картинки продукции
+     * @param productPath - путь картинки продукции
+     * @return - сущность партнера
+     */
     @Mapping(target = "logoImageType", source = "logoImageType")
     @Mapping(target = "productImageType", source = "productImageType")
-    @Mapping(target = "logoImage", source = "partnerForSaveDto.logoImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "productImage", source = "partnerForSaveDto.productImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "logoImageName", source = "partnerForSaveDto.logoImage", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "productImageName", source = "partnerForSaveDto.productImage", qualifiedByName = "getNameFromMultipart")
-    PartnerEntity mapToPartnerEntity(PartnerForSaveDto partnerForSaveDto, ImageType logoImageType, ImageType productImageType);
+    @Mapping(target = "logoImage", source = "logoPath")
+    @Mapping(target = "productImage", source = "productPath")
+    @Mapping(target = "logoImageName", source = "partnerForSaveAdminDto.logoImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "productImageName", source = "partnerForSaveAdminDto.productImage", qualifiedByName = "getNameFromMultipart")
+    PartnerEntity mapToPartnerEntity(PartnerForSaveAdminDto partnerForSaveAdminDto, ImageType logoImageType, String logoPath, ImageType productImageType, String productPath);
 
-    @Mapping(target = "logoImageType", source = "logoImageType")
-    @Mapping(target = "productImageType", source = "productImageType")
-    @Mapping(target = "logoImage", source = "partnerForUpdateDto.logoImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "productImage", source = "partnerForUpdateDto.productImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "logoImageName", source = "partnerForUpdateDto.logoImage", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "productImageName", source = "partnerForUpdateDto.productImage", qualifiedByName = "getNameFromMultipart")
-    void updatePartnerEntity(PartnerForUpdateDto partnerForUpdateDto, ImageType logoImageType, ImageType productImageType, @MappingTarget PartnerEntity partnerEntity);
+    /**
+     * Метод позволяет отредактировать сущность партнера на основе данных DTO
+     * @param partnerForUpdateAdminDto - DTO для сохранения
+     * @param partnerEntity - сущность партнера
+     */
+    @Mapping(target = "logoImage", ignore = true)
+    @Mapping(target = "productImage", ignore = true)
+    void updatePartnerEntity(PartnerForUpdateAdminDto partnerForUpdateAdminDto, @MappingTarget PartnerEntity partnerEntity);
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Метод позволит получить формат картинки из типа картинки
@@ -60,15 +99,5 @@ public interface PartnerMapper {
         } catch (IOException e) {
             throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
         }
-    }
-
-    /**
-     * Метод позволяет получить имя файла
-     * @param file - файл
-     * @return - имя
-     */
-    @Named("getNameFromMultipart")
-    default String getNameFromMultipart(MultipartFile file) {
-        return file.getOriginalFilename();
     }
 }

@@ -11,9 +11,9 @@ import kg.zavod.Tare.controllerRest.vacancy.VacancyController;
 import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.partner.PartnerDto;
-import kg.zavod.Tare.dto.partner.PartnerForSaveDto;
-import kg.zavod.Tare.dto.partner.PartnerForUpdateDto;
+import kg.zavod.Tare.dto.partner.PartnerForAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.dto.state.ResponseState;
 import kg.zavod.Tare.service.PartnerService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +25,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 //@RestController
@@ -41,7 +42,7 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    public ResponseEntity<ResponseDto<PartnerDto>> getPartnerById(
+    public ResponseEntity<ResponseDto<PartnerForAdminDto>> getPartnerById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer partnerId) throws EntityNotFoundException {
         logger.info("Получение партнера по id");
@@ -53,7 +54,7 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto<List<PartnerDto>>> getAllPartners() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<PartnerForAdminDto>>> getAllPartners() throws EntitiesNotFoundException {
         logger.info("Получение всех партнеров");
         return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.getAllPartners(), ResponseState.SUCCESS,"Success"));
     }
@@ -63,7 +64,7 @@ public class PartnerController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all/active")
-    public ResponseEntity<ResponseDto<List<PartnerDto>>> getAllActivePartners() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<PartnerForAdminDto>>> getAllActivePartners() throws EntitiesNotFoundException {
         logger.info("Получение всех активных партнеров");
         return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.getAllActivePartners(), ResponseState.SUCCESS,"Success"));
     }
@@ -75,9 +76,10 @@ public class PartnerController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<PartnerDto>> createPartner(@ModelAttribute @Valid PartnerForSaveDto partnerForSaveDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<PartnerForAdminDto>> createPartner(@ModelAttribute @Valid PartnerForSaveAdminDto partnerForSaveAdminDto) throws EntityNotFoundException, IOException {
         logger.info("Создание партнера");
-        return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.savePartner(partnerForSaveDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.savePartner(partnerForSaveAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование партнера", description = "Позволит отредактировать партнера")
@@ -86,9 +88,10 @@ public class PartnerController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<PartnerDto>> updatePartner(@ModelAttribute @Valid PartnerForUpdateDto partnerForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<PartnerForAdminDto>> updatePartner(@ModelAttribute @Valid PartnerForUpdateAdminDto partnerForUpdateAdminDto) throws EntityNotFoundException {
         logger.info("Редактирование партнера");
-        return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.updatePartner(partnerForUpdateDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(partnerService.updatePartner(partnerForUpdateAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Удаление партнера", description = "Позволит удалить партнера")
