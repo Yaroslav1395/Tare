@@ -12,10 +12,9 @@ import java.util.List;
 public interface NoticeService {
     /**
      * Метод позволяет получить все новости
-     * @throws EntitiesNotFoundException - в случае если ни оной новости не найдено
      * @return - список новостей
      */
-    List<NoticeForAdminDto> getAllNotices() throws EntitiesNotFoundException;
+    List<NoticeForAdminDto> getAllNoticesForAdmin();
 
     /**
      * Метод позволяет сохранить новость

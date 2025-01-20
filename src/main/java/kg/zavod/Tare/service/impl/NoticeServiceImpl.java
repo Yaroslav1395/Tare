@@ -38,14 +38,12 @@ public class NoticeServiceImpl implements NoticeService {
 
     /**
      * Метод позволяет получить все новости
-     * @throws EntitiesNotFoundException - в случае если ни оной новости не найдено
      * @return - список новостей
      */
     @Override
-    public List<NoticeForAdminDto> getAllNotices() throws EntitiesNotFoundException {
+    public List<NoticeForAdminDto> getAllNoticesForAdmin() {
         logger.info("Попытка поиска всех новостей");
         List<NoticeEntity> notices = noticeRepository.findAll();
-        if(notices.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одной новости");
         List<NoticeForAdminDto> noticesDto = noticeListMapper.mapToNoticeAdminDtoList(notices);
         noticesDto.forEach(notice -> notice.setNoticeImage(baseUrlForLoad + notice.getNoticeImage()));
         return noticesDto;

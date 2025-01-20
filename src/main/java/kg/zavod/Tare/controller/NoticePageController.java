@@ -3,8 +3,6 @@ package kg.zavod.Tare.controller;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
-import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
-import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -26,13 +24,9 @@ public class NoticePageController {
     @GetMapping("/admin/notices")
     public String noticesForAdminPage(Model model) {
         logger.info("Запрос на открытие страницы новостей для админки");
-        try {
-            model.addAttribute("noticeUpdate", new NoticeForUpdateAdminDto());
-            model.addAttribute("noticeSave", new NoticeForSaveAdminDto());
-            model.addAttribute("notices", noticeService.getAllNotices());
-        }catch (EntitiesNotFoundException ex) {
-            model.addAttribute("errorMessage", ex.getMessage());
-        }
+        model.addAttribute("noticeUpdate", new NoticeForUpdateAdminDto());
+        model.addAttribute("noticeSave", new NoticeForSaveAdminDto());
+        model.addAttribute("notices", noticeService.getAllNoticesForAdmin());
         return "admin/notice";
     }
 

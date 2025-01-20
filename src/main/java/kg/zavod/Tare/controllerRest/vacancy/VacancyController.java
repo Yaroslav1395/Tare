@@ -11,9 +11,9 @@ import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.state.ResponseState;
-import kg.zavod.Tare.dto.vacancy.VacancyDto;
-import kg.zavod.Tare.dto.vacancy.VacancyForSaveDto;
-import kg.zavod.Tare.dto.vacancy.VacancyForUpdateDto;
+import kg.zavod.Tare.dto.vacancy.VacancyForAdminDto;
+import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
+import kg.zavod.Tare.dto.vacancy.VacancyForUpdateAdminDto;
 import kg.zavod.Tare.service.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class VacancyController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    public ResponseEntity<ResponseDto<VacancyDto>> getVacancyById(
+    public ResponseEntity<ResponseDto<VacancyForAdminDto>> getVacancyById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer vacancyId) throws EntityNotFoundException {
         logger.info("Получение вакансии по id");
@@ -51,9 +51,9 @@ public class VacancyController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto<List<VacancyDto>>> getAllVacancies() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<VacancyForAdminDto>>> getAllVacancies() throws EntitiesNotFoundException {
         logger.info("Получение всех вакансий");
-        return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.getAllVacancies(), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.getAllVacanciesForAdmin(), ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Создание вакансии", description = "Позволит создать вакансию")
@@ -62,9 +62,10 @@ public class VacancyController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<VacancyDto>> createVacancy(@ModelAttribute @Valid VacancyForSaveDto vacancyForSaveDto) {
+    public ResponseEntity<ResponseDto<VacancyForAdminDto>> createVacancy(@ModelAttribute @Valid VacancyForSaveAdminDto vacancyForSaveAdminDto) {
         logger.info("Создание вакансии");
-        return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.saveVacancy(vacancyForSaveDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.saveVacancy(vacancyForSaveAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование вакансии", description = "Позволит отредактировать вакансию")
@@ -73,9 +74,10 @@ public class VacancyController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<VacancyDto>> updateVacancy(@ModelAttribute @Valid VacancyForUpdateDto vacancyForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<VacancyForAdminDto>> updateVacancy(@ModelAttribute @Valid VacancyForUpdateAdminDto vacancyForUpdateAdminDto) throws EntityNotFoundException {
         logger.info("Редактирование вакансии");
-        return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.updateVacancy(vacancyForUpdateDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(vacancyService.updateVacancy(vacancyForUpdateAdminDto), ResponseState.SUCCESS,"Success"));*/
     }
 
     @Operation(summary = "Удаление вакансии", description = "Позволит удалить вакансию")

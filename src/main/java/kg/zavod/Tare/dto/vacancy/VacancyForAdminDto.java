@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Schema(description = "Класс описывает вакансию")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class VacancyDto {
+public class VacancyForAdminDto {
     @Schema(description = "Id вакансии")
     private Integer id;
     @Schema(description = "Название вакансии")

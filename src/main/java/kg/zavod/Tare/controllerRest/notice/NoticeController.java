@@ -55,7 +55,7 @@ public class NoticeController {
     @GetMapping("/all")
     public ResponseEntity<ResponseDto<List<NoticeForAdminDto>>> getAllNotices() throws EntitiesNotFoundException {
         logger.info("Получение всех новостей");
-        return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.getAllNotices(), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.getAllNoticesForAdmin(), ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Получение всех активных новостей", description = "Позволит получить все активные новости")
