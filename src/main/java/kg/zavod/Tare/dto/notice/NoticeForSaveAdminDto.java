@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @Schema(description = "Класс необходим для создания новости")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NoticeForSaveDto {
+public class NoticeForSaveAdminDto {
     @Schema(description = "Заголовок новости")
     @NotNull(message = "Заголовок новости не может быть null")
     @NotEmpty(message = "Заголовок новости не может быть пустым")

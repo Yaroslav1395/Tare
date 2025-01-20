@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Класс описывает новость")
-public class NoticeDto {
+public class NoticeForAdminDto {
     @Schema(description = "Id новости")
     private Integer id;
     @Schema(description = "Заголовок новости")

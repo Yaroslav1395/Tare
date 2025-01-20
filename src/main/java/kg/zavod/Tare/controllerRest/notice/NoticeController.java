@@ -10,9 +10,9 @@ import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.notice.NoticeDto;
-import kg.zavod.Tare.dto.notice.NoticeForSaveDto;
-import kg.zavod.Tare.dto.notice.NoticeForUpdateDto;
+import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
 import kg.zavod.Tare.dto.state.ResponseState;
 import kg.zavod.Tare.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 //@RestController
@@ -40,7 +41,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    public ResponseEntity<ResponseDto<NoticeDto>> getNoticeById(
+    public ResponseEntity<ResponseDto<NoticeForAdminDto>> getNoticeById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer noticeId) throws EntityNotFoundException {
         logger.info("Получение новости по id");
@@ -52,7 +53,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto<List<NoticeDto>>> getAllNotices() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<NoticeForAdminDto>>> getAllNotices() throws EntitiesNotFoundException {
         logger.info("Получение всех новостей");
         return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.getAllNotices(), ResponseState.SUCCESS,"Success"));
     }
@@ -62,7 +63,7 @@ public class NoticeController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all/active")
-    public ResponseEntity<ResponseDto<List<NoticeDto>>> getAllActiveNotices() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<NoticeForAdminDto>>> getAllActiveNotices() throws EntitiesNotFoundException {
         logger.info("Получение всех активных новостей");
         return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.getAllActiveNotices(), ResponseState.SUCCESS,"Success"));
     }
@@ -73,9 +74,10 @@ public class NoticeController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<NoticeDto>> createNotice(@ModelAttribute @Valid NoticeForSaveDto noticeForSaveDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<NoticeForAdminDto>> createNotice(@ModelAttribute @Valid NoticeForSaveAdminDto noticeForSaveAdminDto) throws EntityNotFoundException, IOException {
         logger.info("Создание новости");
-        return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.saveNotice(noticeForSaveDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.saveNotice(noticeForSaveAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование новости", description = "Позволит отредактировать новость")
@@ -84,9 +86,10 @@ public class NoticeController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<NoticeDto>> updateNotice(@ModelAttribute @Valid NoticeForUpdateDto noticeForUpdateDto) throws EntityNotFoundException {
+    public ResponseEntity<ResponseDto<NoticeForAdminDto>> updateNotice(@ModelAttribute @Valid NoticeForUpdateAdminDto noticeForUpdateAdminDto) throws EntityNotFoundException {
         logger.info("Редактирование новости");
-        return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.updateNotice(noticeForUpdateDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(noticeService.updateNotice(noticeForUpdateAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Удаление новости", description = "Позволит удалить новость")
