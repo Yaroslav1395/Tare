@@ -8,6 +8,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForUserDto;
 import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.mapper.notice.NoticeListMapper;
 import kg.zavod.Tare.mapper.notice.NoticeMapper;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -35,6 +37,20 @@ public class NoticeServiceImpl implements NoticeService {
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(VacancyServiceImpl.class);
+
+    /**
+     * Метод позволяет получить все новости для клиента
+     * @return - список новостей
+     */
+    @Override
+    public List<NoticeForUserDto> getAllNoticesForUser() {
+        logger.info("Попытка поиска всех новостей для клиента");
+        List<NoticeEntity> notices = noticeRepository.findAll();
+        List<NoticeForUserDto> noticesDto = noticeListMapper.mapToNoticeForUserDtoList(notices);
+        noticesDto.forEach(notice -> notice.setNoticeImage(baseUrlForLoad + notice.getNoticeImage()));
+        noticesDto.sort(Comparator.comparing(NoticeForUserDto::getCreatedTime).reversed());
+        return noticesDto;
+    }
 
     /**
      * Метод позволяет получить все новости

@@ -6,6 +6,7 @@ import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForUserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -17,6 +18,12 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface NoticeMapper {
+    /**
+     * Метод позволят преобразовать сущность новости в DTO для клиента
+     * @param notice - сущность новости
+     * @return - DTO новости
+     */
+    NoticeForUserDto mapToNoticeForUserDto(NoticeEntity notice);
 
     /**
      * Метод позволяет преобразовать сущность новости в DTO

@@ -4,6 +4,7 @@ import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
 import kg.zavod.Tare.service.NoticeService;
+import kg.zavod.Tare.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class NoticePageController {
     private final NoticeService noticeService;
+    private final CategoryService categoryService;
     private static final Logger logger = LoggerFactory.getLogger(NoticePageController.class);
+
+    @GetMapping("/notice")
+    public String noticesForUserPage(Model model){
+        logger.info("Запрос на открытие страницы новостей для клиента");
+        try {
+            model.addAttribute("vacancies", noticeService.getAllNoticesForUser());
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+        }catch (EntitiesNotFoundException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "notice";
+    }
 
     @GetMapping("/admin/notices")
     public String noticesForAdminPage(Model model) {

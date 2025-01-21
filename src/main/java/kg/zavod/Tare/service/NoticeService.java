@@ -5,11 +5,18 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForUserDto;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface NoticeService {
+    /**
+     * Метод позволяет получить все новости для клиента
+     * @return - список новостей
+     */
+    List<NoticeForUserDto> getAllNoticesForUser();
+
     /**
      * Метод позволяет получить все новости
      * @return - список новостей

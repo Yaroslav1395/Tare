@@ -352,69 +352,21 @@
                 <h2>Новости</h2>
             </div>
             <div class="home-all-news-container">
-                <div class="home-news-container">
+                <div th:if="${notices != null && !notices.isEmpty()}" th:each="notice : ${notices}" class="home-news-container">
                     <div>
-                        <h4>С новым годом!</h4>
-                        <div class="home-news-text">
-                            С Новым годом! Пусть наступающий год принесет вам здоровье, счастье, успехи и исполнение
-                            всех желаний. Пусть каждый день будет наполнен радостью, теплом и поддержкой близких
-                            людей. Желаем новых достижений, вдохновения и незабываемых моментов!
-                        </div>
+                        <h4 th:text="${notice.title}">Заголовок новости</h4>
+                        <div class="home-news-text" th:text="${notice.description}">Описание новости</div>
                     </div>
                     <div class="home-news-bottom">
-                        <p>31.12.2024</p>
-                        <a href="#">
+                        <p th:text="${#temporals.format(notice.createdTime, 'dd.MM.yyyy')}">Дата публикации</p>
+                        <a th:href="@{/notice} + '#notice-' + ${notice.id}">
                             Подробнее
                             <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
                         </a>
                     </div>
                 </div>
-                <div class="home-news-container">
-                    <div>
-                        <h4>У нас выходные!</h4>
-                        <div class="home-news-text">
-                            Информируем вас, что наша команда уходит на новогодние выходные. Мы будем отдыхать и
-                            набираться сил с 28.12.2024 по 05.01.2025, чтобы вернуться к вам с новыми идеями и
-                            энергией для реализации всех ваших задач.
-                        </div>
-                    </div>
-                    <div class="home-news-bottom">
-                        <p>15.12.2024</p>
-                        <a href="#">
-                            Подробнее
-                            <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
-                        </a>
-                    </div>
-                </div>
-                <div class="home-news-container">
-                    <div>
-                        <h4>Новая форма</h4>
-                        <div class="home-news-text">
-                            Спешим сообщить что у нас появилась новая форма бутылки объемом 1л.
-                        </div>
-                    </div>
-                    <div class="home-news-bottom">
-                        <p>03.01.2025</p>
-                        <a href="#">
-                            Подробнее
-                            <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
-                        </a>
-                    </div>
-                </div>
-                <div class="home-news-container">
-                    <div>
-                        <h4>Новость</h4>
-                        <div class="home-news-text">
-                            Какая-то новость.
-                        </div>
-                    </div>
-                    <div class="home-news-bottom">
-                        <p>04.01.2025</p>
-                        <a href="#">
-                            Подробнее
-                            <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
-                        </a>
-                    </div>
+                <div th:if="${notices == null || notices.isEmpty()}">
+                    <p>На данный момент новостей нет.</p>
                 </div>
             </div>
         </section>

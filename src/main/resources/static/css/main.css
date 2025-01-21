@@ -1443,7 +1443,7 @@ table {
 }
 
 .home-news-text {
-    height: 92px; /* Фиксированная высота блока */
+    height: 108px; /* Фиксированная высота блока */
     overflow: hidden; /* Обрезает текст, выходящий за пределы блока */
     text-overflow: ellipsis; /* Добавляет многоточия */
     display: -webkit-box; /* Используется для создания блочных контейнеров */
@@ -2076,7 +2076,7 @@ table {
 /******************************************************************************************/
 /*------------------------------Стили для картинки----------------------------------------*/
 .basket-container {
-    min-height: 100vh;
+    min-height: 75vh;
     margin-top: 30px;
 }
 
@@ -2335,4 +2335,113 @@ table {
 .vacancy-description {
     margin-bottom: 10px;
     width: 100%;
+}
+
+/******************************************************************************************/
+/*****************************Стили страницы новости**************************************/
+/******************************************************************************************/
+.notices-container {
+    min-height: 75vh;
+}
+
+.notices-info {
+    margin-top: 30px;
+}
+
+.notices-info h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+.notices-info p {
+    color: #8c8c8c;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.notices-items-container {
+    margin-top: 30px;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.notice-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    padding: 50px;
+    position: relative;
+}
+
+.notice-item-yellow {
+    background-color: #ffda33;
+}
+
+.notice-item-grey {
+    background-color: #f7f7f7;
+}
+
+.notice-item-yellow::after {
+    content: '';
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 96%;
+    margin: 0 0px 0 0px;
+    height: 1px;
+    background-color: #333333;
+}
+
+.notice-item-grey::after {
+    content: '';
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 96%;
+    margin: 0px 0px 0 48px;
+    height: 1px;
+    background-color: #333333;
+}
+
+.notice-item-img {
+    width: 30%;
+    height: 100%;
+}
+
+.notice-item-img img {
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.notice-item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.notice-item-info h3 {
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+.notice-item-info p {
+    color: #8c8c8c;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: justify;
 }
