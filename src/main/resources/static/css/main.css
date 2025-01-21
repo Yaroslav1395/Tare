@@ -2266,3 +2266,73 @@ table {
     font-size: 20px;
     background-color: #ffda33;
 }
+
+/******************************************************************************************/
+/*****************************Стили страницы вакансии**************************************/
+/******************************************************************************************/
+.vacancy-container {
+    min-height: 75vh;
+}
+
+.vacancy-info {
+    margin-top: 30px;
+}
+
+.vacancy-info h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+.vacancy-info p {
+    color: #8c8c8c;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.vacancy-items-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.vacancy-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    border-bottom: 2px solid #ffda33;
+    border-top: 2px solid #ffda33;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+.vacancy-item h3 {
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+.vacancy-item p {
+    color: #5b5b5b;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: justify;
+    width: 100%;
+}
+
+.vacancy-description {
+    margin-bottom: 10px;
+    width: 100%;
+}

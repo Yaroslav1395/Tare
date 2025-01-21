@@ -6,6 +6,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.vacancy.VacancyForAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForUpdateAdminDto;
+import kg.zavod.Tare.dto.vacancy.VacancyForUserDto;
 import kg.zavod.Tare.mapper.vacancy.VacancyListMapper;
 import kg.zavod.Tare.mapper.vacancy.VacancyMapper;
 import kg.zavod.Tare.repository.VacancyRepository;
@@ -35,6 +36,17 @@ public class VacancyServiceImpl implements VacancyService {
         logger.info("Попытка поиска всех вакансий");
         List<VacancyEntity> vacancies = vacancyRepository.findAll();
         return vacancyListMapper.mapToVacancyDtoList(vacancies);
+    }
+
+    /**
+     * Метод позволяет получить все вакансии для клиента
+     * @return - список подкатегорий
+     */
+    @Override
+    public List<VacancyForUserDto> getAllVacanciesForUser() {
+        logger.info("Попытка поиска всех вакансий для клиента");
+        List<VacancyEntity> vacancies = vacancyRepository.findAll();
+        return vacancyListMapper.mapToVacancyForUserDtoList(vacancies);
     }
 
     /**

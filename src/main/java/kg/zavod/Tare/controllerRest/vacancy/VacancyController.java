@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("vacancy")
+@RequestMapping("vacancyy")
 @Tag(name = "Вакансии", description = "Предоставляет возможность взаимодействовать с вакансиями")
 @Validated
 @RequiredArgsConstructor

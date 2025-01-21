@@ -6,6 +6,7 @@ import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForUpdateAdminDto;
 import kg.zavod.Tare.service.VacancyService;
+import kg.zavod.Tare.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class VacancyPageController {
     private final VacancyService vacancyService;
+    private final CategoryService categoryService;
     private static final Logger logger = LoggerFactory.getLogger(VacancyPageController.class);
+
+    @GetMapping("/vacancy")
+    public String vacancyForUserPage(Model model){
+        logger.info("Запрос на открытие страницы вакансии для клиента");
+        try {
+            model.addAttribute("vacancies", vacancyService.getAllVacanciesForUser());
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+        }catch (EntitiesNotFoundException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "vacancy";
+    }
 
     @GetMapping("/admin/vacancies")
     public String vacancyForAdminPage(Model model) {

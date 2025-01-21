@@ -5,6 +5,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.vacancy.VacancyForAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForUpdateAdminDto;
+import kg.zavod.Tare.dto.vacancy.VacancyForUserDto;
 
 import java.util.List;
 
@@ -15,6 +16,12 @@ public interface VacancyService {
      * @return - список подкатегорий
      */
     List<VacancyForAdminDto> getAllVacanciesForAdmin();
+
+    /**
+     * Метод позволяет получить все вакансии для клиента
+     * @return - список подкатегорий
+     */
+    List<VacancyForUserDto> getAllVacanciesForUser();
 
     /**
      * Метод позволяет сохранить вакансию

@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Вакансии')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с вакансиями-->
+    <section class="container vacancy-container">
+        <div class="vacancy-info">
+            <h2>Вакансии</h2>
+            <p>
+                Мы – современное предприятие, специализирующееся на выпуске качественной и экологичной пластиковой упаковки.
+                Наша компания активно развивается, и мы стремимся не только производить лучшие решения для наших клиентов,
+                но и создавать комфортные условия для работы сотрудников.
+            </p>
+            <p>
+                Мы ценим профессионализм, ответственность и желание расти вместе с нами. Здесь вы найдете актуальные вакансии
+                для специалистов самых разных направлений – от производственных рабочих до инженерных и административных
+                должностей.
+            </p>
+            <p>
+                Присоединяйтесь к нашей команде и станьте частью компании, которая заботится о своих сотрудниках и их
+                развитии! Ваше будущее может начаться с одного шага – откликнитесь на вакансию, которая вам подходит.
+            </p>
+        </div>
+        <div th:if="${vacancies != null}" class="vacancy-items-container">
+            <div th:each="vacancy : ${vacancies}" class="vacancy-item">
+                <div class="vacancy-name">
+                    <h3 th:text="${vacancy.name}">Название вакансии</h3>
+                </div>
+                <div class="vacancy-description">
+                    <p th:utext="${vacancy.description}">Описание вакансии</p>
+                </div>
+                <div class="vacancy-offer">
+                    <p th:utext="${vacancy.offer}">Предложение вакансии</p>
+                </div>
+            </div>
+        </div>
+        <div th:if="${vacancies == null || vacancies.isEmpty()}">
+            <p>К сожалению, вакансий нет.</p>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+</body>
+</html>
