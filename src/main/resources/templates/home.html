@@ -232,45 +232,12 @@
                     <h2>Партнеры нашего завода</h2>
                 </div>
                 <div class="home-partners-grid-container">
-                    <div class="home-partner-item">
-                        <img src="/images/logo/bbc-logo.jpg" alt="">
+                    <div class="home-partner-item" th:each="partner : ${partners}">
+                        <img th:src="${partner.logoImage}" th:alt="${partner.logoImageName}" />
                     </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/belek-honey-logo.jpg" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/bi-group-logo.jpg" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/bochka-logo.png" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/ice-queen-logo.jpg" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/alfa-logo.jpg" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/zina-logo.png" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/kim-chi-logo.jpg" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/detash-logo.png" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/gdm-logo.png" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/kpm-logo.jpg" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/asan-logo.png" alt="">
-                    </div>
-                    <div class="home-partner-item">
-                        <img src="/images/logo/sputnik-logo.png" alt="">
-                    </div>
+                </div>
+                <div th:if="${partners == null || partners.isEmpty()}">
+                    <p>К сожалению, партнёров нет.</p>
                 </div>
             </div>
         </section>

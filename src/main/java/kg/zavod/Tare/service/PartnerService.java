@@ -5,12 +5,18 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.partner.PartnerForAdminDto;
 import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
 import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForUserDto;
 
 import java.io.IOException;
 import java.util.List;
 
 
 public interface PartnerService {
+    /**
+     * Метод позволяет получить список партнеров для клиента
+     * @return - список партнеров
+     */
+    List<PartnerForUserDto> getAllPartnersForUser();
 
     /**
      * Метод позволяет получить всех партнеров для админки

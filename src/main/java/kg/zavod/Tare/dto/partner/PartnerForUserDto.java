@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Schema(description = "Класс описывает партнера для админки")
-public class PartnerForAdminDto {
+@Schema(description = "Класс описывает партнера для клиента")
+public class PartnerForUserDto {
     @Schema(description = "Id партнера")
     private Integer id;
     @Schema(description = "Название партнера")
@@ -24,18 +24,8 @@ public class PartnerForAdminDto {
     private String logoImage;
     @Schema(description = "Имя логотип партнера")
     private String logoImageName;
-    @Schema(description = "Тип логотипа")
-    private String logoImageType;
     @Schema(description = "Картинка продукции партнера")
     private String productImage;
     @Schema(description = "Имя картинка продукции партнера")
     private String productImageName;
-    @Schema(description = "Типа картинки продукции")
-    private String productImageType;
-    @Schema(description = "Время создания")
-    private LocalDateTime createdTime;
-    @Schema(description = "Время редактирования")
-    private LocalDateTime updatedTime;
-    @Schema(description = "Флаг активности партнера")
-    private Boolean isActive;
 }

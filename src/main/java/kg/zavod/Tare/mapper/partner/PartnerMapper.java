@@ -6,6 +6,7 @@ import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.partner.PartnerForAdminDto;
 import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
 import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForUserDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -17,6 +18,12 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface PartnerMapper {
+    /**
+     * Метод позволяет преобразовать сущность партнера в DTO для клиента
+     * @param partner - сущность партнера
+     * @return - DTO партнера
+     */
+    PartnerForUserDto mapToPartnerForUserDto(PartnerEntity partner);
     /**
      * Метод позволяет преобразовать сущность партнера в DTO.
      * Используется в админке.

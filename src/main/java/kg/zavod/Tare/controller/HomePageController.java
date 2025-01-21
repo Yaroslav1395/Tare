@@ -3,6 +3,7 @@ package kg.zavod.Tare.controller;
 import kg.zavod.Tare.controllerRest.category.CategoryController;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.service.NoticeService;
+import kg.zavod.Tare.service.PartnerService;
 import kg.zavod.Tare.service.category.CategoryService;
 import kg.zavod.Tare.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class HomePageController {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final NoticeService noticeService;
+    private final PartnerService partnerService;
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @GetMapping("/") // Главная страница
@@ -27,6 +29,7 @@ public class HomePageController {
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
             model.addAttribute("products", productService.getProductsForHomePage());
             model.addAttribute("notices", noticeService.getAllNoticesForUser());
+            model.addAttribute("partners", partnerService.getAllPartnersForUser());
             /*throw new EntitiesNotFoundException("Записи не найдены");*/
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());

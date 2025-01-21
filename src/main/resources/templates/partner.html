@@ -1,0 +1,75 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Партнеры')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с вакансиями-->
+    <section class="container partners-container">
+        <div class="partners-info">
+            <h2>Партнеры</h2>
+            <p>
+                Мы занимаемся производством бутылок и банок, предоставляя нашим партнёрам уникальную возможность
+                создавать продукцию с индивидуальным дизайном и формой.
+            </p>
+            <p>
+                Если вы ищете надёжного и креативного партнёра для реализации уникальных решений в упаковке,
+                мы готовы предложить вам не только высококачественное производство, но и индивидуальный подход.
+                С нами вы можете воплотить в жизнь нестандартные идеи, которые помогут выделиться на рынке и
+                привлечь внимание ваших клиентов.
+            </p>
+            <p>
+                Присоединяйтесь к нашей партнёрской программе и откройте для себя новые возможности для роста и
+                успеха. Мы уверены, что вместе мы сможем создать упаковку, которая станет визитной карточкой
+                вашего бренда!
+            </p>
+        </div>
+        <div class="partners-items-container">
+            <div th:id="'partner-' + ${partner.id}" th:each="partner : ${partners}" class="partner-item-wrapper">
+                <div class="partner-item partner-item-hidden">
+                    <div class="partner-item-visible">
+                        <div class="partner-item-logo">
+                            <img th:src="${partner.logoImage}" th:alt="${partner.logoImageName}" />
+                        </div>
+                        <div class="partner-item-info">
+                            <div class="partner-item-name">
+                                <h3 th:text="${partner.name}">Название партнера</h3>
+                            </div>
+                            <div class="partner-item-description">
+                                <p th:text="${partner.description}">Описание</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partner-item-products">
+                        <img th:if="${partner.productImage}" th:src="${partner.productImage}" th:alt="${partner.productImageName}" />
+                    </div>
+                </div>
+                <button class="partner-item-toggle" onclick="togglePartnerDetails(this)">
+                    Подробнее
+                    <i class="fa-solid fa-arrow-down"></i>
+                </button>
+            </div>
+        </div>
+        <div th:if="${partners == null || partners.isEmpty()}">
+            <p>К сожалению, партнёров нет.</p>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+    <script src="/js/partner.js"></script>
+</body>
+</html>

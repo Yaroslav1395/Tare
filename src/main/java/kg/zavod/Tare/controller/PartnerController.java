@@ -6,6 +6,7 @@ import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
 import kg.zavod.Tare.service.PartnerService;
+import kg.zavod.Tare.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
@@ -22,7 +23,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class PartnerController {
     private final PartnerService partnerService;
+    private final CategoryService categoryService;
     private static final Logger logger = LoggerFactory.getLogger(PartnerController.class);
+
+    @GetMapping("/partner")
+    public String noticesForUserPage(Model model){
+        logger.info("Запрос на открытие страницы новостей для клиента");
+        try {
+            model.addAttribute("partners", partnerService.getAllPartnersForUser());
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+        }catch (EntitiesNotFoundException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "partner";
+    }
 
     @GetMapping("/admin/partners")
     public String partnersForAdminPage(Model model) {

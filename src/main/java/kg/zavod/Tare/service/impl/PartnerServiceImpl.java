@@ -7,6 +7,7 @@ import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.partner.PartnerForAdminDto;
 import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
 import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
+import kg.zavod.Tare.dto.partner.PartnerForUserDto;
 import kg.zavod.Tare.mapper.partner.PartnerListMapper;
 import kg.zavod.Tare.mapper.partner.PartnerMapper;
 import kg.zavod.Tare.repository.PartnerRepository;
@@ -33,6 +34,22 @@ public class PartnerServiceImpl implements PartnerService {
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(PartnerServiceImpl.class);
+
+    /**
+     * Метод позволяет получить список партнеров для клиента
+     * @return - список партнеров
+     */
+    @Override
+    public List<PartnerForUserDto> getAllPartnersForUser() {
+        logger.info("Попытка поиска всех партнеров для клиента");
+        List<PartnerEntity> partners = partnerRepository.findAll();
+        List<PartnerForUserDto> partnersDto = partnerListMapper.mapToPartnerForUserDtoList(partners);
+        partnersDto.forEach(partner -> {
+            partner.setLogoImage(baseUrlForLoad + partner.getLogoImage());
+            if(partner.getProductImage() != null) partner.setProductImage(baseUrlForLoad + partner.getProductImage());
+        });
+        return partnersDto;
+    }
 
     /**
      * Метод позволяет получить всех партнеров

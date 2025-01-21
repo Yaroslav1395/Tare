@@ -27,7 +27,7 @@
             </p>
         </div>
         <div class="notices-items-container">
-            <div th:each="notice, iterStat : ${vacancies}"
+            <div th:each="notice, iterStat : ${notices}"
                  th:classappend="${iterStat.index % 2 == 0} ? 'notice-item notice-item-yellow' : 'notice-item notice-item-grey'"
                  th:id="'notice-' + ${notice.id}">
                 <!-- Если индекс четный -->
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div th:if="${vacancies == null || vacancies.isEmpty()}">
+        <div th:if="${notices == null || notices.isEmpty()}">
             <p>К сожалению, новостей нет.</p>
         </div>
     </section>

@@ -27,7 +27,7 @@ public class NoticePageController {
     public String noticesForUserPage(Model model){
         logger.info("Запрос на открытие страницы новостей для клиента");
         try {
-            model.addAttribute("vacancies", noticeService.getAllNoticesForUser());
+            model.addAttribute("notices", noticeService.getAllNoticesForUser());
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
         }catch (EntitiesNotFoundException ex) {
             model.addAttribute("errorMessage", ex.getMessage());
