@@ -2,9 +2,9 @@ package kg.zavod.Tare.mapper.certificate;
 
 import kg.zavod.Tare.domain.CertificateEntity;
 import kg.zavod.Tare.domain.ImageType;
-import kg.zavod.Tare.dto.certificate.CertificateDto;
-import kg.zavod.Tare.dto.certificate.CertificateForSaveDto;
-import kg.zavod.Tare.dto.certificate.CertificateForUpdateDto;
+import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,18 +17,59 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface CertificateMapper {
-    @Mapping(target = "certificateImageType", source = "certificateEntity.certificateImageType", qualifiedByName = "getImageType")
-    CertificateDto mapToCertificateDto(CertificateEntity certificateEntity);
+    /**
+     * Метод позволяет преобразовать сущность сертификата в DTO
+     * @param certificateEntity - сущность сертификата
+     * @return - DTO сертификата
+     */
+    CertificateForAdminDto mapToCertificateDto(CertificateEntity certificateEntity);
 
+    /**
+     * Метод позволяет преобразовать DTO сертификата в сущность для сохранения через админку админке
+     * @param certificateForSaveAdminDto - сертификат для сохранения
+     * @param imageType - тип картинки
+     * @param imageTypeKg - тип картинки кыргызской
+     * @param imagePath - путь картинки
+     * @param imagePathKg - путь картинки кыргызской
+     * @return - сущность сертификата
+     */
     @Mapping(target = "certificateImageType", source = "imageType")
-    @Mapping(target = "certificateImageName", source = "certificateForSaveDto.certificateImage", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "certificateImage", source = "certificateForSaveDto.certificateImage", qualifiedByName = "multipartFileToBase64")
-    CertificateEntity mapToCertificateEntity(CertificateForSaveDto certificateForSaveDto, ImageType imageType);
+    @Mapping(target = "certificateImageName", source = "certificateForSaveAdminDto.certificateImage", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "certificateImage", source = "imagePath")
+    @Mapping(target = "certificateImageTypeKg", source = "imageTypeKg")
+    @Mapping(target = "certificateImageNameKg", source = "certificateForSaveAdminDto.certificateImageKg", qualifiedByName = "getNameFromMultipart")
+    @Mapping(target = "certificateImageKg", source = "imagePathKg")
+    CertificateEntity mapToCertificateEntity(CertificateForSaveAdminDto certificateForSaveAdminDto, ImageType imageType, ImageType imageTypeKg, String imagePath, String imagePathKg);
 
-    @Mapping(target = "certificateImageType", source = "imageType")
-    @Mapping(target = "certificateImageName", source = "certificateForUpdateDto.certificateImage", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "certificateImage", source = "certificateForUpdateDto.certificateImage", qualifiedByName = "multipartFileToBase64")
-    void updateCertificateEntity(CertificateForUpdateDto certificateForUpdateDto, ImageType imageType, @MappingTarget CertificateEntity certificate);
+    /**
+     * Метод позволяет обновить сущность сертификата
+     * @param certificateForUpdateAdminDto - сертификат для обновления
+     * @param certificate - сущность сертификата
+     */
+    @Mapping(target = "certificateImage", ignore = true)
+    @Mapping(target = "certificateImageKg", ignore = true)
+    void updateCertificateEntity(CertificateForUpdateAdminDto certificateForUpdateAdminDto, @MappingTarget CertificateEntity certificate);
+
+    /**
+     * Метод позволяет получить имя файла
+     * @param file - файл
+     * @return - имя
+     */
+    @Named("getNameFromMultipart")
+    default String getNameFromMultipart(MultipartFile file) {
+        return file.getOriginalFilename();
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Метод позволит получить формат картинки из типа картинки
@@ -53,15 +94,5 @@ public interface CertificateMapper {
         } catch (IOException e) {
             throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
         }
-    }
-
-    /**
-     * Метод позволяет получить имя файла
-     * @param file - файл
-     * @return - имя
-     */
-    @Named("getNameFromMultipart")
-    default String getNameFromMultipart(MultipartFile file) {
-        return file.getOriginalFilename();
     }
 }

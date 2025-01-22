@@ -1,47 +1,41 @@
 package kg.zavod.Tare.service;
 
-import kg.zavod.Tare.dto.certificate.CertificateDto;
-import kg.zavod.Tare.dto.certificate.CertificateForSaveDto;
-import kg.zavod.Tare.dto.certificate.CertificateForUpdateDto;
+import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface CertificateService {
-    /**
-     * Метод позволяет получить сертификат по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id сертификата
-     * @return - найденный сертификат
-     */
-    CertificateDto getCertificateById(Integer id) throws EntityNotFoundException;
 
     /**
-     * Метод позволяет получить все сертификаты
+     * Метод позволяет получить все сертификаты для админки
      * @throws EntitiesNotFoundException - в случае если ни оного сертификата не найдено
      * @return - список сертификатов
      */
-    List<CertificateDto> getAllCertificate() throws EntitiesNotFoundException;
+    List<CertificateForAdminDto> getAllCertificateForAdmin() throws EntitiesNotFoundException;
 
     /**
      * Метод позволяет сохранить сертификат
-     * @param certificateForSaveDto - сертификат для сохранения
+     * @param certificateForSaveAdminDto - сертификат для сохранения
      * @throws EntityNotFoundException - если формат картинки не поддерживается приложением
      * @throws DuplicateEntityException - в случае если дублируется название сертификата
-     * @return - сохраненный сертификат
+     * @throws IOException - в случае если не удалось сохранить картинку
      */
-    CertificateDto saveCertificate(CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException, DuplicateEntityException;
+    void saveCertificate(CertificateForSaveAdminDto certificateForSaveAdminDto) throws EntityNotFoundException, DuplicateEntityException, IOException;
 
     /**
      * Метод позволят редактировать сертификат
-     * @param certificateForUpdateDto - сертификат для редактирования
+     * @param certificateForUpdateAdminDto - сертификат для редактирования
      * @throws EntityNotFoundException - в случае если не найден сертификат для редактирования
      * @throws DuplicateEntityException - в случае если сертификат с таким именем уже существует
-     * @return - отредактированный сертификат
+     * @throws IOException - в случае если не удалось сохранить картинку
      */
-    CertificateDto updateCertificate(CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
+    void updateCertificate(CertificateForUpdateAdminDto certificateForUpdateAdminDto) throws EntityNotFoundException, DuplicateEntityException, IOException;
 
     /**
      * Метод позволяет удалять сертификат
@@ -49,4 +43,20 @@ public interface CertificateService {
      * @return - удален или нет
      */
     boolean deleteCertificateById(Integer id);
+
+
+
+
+
+
+
+
+
+    /**
+     * Метод позволяет получить сертификат по id
+     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
+     * @param id - id сертификата
+     * @return - найденный сертификат
+     */
+    CertificateForAdminDto getCertificateById(Integer id) throws EntityNotFoundException;
 }

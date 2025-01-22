@@ -8,9 +8,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
-import kg.zavod.Tare.dto.certificate.CertificateDto;
-import kg.zavod.Tare.dto.certificate.CertificateForSaveDto;
-import kg.zavod.Tare.dto.certificate.CertificateForUpdateDto;
+import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -41,7 +41,7 @@ public class CertificateController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    public ResponseEntity<ResponseDto<CertificateDto>> getCertificateById(
+    public ResponseEntity<ResponseDto<CertificateForAdminDto>> getCertificateById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer certificateId) throws EntityNotFoundException {
         logger.info("Получение сертификата по id");
@@ -53,9 +53,9 @@ public class CertificateController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto<List<CertificateDto>>> getAllCertificates() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<CertificateForAdminDto>>> getAllCertificates() throws EntitiesNotFoundException {
         logger.info("Получение всех сертификатов");
-        return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.getAllCertificate(), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.getAllCertificateForAdmin(), ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Создание сертификата", description = "Позволит создать сертификат")
@@ -64,9 +64,10 @@ public class CertificateController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<CertificateDto>> createCertificate(@ModelAttribute @Valid CertificateForSaveDto certificateForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
+    public ResponseEntity<ResponseDto<CertificateForAdminDto>> createCertificate(@ModelAttribute @Valid CertificateForSaveAdminDto certificateForSaveAdminDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание сертификата");
-        return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.saveCertificate(certificateForSaveDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.saveCertificate(certificateForSaveAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование сертификата", description = "Позволит отредактировать сертификат")
@@ -75,9 +76,10 @@ public class CertificateController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<CertificateDto>> updateCertificate(@ModelAttribute @Valid CertificateForUpdateDto certificateForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
+    public ResponseEntity<ResponseDto<CertificateForAdminDto>> updateCertificate(@ModelAttribute @Valid CertificateForUpdateAdminDto certificateForUpdateAdminDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование сертификата");
-        return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.updateCertificate(certificateForUpdateDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(certificateService.updateCertificate(certificateForUpdateAdminDto), ResponseState.SUCCESS,"Success"));*/
     }
 
     @Operation(summary = "Удаление сертификата", description = "Позволит удалить сертификат")

@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
-<head th:replace="~{layouts/admin :: head('Партнеры')}">
+<head th:replace="~{layouts/admin :: head('Сертификаты')}">
 </head>
 <body>
     <!-- Сообщение об ошибке -->
@@ -22,7 +22,7 @@
         <!--Шапка админки-->
         <section th:replace="~{layouts/admin :: header}"></section>
         <!--Кнопки управления-->
-        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/partner/delete})}"></section>
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/certificate/delete})}"></section>
         <!--Окно с инструкцией-->
         <section class="instruction-container" id="instruction">
             <div class="instruction-info-container">
@@ -63,36 +63,36 @@
             </div>
         </section>
         <!--Блок с формой создания-->
-        <div class="form-container form-container-partner" id="create-form">
-            <form class="form-partner" th:action="@{/admin/partner}" th:object="${partnerSave}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateSaveForm()">
+        <div class="form-container form-container-certificate" id="create-form">
+            <form class="form-certificate" th:action="@{/admin/certificate}" th:object="${certificateSave}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateSaveForm()">
                 <div class="form-product-left">
-                    <div class="form-group-partner-img">
-                        <label for="imageLogoPreview">Логотип партнера:</label>
-                        <img id="imageLogoPreview" class="image-preview-logo"/>
+                    <div class="form-group-certificate-img">
+                        <label for="imageCertificateRuPreview">Сертификат на РУС:</label>
+                        <img id="imageCertificateRuPreview" class="image-preview-certificate"/>
                     </div>
                     <div class="form-group">
-                        <label class="form-img-load" for="logoImage">Загрузить логотип</label>
-                        <input th:field="*{logoImage}" type="file" id="logoImage" name="logoImage" class="form-input-none " onchange="previewImageLogo()" />
-                        <small id="logoImageError" style="color: red; display: none;">Выберете картинку</small>
+                        <label class="form-img-load" for="imageCertificateRu">Загрузить сертификат РУС</label>
+                        <input th:field="*{certificateImage}" type="file" id="imageCertificateRu" name="logoImage" class="form-input-none " onchange="previewImageCertificateRu()" />
+                        <small id="imageCertificateRuError" style="color: red; display: none;">Выберете картинку на РУС</small>
                     </div>
-                    <div class="form-group-partner-img">
-                        <label for="imageProductPreview">Продукция партнера:</label>
-                        <img id="imageProductPreview" class="image-preview-product" />
+                    <div class="form-group-certificate-img">
+                        <label for="imageCertificateKgPreview">Сертификат на КЫРГ:</label>
+                        <img id="imageCertificateKgPreview" class="image-preview-certificate" />
                     </div>
                     <div class="form-group">
-                        <label class="form-img-load" for="productImage">Загрузить продукцию</label>
-                        <input th:field="*{productImage}" type="file" id="productImage" name="productImage" class="form-input-none " onchange="previewImageProduct()" />
-                        <small id="productImageError" style="color: red; display: none;">Выберете картинку</small>
+                        <label class="form-img-load" for="imageCertificateKg">Загрузить сертификат КЫРГ</label>
+                        <input th:field="*{certificateImageKg}" type="file" id="imageCertificateKg" name="productImage" class="form-input-none " onchange="previewImageCertificateKg()" />
+                        <small id="imageCertificateKgError" style="color: red; display: none;">Выберете картинку на КЫРГ</small>
                     </div>
                 </div>
                 <div class="form-product-right">
                     <div class="form-group">
-                        <label for="name">Название партнер:</label>
+                        <label for="name">Название сертификата:</label>
                         <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
                         <small id="nameError" style="color: red; display: none;">Введите название</small>
                     </div>
                     <div class="form-group form-group-textarea">
-                        <label for="description">Описание партнера:</label>
+                        <label for="description">Описание сертификата:</label>
                         <textarea th:field="*{description}" id="description" name="description" class="form-control" rows="4" required></textarea>
                         <small id="descriptionError" style="color: red; display: none;">Описание партнера</small>
                     </div>
@@ -104,26 +104,26 @@
             </form>
         </div>
         <!--Блок с формой редактирования-->
-        <div class="form-container form-container-partner" id="edit-form">
-            <form class="form-partner" th:action="@{/admin/partner/update}" th:object="${partnerUpdate}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateUpdateForm()">
+        <div class="form-container form-container-certificate" id="edit-form">
+            <form class="form-certificate" th:action="@{/admin/certificate/update}" th:object="${certificateUpdate}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateUpdateForm()">
                 <div class="form-product-left">
-                    <div class="form-group-partner-img">
-                        <label for="imageLogoPreview">Логотип партнера:</label>
-                        <img id="imageLogoPreviewUpdate" class="image-preview-logo"/>
+                    <div class="form-group-certificate-img">
+                        <label for="imageCertificateRuPreviewUpdate">Сертификат на РУС:</label>
+                        <img id="imageCertificateRuPreviewUpdate" class="image-preview-certificate"/>
                     </div>
                     <div class="form-group">
-                        <label class="form-img-load" for="logoImageUpdate">Загрузить логотип</label>
-                        <input th:field="*{logoImage}" type="file" id="logoImageUpdate" name="logoImage" class="form-input-none" onchange="previewImageLogoUpdate()"/>
-                        <small id="logoImageUpdateError" style="color: red; display: none;">Выберете картинку</small>
+                        <label class="form-img-load" for="imageCertificateRuUpdate">Загрузить сертификат РУС</label>
+                        <input th:field="*{certificateImage}" type="file" id="imageCertificateRuUpdate" name="logoImage" class="form-input-none " onchange="previewImageCertificateRuUpdate()" />
+                        <small id="imageCertificateRuErrorUpdate" style="color: red; display: none;">Выберете картинку на РУС</small>
                     </div>
-                    <div class="form-group-partner-img">
-                        <label for="imageProductPreview">Продукция партнера:</label>
-                        <img id="imageProductPreviewUpdate" class="image-preview-product" />
+                    <div class="form-group-certificate-img">
+                        <label for="imageCertificateKgPreviewUpdate">Сертификат на КЫРГ:</label>
+                        <img id="imageCertificateKgPreviewUpdate" class="image-preview-certificate" />
                     </div>
                     <div class="form-group">
-                        <label class="form-img-load" for="productImageUpdate">Загрузить продукцию</label>
-                        <input th:field="*{productImage}" type="file" id="productImageUpdate" name="productImage" class="form-input-none " onchange="previewImageProductUpdate()"/>
-                        <small id="productImageUpdateError" style="color: red; display: none;">Выберете картинку</small>
+                        <label class="form-img-load" for="imageCertificateKgUpdate">Загрузить сертификат КЫРГ</label>
+                        <input th:field="*{certificateImageKg}" type="file" id="imageCertificateKgUpdate" name="productImage" class="form-input-none " onchange="previewImageCertificateKgUpdate()" />
+                        <small id="imageCertificateKgErrorUpdate" style="color: red; display: none;">Выберете картинку на КЫРГ</small>
                     </div>
                 </div>
                 <div class="form-product-right">
@@ -131,14 +131,14 @@
                         <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
                     </div>
                     <div class="form-group">
-                        <label for="name">Название партнера:</label>
+                        <label for="name">Название сертификата:</label>
                         <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
                         <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
                     </div>
                     <div class="form-group form-group-textarea">
-                        <label for="description">Описание партнера:</label>
+                        <label for="description">Описание сертификата:</label>
                         <textarea th:field="*{description}" id="descriptionUpdate" name="description" class="form-control" rows="4" required></textarea>
-                        <small id="descriptionUpdateError" style="color: red; display: none;">Описание партнера</small>
+                        <small id="descriptionErrorUpdate" style="color: red; display: none;">Описание партнера</small>
                     </div>
                     <div class="form-group-button">
                         <button id="saveButtonUpdate" type="submit" class="form-control-btn">Сохранить</button>
@@ -156,23 +156,24 @@
             <tr>
                 <th>ID</th>
                 <th>Название</th>
-                <th>Логотип</th>
-                <th>Тип лого</th>
-                <th>Продукция</th>
-                <th>Тип продукции</th>
+                <th>Описание</th>
+                <th>Название на русском</th>
+                <th>Тип на русском</th>
+                <th>Название на кыргызском</th>
+                <th>Тип на кыргызском</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="partner : ${partners}" onclick="selectRow(this)">
-                <td th:text="${partner.id}"></td>
-                <td th:text="${partner.name}"></td>
-                <td th:text="${partner.logoImageName}"></td>
-                <td th:text="${partner.logoImageType}"></td>
-                <td th:text="${partner.productImageName}"></td>
-                <td th:text="${partner.productImageType}"></td>
-                <td th:text="${partner.logoImage}"  style="display: none"></td>
-                <td th:text="${partner.productImage}"  style="display: none"></td>
-                <td th:text="${partner.description}"  style="display: none"></td>
+            <tr th:each="certificate : ${certificates}" onclick="selectRow(this)">
+                <td th:text="${certificate.id}"></td>
+                <td th:text="${certificate.name}"></td>
+                <td th:text="${certificate.description}"></td>
+                <td th:text="${certificate.certificateImageName}"></td>
+                <td th:text="${certificate.certificateImageType}"></td>
+                <td th:text="${certificate.certificateImageNameKg}"></td>
+                <td th:text="${certificate.certificateImageTypeKg}"></td>
+                <td th:text="${certificate.certificateImage}" style="display: none"></td>
+                <td th:text="${certificate.certificateImageKg}"  style="display: none"></td>
             </tr>
             </tbody>
         </table>
@@ -183,6 +184,6 @@
 
     <script src="/js/notification.js"></script>
     <script src="/js/admin/general.js"></script>
-    <script src="/js/admin/partner.js"></script>
+    <script src="/js/admin/certificate.js"></script>
 </body>
 </html>

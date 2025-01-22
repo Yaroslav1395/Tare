@@ -133,7 +133,7 @@ public class PartnerServiceImpl implements PartnerService {
             String logoPath = UtilService.saveImage(partnerForUpdateAdminDto.getLogoImage(), "partners/logo", basicPath);
             String fileName = partnerForUpdateAdminDto.getLogoImage().getOriginalFilename();
             partner.setLogoImage(logoPath);
-            partner.setLogoImageType(fileName);
+            partner.setLogoImageName(fileName);
             partner.setLogoImageType(logoImageType.toString());
         }
     }

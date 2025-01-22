@@ -24,4 +24,10 @@ public class CertificateEntity {
     private String certificateImageName;
     @Column(name = "certificate_image_type")
     private String certificateImageType;
+    @Column(name = "certificate_image_kg")
+    private String certificateImageKg;
+    @Column(name = "certificate_image_name_kg")
+    private String certificateImageNameKg;
+    @Column(name = "certificate_image_type_kg")
+    private String certificateImageTypeKg;
 }

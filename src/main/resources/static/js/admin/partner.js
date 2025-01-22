@@ -3,7 +3,7 @@ function previewImageLogo() {
     const imagePreview = document.getElementById('imageLogoPreview');
     const imageError = document.getElementById('logoImageError');
     const saveButton = document.getElementById('saveButton');
-    const maxSize = 6000 * 1024; // 60 KB
+    const maxSize = 60 * 1024; // 60 KB
 
     if (imageInput.files.length > 0) {
         const file = imageInput.files[0];
@@ -82,7 +82,7 @@ function validateSaveForm() {
         return isValid;
     }
 
-    if(logoImageInput.files[0].size > 6000 * 1024) {
+    if(logoImageInput.files[0].size > 60 * 1024) {
         logoImageError.textContent = 'Размер файла не должен превышать 60 KB';
         logoImageError.style.display = 'block';
         isValid = false;

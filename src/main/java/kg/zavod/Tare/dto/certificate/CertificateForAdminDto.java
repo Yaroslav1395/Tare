@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Класс описывает сертификат")
-public class CertificateDto {
+public class CertificateForAdminDto {
     @Schema(description = "Id сертификата")
     private Integer id;
     @Schema(description = "Название сертификата")
@@ -24,4 +24,10 @@ public class CertificateDto {
     private String certificateImageName;
     @Schema(description = "Тип картинки сертификата")
     private String certificateImageType;
+    @Schema(description = "Картинка сертификата на кыргызском")
+    private String certificateImageKg;
+    @Schema(description = "Название картинка сертификата на кыргызском")
+    private String certificateImageNameKg;
+    @Schema(description = "Тип картинки сертификата на кыргызском")
+    private String certificateImageTypeKg;
 }
