@@ -3,6 +3,7 @@ package kg.zavod.Tare.service;
 import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForUserDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -11,6 +12,12 @@ import java.io.IOException;
 import java.util.List;
 
 public interface CertificateService {
+
+    /**
+     * Метод позволяет получить все сертификаты для клиента
+     * @return - список сертификатов
+     */
+    List<CertificateForUserDto> getAllCertificateForUser();
 
     /**
      * Метод позволяет получить все сертификаты для админки

@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Сертификаты')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с вакансиями-->
+    <section class="container certificate-container">
+        <div class="certificate-info">
+            <h2>Сертификаты</h2>
+            <p>
+                Наша компания гордится тем, что вся наша продукция сертифицирована в соответствии с установленными
+                стандартами качества и безопасности. Мы строго соблюдаем нормативные требования и подтверждаем это
+                официальными документами.
+            </p>
+            <p>
+                Сертификация продукции – это не только знак высокого качества, но и ваше уверенность в надежности и
+                безопасности наших товаров. Этот подход позволяет нам обеспечивать максимальное соответствие вашим ожиданиям
+                и потребностям.
+            </p>
+            <p>
+                Выбирая нашу продукцию, вы получаете:
+            </p>
+            <ul>
+                <li>Гарантию качества, подтвержденную независимыми проверками.</li>
+                <li>Соответствие международным и национальным стандартам.</li>
+                <li>Надежного партнера, заботящегося о вашем комфорте и безопасности.</li>
+            </ul>
+        </div>
+        <div class="certificate-items-container">
+            <div th:each="certificate : ${certificates}" class="certificate-item">
+                <div class="certificate-item-images-container">
+                    <div class="certificate-item-img-container">
+                        <img id="main-certificate" class="zoomable-image"
+                             th:src="@{${certificate.certificateImage}}"
+                             th:alt="${certificate.certificateImageName}" />
+                    </div>
+                </div>
+                <div class="certificate-item-info-container">
+                    <div class="certificate-item-info-container-top">
+                        <h3 th:text="${certificate.name}">Название сертификата</h3>
+                        <p th:text="${certificate.description}">Описание сертификата</p>
+                    </div>
+                    <div class="certificate-item-info-container-bottom">
+                        <div class="certificate-thumbnails">
+                            <img class="certificate-thumbnail active"
+                                 th:src="@{${certificate.certificateImage}}"
+                                 th:alt="${certificate.certificateImageName}"
+                                 onclick="changeImage(this)" />
+                            <img class="certificate-thumbnail"
+                                 th:src="@{${certificate.certificateImageKg}}"
+                                 th:alt="${certificate.certificateImageNameKg}"
+                                 onclick="changeImage(this)" />
+                        </div>
+                        <div class="certificate-save-btn-container">
+                            <a class="certificate-item-btn"
+                               th:href="@{${certificate.certificateImage}}"
+                               download>СКАЧАТЬ РУС</a>
+                            <a class="certificate-item-btn"
+                               th:href="@{${certificate.certificateImageKg}}"
+                               download>СКАЧАТЬ КЫРГ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${certificates == null || certificates.isEmpty()}">
+            <p>К сожалению, сертификатов нет.</p>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+    <script src="/js/certificate.js"></script>
+</body>
+</html>

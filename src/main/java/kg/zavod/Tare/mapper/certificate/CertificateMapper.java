@@ -5,6 +5,7 @@ import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForUserDto;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,6 +18,13 @@ import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface CertificateMapper {
+    /**
+     * Метод позволяет преобразовать сущность сертификата в DTO для клиента
+     * @param certificateEntity - сущность сертификата
+     * @return - DTO сертификата
+     */
+    CertificateForUserDto mapToCertificateForUserDto(CertificateEntity certificateEntity);
+
     /**
      * Метод позволяет преобразовать сущность сертификата в DTO
      * @param certificateEntity - сущность сертификата

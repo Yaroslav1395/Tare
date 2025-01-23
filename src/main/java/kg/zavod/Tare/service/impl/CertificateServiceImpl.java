@@ -6,6 +6,7 @@ import kg.zavod.Tare.domain.PartnerEntity;
 import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
+import kg.zavod.Tare.dto.certificate.CertificateForUserDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -35,6 +36,22 @@ public class CertificateServiceImpl implements CertificateService {
     @Value("${base.url.load}")
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(VacancyServiceImpl.class);
+
+    /**
+     * Метод позволяет получить все сертификаты для клиента
+     * @return - список сертификатов
+     */
+    @Override
+    public List<CertificateForUserDto> getAllCertificateForUser() {
+        logger.info("Попытка поиска всех сертификатов для клиента");
+        List<CertificateEntity> certificates = certificateRepository.findAll();
+        List<CertificateForUserDto> certificatesDto = certificateListMapper.mapToCertificateForUserDtoList(certificates);
+        certificatesDto.forEach(certificateDto -> {
+            certificateDto.setCertificateImage(baseUrlForLoad + certificateDto.getCertificateImage());
+            certificateDto.setCertificateImageKg(baseUrlForLoad + certificateDto.getCertificateImageKg());
+        });
+        return certificatesDto;
+    }
 
     /**
      * Метод позволяет получить все сертификаты для админки

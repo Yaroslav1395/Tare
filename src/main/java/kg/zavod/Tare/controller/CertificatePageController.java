@@ -25,8 +25,21 @@ public class CertificatePageController {
     private final CertificateService certificateService;
     private static final Logger logger = LoggerFactory.getLogger(CertificatePageController.class);
 
-    @GetMapping("/admin/certificates")
+    @GetMapping("/certificate")
     public String certificatesForUserPage(Model model){
+        logger.info("Запрос на открытие страницы новостей для клиента");
+        try {
+            model.addAttribute("certificates", certificateService.getAllCertificateForUser());
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+        }catch (EntitiesNotFoundException ex) {
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "certificate";
+    }
+
+
+    @GetMapping("/admin/certificates")
+    public String certificatesForAdminPage(Model model){
         logger.info("Запрос на открытие страницы сертификатов для админки");
         try {
             model.addAttribute("certificates", certificateService.getAllCertificateForAdmin());
