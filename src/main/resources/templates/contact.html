@@ -1,0 +1,142 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Контакты')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с вакансиями-->
+    <section class="container contacts-container">
+        <div class="contacts-info">
+            <h2>Контакты</h2>
+            <p>
+                Мы всегда рады вашим вопросам, предложениям и обратной связи. Если у вас есть интересующие вас темы, запросы
+                или идеи для сотрудничества, наша команда с удовольствием вам поможет.
+            </p>
+            <p>
+                Наши специалисты стремятся оперативно отвечать на все обращения. Мы ценим ваше время и постараемся предоставить
+                всю необходимую информацию в кратчайшие сроки.
+            </p>
+        </div>
+        <div class="contacts-items-container">
+            <div class="contacts-item">
+                <div class="contacts-item-left">
+                    <div class="contacts-item-name">
+                        <h2>Профикс-Юг</h2>
+                    </div>
+                    <div class="contacts-item-address">
+                        <p>г. Бишкек, ул. Исанова, 163/1</p>
+                    </div>
+                    <div class="contacts-item-phones">
+                        <div class="contacts-item-phone">
+                            <div class="contacts-item-phone-icon">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <p>0 312 32-34-34</p>
+                        </div>
+                        <div class="contacts-item-phone">
+                            <div class="contacts-item-phone-icon">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+                            <p>0 556 09-15-52</p>
+                        </div>
+                        <div class="contacts-item-phone">
+                            <div class="contacts-item-phone-icon">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <p>0 500 09-15-52</p>
+                        </div>
+                    </div>
+                    <div class="contacts-item-work-time-container">
+                        <p class="contacts-item-work-time-title">Время работы:</p>
+                        <div class="contacts-item-work-time-wrapper">
+                            <div class="contacts-item-work-time-day">
+                                <p>пн-пт:</p>
+                            </div>
+                            <p class="contacts-item-work-time">8:00-17:00</p>
+                        </div>
+                        <div class="contacts-item-work-time-wrapper">
+                            <div class="contacts-item-work-time-day">
+                                <p>сб:</p>
+                            </div>
+                            <p class="contacts-item-work-time">8:00-16:00</p>
+                        </div>
+                        <div class="contacts-item-work-time-wrapper">
+                            <div class="contacts-item-work-time-day">
+                                <p>вс:</p>
+                            </div>
+                            <p class="contacts-item-work-time">выходной</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contacts-item-right">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1229.604533912394!2d74.52019185754527!3d42.862101382122724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389ec8c234c9a50b%3A0xdb8e8251ad3d444!2zItCf0YDQvtGE0LjQutGBLSDQrtCzIg!5e0!3m2!1sru!2skg!4v1735997117823!5m2!1sru!2skg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="contacts-item">
+                <div class="contacts-item-left">
+                    <div class="contacts-item-name">
+                        <h2>Торговый дом Римини</h2>
+                    </div>
+                    <div class="contacts-item-address">
+                        <p>г. Бишкек, ул. Лущихина, 99Б/1</p>
+                    </div>
+                    <div class="contacts-item-phones">
+                        <div class="contacts-item-phone">
+                            <div class="contacts-item-phone-icon">
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+                            </div>
+                            <p>0 551 55-11-00</p>
+                        </div>
+                        <div class="contacts-item-phone">
+                            <div class="contacts-item-phone-icon">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <p>0 551 55-11-00</p>
+                        </div>
+                    </div>
+                    <div class="contacts-item-work-time-container">
+                        <p class="contacts-item-work-time-title">Время работы:</p>
+                        <div class="contacts-item-work-time-wrapper">
+                            <div class="contacts-item-work-time-day">
+                                <p>пн-пт:</p>
+                            </div>
+                            <p class="contacts-item-work-time">8:00-17:00</p>
+                        </div>
+                        <div class="contacts-item-work-time-wrapper">
+                            <div class="contacts-item-work-time-day">
+                                <p>сб:</p>
+                            </div>
+                            <p class="contacts-item-work-time">8:00-16:00</p>
+                        </div>
+                        <div class="contacts-item-work-time-wrapper">
+                            <div class="contacts-item-work-time-day">
+                                <p>вс:</p>
+                            </div>
+                            <p class="contacts-item-work-time">выходной</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contacts-item-right">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2923.410899935349!2d74.58983847662272!3d42.88527670175773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389ec81d709c1925%3A0x5be933aee463ddff!2z0KLQvtGA0LPQvtCy0YvQuSDQtNC-0Lwg0KDQmNCc0JjQndCY!5e0!3m2!1sru!2skg!4v1737620836851!5m2!1sru!2skg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+</body>
+</html>

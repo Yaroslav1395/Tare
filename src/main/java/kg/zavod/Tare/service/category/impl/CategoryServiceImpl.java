@@ -2,14 +2,14 @@ package kg.zavod.Tare.service.category.impl;
 
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
-import kg.zavod.Tare.dto.category.CategoryDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForUserDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
 import kg.zavod.Tare.dto.category.mvc.*;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.subcategory.SubcategorySimpleDto;
+import kg.zavod.Tare.dto.subcategory.mvc.SubcategorySimpleDto;
 import kg.zavod.Tare.mapper.category.CategoryListMapper;
 import kg.zavod.Tare.mapper.category.CategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
@@ -45,6 +45,21 @@ public class CategoryServiceImpl implements CategoryService {
     private String baseUrlForLoad;
     private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
+    /**
+     * Метод позволяет получить все категории с подкатегориями
+     * @throws EntitiesNotFoundException - в случае если ни оной категории не найдено
+     * @return - список категорий
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<CategoryForUserDto> getAllCategories() throws EntitiesNotFoundException {
+        logger.info("Поиск всех категорий");
+        List<CategoryEntity> categories = categoryRepository.findAll();
+        if(categories.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одной категории");
+        List<CategoryForUserDto> categoriesDto =  categoryListMapper.mapToCategoryDtoList(categories);
+        categoriesDto.forEach(category -> category.setCategoryImage(baseUrlForLoad + category.getCategoryImage()));
+        return sortBySubcategoryName(categoriesDto);
+    }
 
     /**
      * Метод позволяет получить категорию для клиента по id
@@ -53,7 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @throws EntityNotFoundException - в случае если категория не будет найдена
      */
     @Override
-    public CategoryForUserDto getCategoryForUserById(Integer categoryId) throws EntityNotFoundException {
+    public CategorySimpleForUserDto getCategoryForUserById(Integer categoryId) throws EntityNotFoundException {
         logger.info("Попытка получения категории по id");
         CategoryEntity category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new EntityNotFoundException("Не найдена категория по id"));
@@ -120,6 +135,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     /**
+     * Метод позволяет удалять категорию
+     * @param id - id категории
+     * @return - удалена или нет
+     */
+    @Override
+    @Transactional
+    public Boolean deleteCategoryById(Integer id) {
+        logger.info("Удаление категории");
+        categoryRepository.deleteById(id);
+        return !categoryRepository.existsById(id);
+    }
+
+    /**
      * Метод позволяет получить все категории для главной страницы MVC
      * @return - список категорий
      * @throws EntitiesNotFoundException - в случае если не найдены категории продуктов
@@ -140,6 +168,20 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryListMapper.mapToCategoryForHomeDtoList(null);
     }
 
+    /**
+     * Метод позволяет отсортировать подкатегории для каждой категории
+     * @param categories - список категорий
+     * @return - отсортированный список категорий по подкатегориям
+     */
+    private List<CategoryForUserDto> sortBySubcategoryName(List<CategoryForUserDto> categories) {
+        return categories.stream()
+                .peek(category -> category.setSubcategories(
+                        category.getSubcategories().stream()
+                                .sorted(Comparator.comparing(SubcategorySimpleDto::getName))
+                                .collect(Collectors.toList())))
+                .toList();
+    }
+
 
 
 
@@ -155,26 +197,11 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     @Transactional(readOnly = true)
-    public CategoryDto getCategoryById(Integer id) throws EntityNotFoundException {
+    public CategoryForUserDto getCategoryById(Integer id) throws EntityNotFoundException {
         logger.info("Поиск категории по id");
         CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Категория по id не найдена"));
         return categoryMapper.mapToCategoryDto(category);
-    }
-
-    /**
-     * Метод позволяет получить все категории с подкатегориями
-     * @throws EntitiesNotFoundException - в случае если ни оной категории не найдено
-     * @return - список категорий
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<CategoryDto> getAllCategories() throws EntitiesNotFoundException {
-        logger.info("Поиск всех категорий");
-        List<CategoryEntity> categories = categoryRepository.findAll();
-        if(categories.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одной категории");
-        List<CategoryDto> categoriesDto =  categoryListMapper.mapToCategoryDtoList(categories);
-        return sortBySubcategoryName(categoriesDto);
     }
 
     /**
@@ -186,7 +213,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     @Transactional
-    public CategoryDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException, EntityNotFoundException {
+    public CategoryForUserDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException, EntityNotFoundException {
         logger.info("Попытка сохранения категории");
         boolean isDuplicateName = categoryRepository.findByName(categoryForSaveDto.getName()).isPresent();
         if(isDuplicateName) throw new DuplicateEntityException("Такое название категории уже существует");
@@ -205,7 +232,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     @Transactional
-    public CategoryDto updateCategory(CategoryForUpdateDto categoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
+    public CategoryForUserDto updateCategory(CategoryForUpdateDto categoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Поиск категории по id для редактирования");
         boolean isDuplicateName = categoryRepository.findByNameAndIdIsNot(categoryForUpdateDto.getName(), categoryForUpdateDto.getId()).isPresent();
         if(isDuplicateName) throw new DuplicateEntityException("При редактировании дублируется название другой категории");
@@ -217,32 +244,5 @@ public class CategoryServiceImpl implements CategoryService {
         logger.info("Сохранение отредактированных данных категории");
         CategoryEntity savedCategory = categoryRepository.save(updatedCategory);
         return categoryMapper.mapToCategoryDto(savedCategory);
-    }
-
-    /**
-     * Метод позволяет удалять категорию
-     * @param id - id категории
-     * @return - удалена или нет
-     */
-    @Override
-    @Transactional
-    public Boolean deleteCategoryById(Integer id) {
-        logger.info("Удаление категории");
-        categoryRepository.deleteById(id);
-        return !categoryRepository.existsById(id);
-    }
-
-    /**
-     * Метод позволяет отсортировать подкатегории для каждой категории
-     * @param categories - список категорий
-     * @return - отсортированный список категорий по подкатегориям
-     */
-    private List<CategoryDto> sortBySubcategoryName(List<CategoryDto> categories) {
-        return categories.stream()
-                .peek(category -> category.setSubcategories(
-                        category.getSubcategories().stream()
-                                .sorted(Comparator.comparing(SubcategorySimpleDto::getName))
-                                .collect(Collectors.toList())))
-                .toList();
     }
 }

@@ -2780,3 +2780,142 @@ table {
     justify-content: center;
     position: relative;
 }
+
+/******************************************************************************************/
+/*******************************Стили страницы контактов***********************************/
+/******************************************************************************************/
+.contacts-container {
+    min-height: 75vh;
+}
+
+.contacts-info {
+    margin-top: 30px;
+}
+
+.contacts-info h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+.contacts-info p {
+    color: #8c8c8c;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.contacts-items-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 30px;
+    width: 100%;
+    margin-top: 60px;
+}
+
+.contacts-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.contacts-item-left {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.contacts-item-left p {
+    color: #8c8c8c;
+    font-size: 19px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+}
+
+.contacts-item-left h2 {
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+
+.contacts-item-phones {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.contacts-item-phone {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 40px;
+}
+
+.contacts-item-phone-icon {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #ffd725;
+    margin-right: 10px;
+}
+
+.contacts-item-phone-icon i {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 auto;
+    font-size: 23px;
+    color: #333333;
+}
+
+.contacts-item-work-time-title {
+    font-weight: 500;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+    margin-bottom: 8px;
+}
+
+.contacts-item-work-time-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 5px;
+}
+
+.contacts-item-work-time-day {
+    width: 70px;
+    margin-right: 10px;
+}
+
+.contacts-item-work-time-day p {
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+.contacts-item-work-time {
+    font-weight: 400;
+    font-size: 15px;
+    font-family: 'Inter Tight', serif;
+    color: #f4f4f4;
+}
+
+.contacts-item-right iframe {
+    filter: invert(100%);
+}

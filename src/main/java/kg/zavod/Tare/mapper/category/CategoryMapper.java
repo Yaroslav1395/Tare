@@ -2,14 +2,13 @@ package kg.zavod.Tare.mapper.category;
 
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
-import kg.zavod.Tare.dto.category.CategoryDto;
+import kg.zavod.Tare.dto.category.mvc.CategoryForUserDto;
 import kg.zavod.Tare.dto.category.CategoryForSaveDto;
 import kg.zavod.Tare.dto.category.CategoryForUpdateDto;
 import kg.zavod.Tare.dto.category.mvc.*;
 import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryListMapper;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ public interface CategoryMapper {
      */
     @Mapping(target = "id", source = "category.id")
     @Mapping(target = "name", source = "category.name")
-    CategoryForUserDto mapToCategoryForUserDto(CategoryEntity category);
+    CategorySimpleForUserDto mapToCategoryForUserDto(CategoryEntity category);
 
     /**
      * Метод позволяет получить сущность категории из DTO. Используется для редактирования категории через админку MVC
@@ -77,7 +76,7 @@ public interface CategoryMapper {
 
     @Mapping(target = "id", source = "id")
     @Mapping(target = "imageType", source = "imageType", qualifiedByName = "getImageType")
-    CategoryDto mapToCategoryDto(CategoryEntity categoryEntity);
+    CategoryForUserDto mapToCategoryDto(CategoryEntity categoryEntity);
 
     @Mapping(target = "categoryImage", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "multipartFileToBase64")
     @Mapping(target = "categoryImageName", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "getNameFromMultipart")

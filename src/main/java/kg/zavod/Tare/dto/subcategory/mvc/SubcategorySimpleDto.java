@@ -1,4 +1,4 @@
-package kg.zavod.Tare.dto.subcategory;
+package kg.zavod.Tare.dto.subcategory.mvc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

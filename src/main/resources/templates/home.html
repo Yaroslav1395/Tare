@@ -250,12 +250,18 @@
             <div class="home-certificate-container">
                 <div class="home-certificate-images-container">
                     <div class="home-certificate-img-container">
-                        <img id="main-certificate" class="zoomable-image" src="/images/certificate/certificate.jpg" alt="Сертификат на бутылки">
+                        <img id="main-certificate" class="zoomable-image"
+                             th:src="@{${certificates[0].certificateImage}}"
+                             th:alt="${certificates[0].certificateImageName}">
                     </div>
                     <div class="home-certificate-thumbnails">
-                        <img class="thumbnail active" src="/images/certificate/certificate.jpg" alt="Сертификат на бутылки 1" onclick="changeImage(this)">
-                        <img class="thumbnail" src="/images/certificate/certificate_2.jpg" alt="Сертификат на бутылки 2" onclick="changeImage(this)">
-                        <img class="thumbnail" src="/images/certificate/certificate_3.jpg" alt="Сертификат на бутылки 3" onclick="changeImage(this)">
+                        <th:block th:each="certificate, iterStat : ${certificates}">
+                            <img class="thumbnail"
+                                 th:classappend="${iterStat.index == 0} ? 'active'"
+                                 th:src="@{${certificate.certificateImage}}"
+                                 th:alt="${certificate.certificateImageName}"
+                                 th:onclick="'changeImage(this)'">
+                        </th:block>
                     </div>
                 </div>
                 <div class="home-certificate-info-container">

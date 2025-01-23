@@ -2,7 +2,7 @@ package kg.zavod.Tare.mapper.subcategory;
 
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.dto.subcategory.SubcategoryDto;
-import kg.zavod.Tare.dto.subcategory.SubcategorySimpleDto;
+import kg.zavod.Tare.dto.subcategory.mvc.SubcategorySimpleDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForAdminDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForHomeDto;
 import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
