@@ -908,3 +908,32 @@ table {
     margin: 0 auto;
     object-fit: contain;
 }
+
+/******************************************************************************************/
+/***********************************Стили для доставки*************************************/
+/******************************************************************************************/
+.delivery-table {
+    width: 100%;
+}
+
+.delivery-table th {
+    font-family: 'Rubik', sans-serif;
+    color: #003b46;
+    background-color: #66A5AD;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 0;
+}
+
+.delivery-table tr td {
+    font-family: 'Inter Tight', serif;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 15px 5px;
+    text-align: center;
+}
+
+.delivery-table tr td:first-child {
+    text-align: left;
+    padding: 15px 0 15px 10px;
+}

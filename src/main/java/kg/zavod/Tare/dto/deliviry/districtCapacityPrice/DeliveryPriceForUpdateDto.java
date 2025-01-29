@@ -19,14 +19,5 @@ public class DeliveryPriceForUpdateDto {
     @Min(value = 1, message = "Id цены доставки не может быть меньше 1-го")
     private Integer id;
     @Schema(description = "Цена доставки")
-    //@NotNull(message = "Цена доставки не может быть null")
     private Integer price;
-    /*@Schema(description = "Район доставки")
-    @NotNull(message = "Id района доставки не может быть null")
-    @Min(value = 1, message = "Id района доставки не может быть меньше 1-го")
-    private Integer districtId;
-    @Schema(description = "Объем доставки")
-    @NotNull(message = "Id объема доставки не может быть null")
-    @Min(value = 1, message = "Id объема доставки не может быть меньше 1-го")
-    private Integer capacityId;*/
 }
