@@ -1,7 +1,5 @@
 package kg.zavod.Tare.controller;
 
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForUpdateAdminDto;
 import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateDto;
 import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForSaveAdminDto;
 import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForUpdateAdminDto;
@@ -26,8 +24,8 @@ public class DivisionPageController {
     private static final Logger logger = LoggerFactory.getLogger(DivisionPageController.class);
 
     @GetMapping("/admin/divisions")
-    public String capacitiesForAdminPage(Model model) {
-        logger.info("Запрос на открытие страницы районов доставки");
+    public String divisionsForAdminPage(Model model) {
+        logger.info("Запрос на открытие страницы областей доставки");
         try {
             model.addAttribute("divisionSave", new DivisionForSaveAdminDto());
             model.addAttribute("divisionUpdate", new DivisionForUpdateDto());
@@ -39,46 +37,46 @@ public class DivisionPageController {
     }
 
     @PostMapping("/admin/division")
-    public String createCapacity(RedirectAttributes redirectAttributes, @ModelAttribute DivisionForSaveAdminDto divisionForSaveAdminDto) {
-        logger.info("Запрос на сохранение района доставки");
+    public String createDivision(RedirectAttributes redirectAttributes, @ModelAttribute DivisionForSaveAdminDto divisionForSaveAdminDto) {
+        logger.info("Запрос на сохранение области доставки");
         try {
             divisionService.saveDivision(divisionForSaveAdminDto);
-            redirectAttributes.addFlashAttribute("successMessage", "Район доставки сохранен");
+            redirectAttributes.addFlashAttribute("successMessage", "Область доставки сохранена");
             return "redirect:/admin/divisions";
         } catch (Exception ex){
-            logger.error("Ошибка при сохранении района доставки: {}", ex.getMessage());
+            logger.error("Ошибка при сохранении области доставки: {}", ex.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/admin/divisions";
         }
     }
 
     @PostMapping("/admin/division/update")
-    public String updateCategory(@ModelAttribute DivisionForUpdateAdminDto divisionForUpdateAdminDto, RedirectAttributes redirectAttributes) {
-        logger.info("Запрос на редактирование района доставки");
+    public String updateDivision(@ModelAttribute DivisionForUpdateAdminDto divisionForUpdateAdminDto, RedirectAttributes redirectAttributes) {
+        logger.info("Запрос на редактирование области доставки");
         try {
             divisionService.updateDivision(divisionForUpdateAdminDto);
-            redirectAttributes.addFlashAttribute("successMessage", "Район доставки отредактирован");
+            redirectAttributes.addFlashAttribute("successMessage", "Область доставки отредактирована");
             return "redirect:/admin/divisions";
         }catch (Exception ex){
-            logger.error("Ошибка при редактировании района доставки: {}", ex.getMessage());
+            logger.error("Ошибка при редактировании области доставки: {}", ex.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/admin/divisions";
         }
     }
 
     @PostMapping("/admin/division/delete")
-    public String deleteCategory(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
-        logger.info("Запрос на удаление допустимого объема");
+    public String deleteDivision(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+        logger.info("Запрос на удаление области доставки");
         try {
             divisionService.deleteDivisionById(id);
-            redirectAttributes.addFlashAttribute("successMessage", "Района доставки удален");
+            redirectAttributes.addFlashAttribute("successMessage", "Область доставки удалена");
             return "redirect:/admin/divisions";
         }catch (ConstraintViolationException ex) {
             logger.error("Попытка удаления района доставки связанного с другими данными: {}", ex.getMessage());
-            redirectAttributes.addFlashAttribute("errorMessage", "У района доставки установлены цены доставки. Удаление невозможно");
+            redirectAttributes.addFlashAttribute("errorMessage", "У области доставки установлены цены доставки. Удаление невозможно");
             return "redirect:/admin/divisions";
         }catch (Exception ex){
-            logger.error("Ошибка при удалении района доставки: {}", ex.getMessage());
+            logger.error("Ошибка при удалении области доставки: {}", ex.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
             return "redirect:/admin/divisions";
         }

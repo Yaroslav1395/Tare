@@ -65,7 +65,7 @@ public class DistrictController {
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DistrictDto>> createDistrict(@ModelAttribute @Valid DistrictForSaveDto districtForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание района");
-        return ResponseEntity.ok(ResponseDto.buildResponse(districtService.saveDistrict(districtForSaveDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование района", description = "Позволит отредактировать район")
@@ -76,7 +76,7 @@ public class DistrictController {
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DistrictDto>> updateDistrict(@ModelAttribute @Valid DistrictForUpdateDto districtForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование района");
-        return ResponseEntity.ok(ResponseDto.buildResponse(districtService.updateDistrict(districtForUpdateDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Удаление района", description = "Позволит удалить район")
@@ -89,6 +89,6 @@ public class DistrictController {
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer districtId) {
         logger.info("Удаление района");
-        return ResponseEntity.ok(ResponseDto.buildResponse(districtService.deleteDistrictById(districtId), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 }

@@ -50,7 +50,7 @@ public class CapacityPageController {
     }
 
     @PostMapping("/admin/capacity/update")
-    public String updateCategory(@ModelAttribute CapacityForUpdateAdminDto capacityForUpdateAdminDto, RedirectAttributes redirectAttributes) {
+    public String updateCapacity(@ModelAttribute CapacityForUpdateAdminDto capacityForUpdateAdminDto, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на редактирование допустимого объема");
         try {
             capacityService.updateCapacity(capacityForUpdateAdminDto);
@@ -64,7 +64,7 @@ public class CapacityPageController {
     }
 
     @PostMapping("/admin/capacity/delete")
-    public String deleteCategory(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteCapacity(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
         logger.info("Запрос на удаление допустимого объема");
         try {
             capacityService.deleteCapacityById(id);
