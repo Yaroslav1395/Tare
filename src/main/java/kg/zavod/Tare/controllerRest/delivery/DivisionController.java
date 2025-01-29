@@ -65,7 +65,7 @@ public class DivisionController {
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DivisionDto>> createDivision(@ModelAttribute @Valid DivisionForSaveDto divisionForSaveDto) throws DuplicateEntityException {
         logger.info("Создание территориального деления");
-        return ResponseEntity.ok(ResponseDto.buildResponse(divisionService.saveDivision(divisionForSaveDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование территориального деления", description = "Позволит отредактировать территориальное деление")
@@ -76,7 +76,7 @@ public class DivisionController {
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
     public ResponseEntity<ResponseDto<DivisionDto>> updateDivision(@ModelAttribute @Valid DivisionForUpdateDto divisionForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование территориального деления");
-        return ResponseEntity.ok(ResponseDto.buildResponse(divisionService.updateDivision(divisionForUpdateDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Удаление территориального деления", description = "Позволит удалить территориальное деление")
@@ -89,6 +89,6 @@ public class DivisionController {
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer divisionId) {
         logger.info("Удаление территориального деления");
-        return ResponseEntity.ok(ResponseDto.buildResponse(divisionService.deleteDivisionById(divisionId), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 }
