@@ -27,7 +27,7 @@ public class PartnerController {
     private static final Logger logger = LoggerFactory.getLogger(PartnerController.class);
 
     @GetMapping("/partner")
-    public String noticesForUserPage(Model model){
+    public String partnersForUserPage(Model model){
         logger.info("Запрос на открытие страницы новостей для клиента");
         try {
             model.addAttribute("partners", partnerService.getAllPartnersForUser());

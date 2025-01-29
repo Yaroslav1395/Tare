@@ -16,7 +16,7 @@ public class ContactPageController {
     private static final Logger logger = LoggerFactory.getLogger(ContactPageController.class);
 
     @GetMapping("/contact")
-    public String noticesForUserPage(Model model){
+    public String aboutForUserPage(Model model){
         logger.info("Запрос на открытие страницы контакты для клиента");
         try {
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());

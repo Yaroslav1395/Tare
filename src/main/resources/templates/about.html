@@ -1,12 +1,170 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>About Us</title>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('О нас')}">
 </head>
 <body>
-<div th:replace="layouts/main :: content">
-    <h2>About Us</h2>
-    <p>Learn more about our company.</p>
-</div>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с контактами-->
+    <section class="container about-container">
+        <div class="about-info">
+            <h2>О нас</h2>
+            <p>
+                Наше предприятие специализируется на производстве ПЭТ (полиэтилентерефталатовой) тары, также называемой
+                "пластиковой". Основной продукцией компании являются пластиковые бутылки и банки любых номинальных объемов
+                от 0,05 л. до 20 л., как для газированных, так и негазированных жидкостей.
+            </p>
+            <p>
+                Также компания «Профикс-Юг» может изготовить пластиковую тару по индивидуальному заказу. При этом запуск в
+                производство с момента согласования - не более 14 дней. Вся продукция компании: ПЭТ бутылки, пластиковые
+                банки и др. - комплектуется колпачками и ручками. Возможно производство пластиковой тары различной
+                цветовой гаммы.
+            </p>
+            <p>
+                Компания «Профикс-Юг» настроена всегда на долгосрочное сотрудничество. Число клиентов постоянно растет. Ждем
+                Вас среди наших клиентов. Продукция изготавливается из высококачественного сырья (ПЭТ преформ), качество
+                которого гарантируют поставщики со всемирно известными именами. В настоящий момент в ассортименте компании
+                имеется широкий спектр выпускаемой продукции.
+            </p>
+        </div>
+        <div class="about-images">
+            <h2>Здесь может быть слайдер с картинками связанными с компанией</h2>
+        </div>
+        <div class="about-statistic">
+             <div class="about-statistic-item">
+                 <div class="about-statistic-item-top">
+                     <div class="about-statistic-item-big">
+                         <p>1500</p>
+                     </div>
+                     <div class="about-statistic-item-middle">
+                         <p>м<sup>2</sup></p>
+                     </div>
+                 </div>
+                 <div class="about-statistic-item-little">
+                     <p>производственная площадь</p>
+                 </div>
+             </div>
+            <div class="about-statistic-item">
+                <div class="about-statistic-item-top">
+                    <div class="about-statistic-item-middle">
+                        <p>до</p>
+                    </div>
+                    <div class="about-statistic-item-big">
+                        <p>300000</p>
+                    </div>
+                </div>
+                <div class="about-statistic-item-little">
+                    <p>бутылок в наличии на складе</p>
+                </div>
+            </div>
+            <div class="about-statistic-item">
+                <div class="about-statistic-item-top">
+                    <div class="about-statistic-item-middle">
+                        <p>более</p>
+                    </div>
+                    <div class="about-statistic-item-big">
+                        <p>100</p>
+                    </div>
+                </div>
+                <div class="about-statistic-item-little">
+                    <p>видов пластиковой тары</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-info">
+            <p>
+                За последние 14 лет компания «Профикс-Юг» заняла лидирующие позиции в регионе по производству тары из
+                полиэтилентерефталата (ПЭТ). Мы следим за качеством выпускаемой нами продукции и это позволило
+                нам выстроить долгие доверительные отношения с нашими партнерами.
+            </p>
+            <p>
+                Доставка выполняется нашей компанией собственным автотранспортом, что дает возможность максимально быстро
+                получить товар. Наша доставка - это гарантия своевременной отправки товара. Стоимость доставки оговаривается
+                отдельно и при значительных объёмах заказа может быть выполнена за наш счет.
+            </p>
+        </div>
+
+        <div class="about-info">
+            <h2>Наши клиенты</h2>
+            <div class="home-partners-grid-container">
+                <div class="home-partner-item" th:each="partner : ${partners}">
+                    <img th:src="${partner.logoImage}" th:alt="${partner.logoImageName}" />
+                </div>
+            </div>
+            <div th:if="${partners == null || partners.isEmpty()}">
+                <p>К сожалению, партнёров нет.</p>
+            </div>
+        </div>
+
+        <div class="about-conditions">
+            <h2>Гибкие условия заказа и изготовления</h2>
+            <div class="about-conditions-items-container">
+                <div class="about-conditions-item">
+                    <div class="about-conditions-item-img">
+                        <img src="/images/about/бутылки.png" alt="бутылка">
+                    </div>
+                    <div class="about-conditions-item-text">
+                        <p>Круглосуточное производство</p>
+                    </div>
+                </div>
+                <div class="about-conditions-item">
+                    <div class="about-conditions-item-img">
+                        <img src="/images/about/часы.png" alt="бутылка">
+                    </div>
+                    <div class="about-conditions-item-text">
+                        <p>Минимальный срок производства</p>
+                    </div>
+                </div>
+                <div class="about-conditions-item">
+                    <div class="about-conditions-item-img">
+                        <img src="/images/about/машина.png" alt="бутылка">
+                    </div>
+                    <div class="about-conditions-item-text">
+                        <p>Доставка и самовывоз</p>
+                    </div>
+                </div>
+                <div class="about-conditions-item">
+                    <div class="about-conditions-item-img">
+                        <img src="/images/about/цикл.png" alt="бутылка">
+                    </div>
+                    <div class="about-conditions-item-text">
+                        <p>Полный цикл от преформы до производства</p>
+                    </div>
+                </div>
+                <div class="about-conditions-item">
+                    <div class="about-conditions-item-img">
+                        <img src="/images/about/дизайн.png" alt="бутылка">
+                    </div>
+                    <div class="about-conditions-item-text">
+                        <p>Индивидуальный дизайн</p>
+                    </div>
+                </div>
+                <div class="about-conditions-item">
+                    <div class="about-conditions-item-img">
+                        <img src="/images/about/подарок.png" alt="бутылка">
+                    </div>
+                    <div class="about-conditions-item-text">
+                        <p>Особые условия для постоянных клиентов</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
 </body>
 </html>
