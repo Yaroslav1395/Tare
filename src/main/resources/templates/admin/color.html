@@ -1,0 +1,135 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Цвета')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/color/delete})}"></section>
+        <!--Блок с формой инструкции-->
+        <div class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с категориями</h3>
+                    <p>
+                        Цвет необходим при создании продукта. Он устанавливается картинке продукта в соответствии с
+                        цветом продукта. Имеет название и hex-код. Hex-код это закодированный оттенок цвета. Доступные
+                        цвета продукта отображаются в клиентской части сайта, на странице продукт.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Введите название цвета.
+                    </p>
+                    <p>
+                        2. Название должно соответствовать цвету.
+                    </p>
+                    <p>
+                        3. Нажмите на квадрат с цветом. Откроется палитра. Выберете в палитре необходимы цвет. Если
+                        квадрат изменил цвет, вы сделали все правильно.
+                    </p>
+                    <p>
+                        4. Нажмите на кнопку сохранить.
+                    </p>
+                    <p>
+                        5. В случае если вы дублируете название цвета или hex-код, то приложение не даст
+                        создать или отредактировать цвет.
+                    </p>
+                    <p>
+                        6. Нельзя удалить цвет если он привязан к какому-нибудь продукту.
+                    </p>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </div>
+        <!--Блок с формой создания-->
+        <div class="form-container" id="create-form">
+            <form th:action="@{/admin/color}" th:object="${colorSave}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Название цвета:</label>
+                    <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
+                    <small id="nameError" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group-color">
+                    <label for="hexCode">Выберите цвет:</label>
+                    <input th:field="*{hexCode}" type="color" id="hexCode" name="hexCode" class="form-control" required />
+                    <small id="colorError" style="color: red; display: none;">Выберите цвет</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+        <!--Блок с формой редактирования-->
+        <div class="form-container" id="edit-form">
+            <form th:action="@{/admin/color/update}" th:object="${colorUpdate}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Название категории:</label>
+                    <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+                    <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group-color">
+                    <label for="hexCodeUpdate">Выберите цвет:</label>
+                    <input th:field="*{hexCode}" type="color" id="hexCodeUpdate" name="hexCode" class="form-control" required />
+                    <small id="colorUpdateError" style="color: red; display: none;">Выберите цвет</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <section class="container category-container">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>HEX код</th>
+                <th>Цвет</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="color : ${colors}" onclick="selectRow(this)">
+                <td th:text="${color.id}"></td>
+                <td th:text="${color.name}"></td>
+                <td th:text="${color.hexCode}"></td>
+                <td th:style="${color.hexCode} != null ? 'width: 120px; background-color: ' + ${color.hexCode} : ''"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/color.js"></script>
+</body>
+</html>

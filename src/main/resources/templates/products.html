@@ -1,0 +1,86 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Продукты')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="notification" class="notification hidden"></section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с навигацией-->
+    <section class="container">
+        <div class="nav-page-container">
+            <a href="/">Главная</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href= "/category">Категории</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a th:href= "@{'/subcategory/' + ${subcategory.categoryId}}" th:text="${subcategory.categoryName}">Подкатегория категории</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <p th:text="${subcategory.name}">Конкретная подкатегория</p>
+        </div>
+    </section>
+
+    <!--Блок с категориями-->
+    <section class="container">
+        <div class="products-container">
+            <th:block th:each="product : ${products}">
+                <div class="products-product-card-wrapper">
+                    <div class="products-product-card">
+                        <div class="products-product-info">
+                            <a th:href="@{'/product/' + ${product.id}}">
+                                <div class="products-product-info-top">
+                                    <div class="products-product-image">
+                                        <img th:id="'image-container-' + ${product.id}"
+                                             th:src="${product.images[0].productImage}"
+                                             th:alt="${product.images[0].productImageName}">
+                                    </div>
+                                    <p class="products-product-name" th:text="${product.name}">Название товара 1</p>
+                                </div>
+                                <div class="products-product-characteristics">
+                                    <ul class="characteristics-list">
+                                        <li th:each="characteristic : ${product.productCharacteristics}"
+                                            th:if="${characteristic.value != null and characteristic.value != 0 and characteristic.characteristicName != 'Цена, сом'}"
+                                            th:text="${characteristic.characteristicName + ': ' + characteristic.value}"></li>
+                                    </ul>
+                                </div>
+                            </a>
+                            <div class="products-product-colors">
+                                <ul class="colors-list">
+                                    <li th:each="image : ${product.images}"
+                                        th:if="${image.color != null and !image.color.isEmpty()}"
+                                        th:style="|background-color: ${image.color};|"
+                                        th:id="${product.id} + '*' +${image.productImage}"
+                                        onclick="updateProductImage(this)"
+                                        class="color-circle">
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="products-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
+                        </div>
+                        <div class="products-product-action">
+                            <button onclick="addToCart(this)" th:data-id="${product.id}">В корзину</button>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/products.js"></script>
+    <script src="/js/basket.js"></script>
+</body>
+</html>

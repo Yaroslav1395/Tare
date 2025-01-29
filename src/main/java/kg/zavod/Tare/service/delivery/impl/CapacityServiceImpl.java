@@ -1,11 +1,9 @@
 package kg.zavod.Tare.service.delivery.impl;
 
 import kg.zavod.Tare.domain.delivery.CapacityEntity;
-import kg.zavod.Tare.domain.delivery.DistrictEntity;
-import kg.zavod.Tare.domain.delivery.DivisionEntity;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForSaveDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForUpdateDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForAdminDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -30,78 +28,84 @@ public class CapacityServiceImpl implements CapacityService {
     private static final Logger logger = LoggerFactory.getLogger(CapacityServiceImpl.class);
 
     /**
+     * Метод позволяет получить все допустимые объемы доставки
+     * @throws EntitiesNotFoundException - в случае если ни оного допустимого объема доставки не найдено
+     * @return - список допустимых объемов доставки
+     */
+    @Override
+    public List<CapacityForAdminDto> getAllCapacities() throws EntitiesNotFoundException {
+        logger.info("Попытка поиска всех допустимых объемов");
+        List<CapacityEntity> capacities = capacityRepository.findAll();
+        if(capacities.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одного допустимого объема");
+        return capacityListMapper.mapToCapacityForAdminDtoList(capacities);
+    }
+
+    /**
+     * Метод позволяет сохранить допустимый объем доставки
+     * @param capacityForSaveAdminDto - допустимый объем доставки для сохранения
+     * @throws DuplicateEntityException - в случае попытки создания дубликата
+     */
+    @Override
+    public void saveCapacity(CapacityForSaveAdminDto capacityForSaveAdminDto) throws DuplicateEntityException {
+        logger.info("Попытка сохранения допустимого объема");
+        Optional<CapacityEntity> duplicateCapacity = capacityRepository.findByCapacityFromAndCapacityTo(
+                capacityForSaveAdminDto.getCapacityFrom(), capacityForSaveAdminDto.getCapacityTo());
+        if(duplicateCapacity.isPresent()) throw new DuplicateEntityException("Такой допустимый объем уже имеется");
+        CapacityEntity capacity = capacityMapper.mapToCapacityEntity(capacityForSaveAdminDto);
+        capacityRepository.save(capacity);
+    }
+
+    /**
+     * Метод позволяет редактировать допустимый объем доставки
+     * @param capacityForUpdateAdminDto - допустимый объем доставки для редактирования
+     * @throws EntityNotFoundException - в случае если не найден допустимый объем доставки для редактирования
+     * @throws DuplicateEntityException - в случае попытки создания дубликата
+     */
+    @Override
+    public void updateCapacity(CapacityForUpdateAdminDto capacityForUpdateAdminDto) throws EntityNotFoundException, DuplicateEntityException {
+        logger.info("Попытка редактирования допустимого объема");
+        Optional<CapacityEntity> duplicateCapacity = capacityRepository.findByCapacityFromAndCapacityTo(
+                capacityForUpdateAdminDto.getCapacityFrom(), capacityForUpdateAdminDto.getCapacityTo());
+        if(duplicateCapacity.isPresent()) throw new DuplicateEntityException("Такой допустимый объем уже имеется");
+        CapacityEntity capacity = capacityRepository.findById(capacityForUpdateAdminDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Не найдено допустимого объема по id для редактирования"));
+        capacityMapper.updateCapacityEntity(capacityForUpdateAdminDto, capacity);
+        capacityRepository.save(capacity);
+    }
+
+    /**
+     * Метод позволяет удалять допустимый объем доставки
+     * @param id - id допустимого объема доставки
+     */
+    @Override
+    public void deleteCapacityById(Integer id) {
+        logger.info("Попытка удаления допустимого объема");
+        capacityRepository.deleteById(id);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
      * Метод позволяет получить допустимый объем доставки по id
      * @throws EntityNotFoundException  - в случае если по id ничего не найдено
      * @param id - id допустимого объема доставки
      * @return - найденный допустимый объем доставки
      */
     @Override
-    public CapacityDto getCapacityById(Integer id) throws EntityNotFoundException {
+    public CapacityForAdminDto getCapacityById(Integer id) throws EntityNotFoundException {
         logger.info("Попытка поиска допустимого объема по id");
         CapacityEntity capacity = capacityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("По id не найдено допустимого объема"));
-        return capacityMapper.mapToCapacityDto(capacity);
-    }
-
-    /**
-     * Метод позволяет получить все допустимые объемы доставки
-     * @throws EntitiesNotFoundException - в случае если ни оного допустимого объема доставки не найдено
-     * @return - список допустимых объемов доставки
-     */
-    @Override
-    public List<CapacityDto> getAllCapacities() throws EntitiesNotFoundException {
-        logger.info("Попытка поиска всех допустимых объемов");
-        List<CapacityEntity> capacities = capacityRepository.findAll();
-        if(capacities.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одного допустимого объема");
-        return capacityListMapper.mapToCapacityListMapper(capacities);
-    }
-
-    /**
-     * Метод позволяет сохранить допустимый объем доставки
-     * @param capacityForSaveDto - допустимый объем доставки для сохранения
-     * @return - сохраненный допустимый объем доставки
-     * @throws DuplicateEntityException - в случае попытки создания дубликата
-     */
-    @Override
-    public CapacityDto saveCapacity(CapacityForSaveDto capacityForSaveDto) throws DuplicateEntityException {
-        logger.info("Попытка сохранения допустимого объема");
-        Optional<CapacityEntity> duplicateCapacity = capacityRepository.findByCapacityFromAndCapacityTo(
-                capacityForSaveDto.getCapacityFrom(), capacityForSaveDto.getCapacityTo());
-        if(duplicateCapacity.isPresent()) throw new DuplicateEntityException("Такой допустимый объем уже имеется");
-        CapacityEntity capacity = capacityMapper.mapToCapacityEntity(capacityForSaveDto);
-        CapacityEntity savedCapacity = capacityRepository.save(capacity);
-        return capacityMapper.mapToCapacityDto(savedCapacity);
-    }
-
-    /**
-     * Метод позволяет редактировать допустимый объем доставки
-     * @param capacityForUpdateDto - допустимый объем доставки для редактирования
-     * @throws EntityNotFoundException - в случае если не найден допустимый объем доставки для редактирования
-     * @throws DuplicateEntityException - в случае попытки создания дубликата
-     * @return - отредактированное допустимый объем доставки
-     */
-    @Override
-    public CapacityDto updateCapacity(CapacityForUpdateDto capacityForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
-        logger.info("Попытка редактирования допустимого объема");
-        Optional<CapacityEntity> duplicateCapacity = capacityRepository.findByCapacityFromAndCapacityTo(
-                capacityForUpdateDto.getCapacityFrom(), capacityForUpdateDto.getCapacityTo());
-        if(duplicateCapacity.isPresent()) throw new DuplicateEntityException("Такой допустимый объем уже имеется");
-        CapacityEntity capacity = capacityRepository.findById(capacityForUpdateDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Не найдено допустимого объема по id для редактирования"));
-        capacityMapper.updateCapacityEntity(capacityForUpdateDto, capacity);
-        CapacityEntity updatedCapacity = capacityRepository.save(capacity);
-        return capacityMapper.mapToCapacityDto(updatedCapacity);
-    }
-
-    /**
-     * Метод позволяет удалять допустимый объем доставки
-     * @param id - id допустимого объема доставки
-     * @return - удален или нет
-     */
-    @Override
-    public boolean deleteCapacityById(Integer id) {
-        logger.info("Попытка удаления допустимого объема");
-        capacityRepository.deleteById(id);
-        return !capacityRepository.existsById(id);
+        return capacityMapper.mapToCapacityForAdminDto(capacity);
     }
 }

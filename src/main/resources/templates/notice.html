@@ -1,0 +1,60 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Новости')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с новостями-->
+    <section class="container notices-container">
+        <div class="notices-info">
+            <h2>Новости</h2>
+            <p>
+                Добро пожаловать в раздел новостей! Здесь вы найдете самые свежие и актуальные события, связанные с нашей
+                компанией, проектами и важными достижениями. Мы делимся интересными материалами, анонсами и полезной информацией,
+                чтобы вы всегда оставались в курсе происходящего.
+            </p>
+            <p>
+                Ознакомьтесь с нашими последними публикациями!
+            </p>
+        </div>
+        <div class="notices-items-container">
+            <div th:each="notice, iterStat : ${notices}"
+                 th:classappend="${iterStat.index % 2 == 0} ? 'notice-item notice-item-yellow' : 'notice-item notice-item-grey'"
+                 th:id="'notice-' + ${notice.id}">
+                <!-- Если индекс четный -->
+                <div th:if="${iterStat.index % 2 == 0}" class="notice-item-img">
+                    <img th:src="${notice.noticeImage}" th:alt="${notice.noticeImageName}" />
+                </div>
+                <div class="notice-item-info">
+                    <h3 th:text="${notice.title}">Заголовок</h3>
+                    <p th:text="${notice.description}">Описание новости</p>
+                    <p th:text="${#temporals.format(notice.createdTime, 'dd MMMM yyyy HH:mm')}">Дата публикации</p>
+                </div>
+                <!-- Если индекс нечетный -->
+                <div th:if="${iterStat.index % 2 != 0}" class="notice-item-img">
+                    <img th:src="${notice.noticeImage}" th:alt="${notice.noticeImageName}" />
+                </div>
+            </div>
+        </div>
+        <div th:if="${notices == null || notices.isEmpty()}">
+            <p>К сожалению, новостей нет.</p>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Корзина')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с продуктами-->
+    <section class="container basket-container">
+        <div class="basket-title">
+            <h1>Корзина</h1>
+        </div>
+
+        <div class="basket-items-container">
+            <div th:id="'product-' + ${product.product.id}" th:each="product : ${products}" class="basket-item">
+                <div class="basket-item-right">
+                    <div class="basket-item-img-container">
+                        <img th:src="@{${product.product.images[0].productImage}}" alt="Изображение продукта">
+                    </div>
+                    <div class="basket-item-name-container">
+                        <p th:text="${product.product.name}">Название продукта</p>
+                    </div>
+                </div>
+                <div class="basket-item-left">
+                    <div class="basket-item-left-one">
+                        <div class="basket-item-price-container">
+                            <p th:text="${product.product.price} + ' сом/шт'"
+                               th:id="'product-price-' + ${product.product.id}">
+                                1.0 сом/шт
+                            </p>
+                        </div>
+                        <div class="basket-item-packaging-container">
+                            <p>x</p>
+                        </div>
+                        <div class="basket-item-packaging-container">
+                            <p th:text="${product.product.packaging} + ' шт'"
+                               th:id="'product-packaging-' + ${product.product.id}">
+                                99 шт
+                            </p>
+                        </div>
+                    </div>
+                    <div class="basket-item-left-three">
+                        <div class="basket-quantity-control">
+                            <button type="button"
+                                    class="basket-quantity-btn increment"
+                                    th:onclick="'updateQuantity(-1, ' + ${product.product.id} + ')'">
+                                -
+                            </button>
+                            <input type="number"
+                                   th:id="'quantity-' + ${product.product.id}"
+                                   th:value="${product.count}"
+                                   min="1"
+                                   oninput="recalculateTotal([[${product.product.id}]])">
+                            <button type="button"
+                                    class="basket-quantity-btn increment"
+                                    th:onclick="'updateQuantity(1, ' + ${product.product.id} + ')'">
+                                +
+                            </button>
+                        </div>
+                        <div class="basket-item-total-price">
+                            <p th:id="'total-' + ${product.product.id}"
+                               th:text="${product.product.price * product.count * product.product.packaging} + ' сом'">1000 сом</p>
+                        </div>
+                        <div class="basket-item-delete-container">
+                            <button th:id="'delete-btn-' + ${product.product.id}"
+                                    th:onclick="deleteProduct([[${product.product.id}]])">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-container">
+            <div class="staff-total-container">
+                <p>Товары (<span id="total-items">2</span>)</p>
+                <p id="total-items-price">50000 сом</p>
+            </div>
+            <div class="order-total-container">
+                <p>Итого:</p>
+                <p id="grand-total" class="total-price">50000 сом</p>
+            </div>
+            <div class="order-button-container">
+                <button>Оформить заказ</button>
+            </div>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+</body>
+</html>

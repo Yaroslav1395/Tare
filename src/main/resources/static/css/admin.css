@@ -1,0 +1,910 @@
+/******************************************************************************************/
+/***********************************Общие стили админки************************************/
+/******************************************************************************************/
+/*-----------------------------Переопределение основных тегов-----------------------------*/
+/* Установим шрифт Inter Tight для всех элементов */
+body {
+    font-family: 'Inter Tight', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Установим шрифт Rubik для всех h-тегов и кнопок */
+h1, h2, h3, h4, h5, h6, button {
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Удалим стандартные стили браузера */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+/* Настройка box-sizing */
+html {
+    box-sizing: border-box;
+}
+
+/* Установим базовый размер шрифта для удобной работы с rem */
+html {
+    font-size: 16px;
+}
+
+/* Дополнительно, чтобы кнопки и другие интерактивные элементы не выглядели по умолчанию */
+button {
+    border: none;
+    cursor: pointer;
+    background: #66A5AD none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #003b46;
+}
+
+/* Удаление подчеркивания у ссылок */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Убираем стили списков */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Убираем стили таблиц */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.sticky-container {
+    width: 1200px;
+    margin: 0 auto;
+    position: sticky;
+    top: 0;
+    z-index: 1005;
+}
+
+.relative-container {
+    position: relative;
+}
+
+/*-----------------------------Стили для таблиц-----------------------------*/
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter Tight', sans-serif;
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.admin-table th {
+    background-color: #C4DFE6;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #07575b;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.admin-table td {
+    font-size: 0.85rem;
+}
+
+.admin-table tbody tr:hover {
+    cursor: pointer;
+    background-color: #c4dfe6;
+}
+
+.selected {
+    background-color: #07575b !important;
+    color: #fff;
+}
+
+/*-----------------------------Стили для кнопок-----------------------------*/
+.admin-controls {
+    position: relative;
+        width: 100%;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        z-index: 1004;
+        background-color: #c4dfe6;
+        border-bottom: 1px solid #003b46;
+}
+
+.control-btn {
+    width: 130px;
+    height: 40px;
+}
+
+.control-btn:hover {
+    color: #66A5AD;
+    background-color: #003B46;
+}
+
+.control-btn-disabled {
+    background-color: rgba(102, 165, 173, 0.5) !important;
+}
+
+.form-control-btn {
+    width: 50%;
+    height: 40px;
+}
+
+.form-control-btn:hover {
+    color: #66A5AD;
+    background-color: #003B46;
+}
+
+/*-----------------------------Стили для форм-----------------------------*/
+.form-container {
+    position: absolute;
+    right: -11px;
+    top: 74px;
+    height: calc(100vh - 75px);
+    width: 400px;
+    background: #ffffff;
+    box-shadow: -8px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    transform: translateX(-600%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid #003b46;
+    z-index: 1006;
+}
+
+.form-container form {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+}
+
+.form-container.slide-in {
+    transform: translateX(0);
+    margin-right: 11px;
+}
+
+.form-group {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.form-group input {
+    border: 2px solid #c4dfe6;
+    width: 100%;
+    height: 44px;
+    padding: 10px;
+    font-size: 17px;
+}
+
+.form-group input:focus {
+    border: 2px solid #003B46;
+    outline: none;
+}
+
+.form-group select {
+    width: 100%;
+    height: 44px;
+    border: 2px solid #c4dfe6;
+    font-size: 17px;
+    padding: 10px;
+}
+
+.form-group img {
+    margin: 0 auto;
+}
+
+.form-img-load {
+    background-color: #66a5ad;
+    width: 100%;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #003b46;
+    font-family: 'Rubik', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.form-img-load:hover {
+    color: #66A5AD;
+    background-color: #003B46;
+}
+
+.form-group-button {
+    margin-top: 5px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.form-input-none {
+    display: none;
+}
+
+.image-preview {
+    margin-top: 10px;
+    width: 215px;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+/*-----------------------------Стили для инструкции-----------------------------*/
+.instruction-container {
+    position: absolute;
+    z-index: 1001;
+    left: -8px;
+    top: 76px;
+    height: calc(100vh - 75px);
+    width: 50%;
+    background: #ffffff;
+    box-shadow: 8px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 0 20px 20px;
+    transform: translateX(-300%);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid #003b46;
+    z-index: 1006;
+}
+
+.instruction-container.slide-in {
+    transform: translateX(0);
+    margin-left: 8px;
+}
+
+.instruction-container p {
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Inter Tight', serif;
+    text-align: justify;
+    padding-right: 20px;
+}
+
+.instruction-container a {
+    color: #003B46;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    text-transform: uppercase;
+}
+
+.instruction-info-container {
+    width: 100%;
+    height: 90%;
+}
+
+.instruction-info {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.instruction-controls {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+/******************************************************************************************/
+/*************************************Стили сообщений**************************************/
+/******************************************************************************************/
+.message {
+    width: 300px;
+    height: 150px;
+    position: fixed;
+    top: 18px;
+    right: -320px; /* Скрыто за границей экрана */
+    padding: 10px 20px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Inter Tight', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: all 0.5s ease-in-out; /* Плавная анимация */
+    z-index: 1010;
+}
+
+.message.visible {
+    right: 20px; /* Видимое состояние */
+}
+
+.error {
+    color: #8B0000;
+    border: 2px solid #8B0000;
+    background-color: rgba(255, 125, 103, 1);
+}
+
+.success {
+    color: #238b00;
+    border: 2px solid #238b00;
+    background-color: rgba(163, 248, 119, 1);
+}
+
+.error-message.visible {
+    right: 20px; /* Видимое состояние */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #8B0000;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.close-btn-error {
+    color: #8B0000;
+}
+
+.close-btn-success {
+    color: #238b00;
+}
+
+.close-btn-error:hover {
+    color: #FF4500;
+}
+
+.close-btn-success:hover {
+    color: #6cd249;
+}
+
+/******************************************************************************************/
+/*******************************Стили для шапки админки************************************/
+/******************************************************************************************/
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.admin-header nav {
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    background-color: #003B46;
+    color: #fff;
+    font-size: 16px;
+    padding: 0 30px;
+}
+
+.admin-header nav a {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-family: 'Rubik', sans-serif;
+    transition: color 0.3s;
+    color: #C4DFE6;
+}
+
+.admin-header nav a:hover {
+    color: #66A5AD;
+}
+
+.admin-header .dropdown {
+    overflow: hidden;
+}
+
+.admin-header .dropdown .dropdown-btn {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-family: 'Rubik', sans-serif;
+    transition: color 0.3s;
+    color: #C4DFE6;
+    background-color: #003b46;
+}
+
+.admin-header .dropdown-content {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    position: absolute;
+    padding: 27px 0 10px 0;
+    background-color: #003b46;
+    min-width: 98px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1010;
+}
+
+.admin-header .dropdown-content a {
+    display: block;
+    text-align: center;
+}
+
+.admin-header .dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/******************************************************************************************/
+/******************************Стили для подвала админки***********************************/
+/******************************************************************************************/
+.admin-footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.admin-footer .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.admin-footer .footer-links p {
+    color: #ccc;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.admin-footer .footer-links p:hover {
+    color: white;
+}
+
+/******************************************************************************************/
+/**********************************Стили для категорий*************************************/
+/******************************************************************************************/
+.category-container {
+    position: relative;
+    min-height: calc(100vh - 136px);
+    overflow: hidden;
+}
+
+/******************************************************************************************/
+/**********************************Стили для цветов*************************************/
+/******************************************************************************************/
+.form-group-color {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    height: 120px;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.form-group-color input {
+    border: 2px solid #c4dfe6;
+    height: 100%;
+    width: 100%;
+    background: none;
+}
+
+/******************************************************************************************/
+/**********************************Стили для продуктов*************************************/
+/******************************************************************************************/
+.form-group-subcategory-filter select {
+    height: 40px;
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #003b46;
+    background-color: #66a5ad;
+    padding: 0 4px 0 4px;
+    cursor: pointer;
+}
+
+#subcategorySelect:focus {
+    border-color: #66a5ad;
+    outline: none;
+}
+
+.form-container-product {
+    width: 810px !important;
+}
+
+.form-product {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    height: 100%;
+    gap: 10px !important;
+}
+
+.form-product-left {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group-characteristic {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.form-product-left-characteristics {
+    max-height: 50%;
+    width: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.form-group-characteristic input {
+    margin-right: 10px;
+    width: 100px;
+    height: 33px;
+}
+
+
+
+
+
+
+.form-product-left-images-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.form-product-left-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 5px;
+    max-width: 100%;
+}
+
+.form-product-left-images-item {
+    position: relative;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.form-product-left-images-img {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Ширина совпадает с колонкой */
+    height: 100px; /* Фиксированная высота для изображений */
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.form-product-left-images-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Масштабирует изображение, сохраняя его пропорции */
+}
+
+.form-product-left-images-color  {
+    width: 100%;
+    height: 22px;
+}
+
+.form-product-left-images-color select {
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #003b46;
+    background-color: #66a5ad;
+    padding: 0 4px 0 4px;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+
+.add-photo-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.add-photo-btn-container label {
+    background: #66A5AD none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #003b46;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    height: 22px;
+    font-family: 'Rubik', sans-serif;
+    text-align: center;
+}
+
+.add-photo-btn:hover {
+   background-color: #003b46;
+    color: #66A5AD;
+}
+
+.remove-photo-btn-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.remove-photo-btn {
+    background-color: #003b46;
+    border: none;
+    color: #C4DFE6;
+    font-size: 13px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+}
+
+.form-product-right {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group-textarea {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.form-group-textarea textarea {
+    flex-grow: 1;
+    resize: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 17px;
+    font-family: 'Inter Tight', serif;
+    font-weight: 400;
+    border: 2px solid #c4dfe6;
+    padding: 10px;
+}
+
+/******************************************************************************************/
+/**********************************Стили для партнеров*************************************/
+/******************************************************************************************/
+.form-container-partner {
+    width: 810px !important;
+}
+
+.form-partner {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    height: 100%;
+    gap: 10px !important;
+}
+
+.form-group-partner-img {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.image-preview-product {
+    width: 100%;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+.form-group-partner-img img {
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.image-preview-logo {
+    width: 100%;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+.form-group-partner-img img {
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+/******************************************************************************************/
+/**********************************Стили для новостей*************************************/
+/******************************************************************************************/
+.form-container-notice {
+    width: 600px !important;
+}
+
+.form-notice-bottom {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.form-notice-bottom-right {
+    display: flex;
+    width: 50%;
+    gap: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.form-notice-bottom-left {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    gap: 5px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+
+.form-img-load-notice {
+    height: 40px !important;
+}
+
+.form-group-notice-img {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.image-preview-notice {
+    width: 100%;
+    height: 215px;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+.form-group-notice-img img {
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+/******************************************************************************************/
+/**********************************Стили для вакансий*************************************/
+/******************************************************************************************/
+.form-container-vacancy {
+    width: 600px !important;
+}
+
+/******************************************************************************************/
+/*********************************Стили для сертификатов************************************/
+/******************************************************************************************/
+.form-container-certificate {
+    width: 810px !important;
+}
+
+.form-certificate {
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    flex-direction: row !important;
+    height: 100%;
+    gap: 10px !important;
+}
+
+.form-group-certificate-img {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    height: 40%;
+    gap: 5px;
+    font-size: 20px;
+}
+
+.image-preview-certificate {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 2px solid #c4dfe6;
+}
+
+.form-group-certificate-img img {
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.form-group-partner-img img {
+    margin: 0 auto;
+    object-fit: contain;
+}

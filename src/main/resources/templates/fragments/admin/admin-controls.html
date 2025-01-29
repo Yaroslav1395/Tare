@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section class="container" th:fragment="controls(deleteUrl, subcategoriesForFilter)">
+    <div class="admin-controls">
+        <button id="edit-button" class="control-btn control-btn-disabled" onclick="showUpdateForm()">Редактировать</button>
+        <form id="deleteForm" action="#" th:action="${deleteUrl}" method="post" onsubmit="return checkDeleteButtonState()">
+            <input type="hidden" name="id" id="idToDelete"/>
+            <button type="submit" id="delete-button" class="control-btn control-btn-disabled">Удалить</button>
+        </form>
+        <button id="create-button" class="control-btn" onclick="showCreateForm()">Создать</button>
+        <button id="info-button" class="control-btn" onclick="showInstruction()">Инструкция</button>
+        <div class="form-group-subcategory-filter" th:if="${subcategoriesForFilter != null and #lists.size(subcategoriesForFilter) > 0}">
+            <select id="subcategorySelect" name="subcategoryId" class="form-control" onchange="filterTableBySubcategory()">
+                <option value="" disabled selected>Выберите подкатегорию</option>
+                <option th:each="subcategory : ${subcategoriesForFilter}"
+                        th:value="${subcategory.id}"
+                        th:text="${subcategory.name}">
+                </option>
+                <option value="">Все подкатегории</option>
+            </select>
+        </div>
+    </div>
+</section>
+</body>
+</html>

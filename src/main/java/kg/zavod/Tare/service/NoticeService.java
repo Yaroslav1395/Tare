@@ -2,50 +2,42 @@ package kg.zavod.Tare.service;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.notice.NoticeDto;
-import kg.zavod.Tare.dto.notice.NoticeForSaveDto;
-import kg.zavod.Tare.dto.notice.NoticeForUpdateDto;
+import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
+import kg.zavod.Tare.dto.notice.NoticeForUserDto;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface NoticeService {
     /**
-     * Метод позволяет получить новость по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id новость
-     * @return - найденная новость
+     * Метод позволяет получить все новости для клиента
+     * @return - список новостей
      */
-    NoticeDto getNoticeById(Integer id) throws EntityNotFoundException;
+    List<NoticeForUserDto> getAllNoticesForUser();
 
     /**
      * Метод позволяет получить все новости
-     * @throws EntitiesNotFoundException - в случае если ни оной новости не найдено
      * @return - список новостей
      */
-    List<NoticeDto> getAllNotices() throws EntitiesNotFoundException;
-
-    /**
-     * Метод позволяет получить все активные новости
-     * @return - список новостей
-     * @throws EntitiesNotFoundException - в случае если ни оной активной новости не найдено
-     */
-    List<NoticeDto> getAllActiveNotices() throws EntitiesNotFoundException;
+    List<NoticeForAdminDto> getAllNoticesForAdmin();
 
     /**
      * Метод позволяет сохранить новость
-     * @param noticeForSaveDto - новость для сохранения
+     * @param noticeForSaveAdminDto - новость для сохранения
      * @throws EntityNotFoundException - если формат картинки не поддерживается приложением
-     * @return - сохраненная новость
+     * @throws IOException - в случае если невозможно сохранить картинку
      */
-    NoticeDto saveNotice(NoticeForSaveDto noticeForSaveDto) throws EntityNotFoundException;
+    void saveNotice(NoticeForSaveAdminDto noticeForSaveAdminDto) throws EntityNotFoundException, IOException;
 
     /**
      * Метод позволят редактировать новость
-     * @param noticeForUpdateDto - новость для редактирования
+     * @param noticeForUpdateAdminDto - новость для редактирования
      * @throws EntityNotFoundException - в случае если не найдена новость для редактирования
-     * @return - отредактированная новость
+     * @throws IOException - в случае если невозможно сохранить картинку
      */
-    NoticeDto updateNotice(NoticeForUpdateDto noticeForUpdateDto) throws EntityNotFoundException;
+    void updateNotice(NoticeForUpdateAdminDto noticeForUpdateAdminDto) throws EntityNotFoundException, IOException;
 
     /**
      * Метод позволяет удалять новость
@@ -53,6 +45,26 @@ public interface NoticeService {
      * @return - удалена или нет
      */
     boolean deleteNoticeById(Integer id);
+
+
+
+
+
+
+    /**
+     * Метод позволяет получить новость по id
+     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
+     * @param id - id новость
+     * @return - найденная новость
+     */
+    NoticeForAdminDto getNoticeById(Integer id) throws EntityNotFoundException;
+
+    /**
+     * Метод позволяет получить все активные новости
+     * @return - список новостей
+     * @throws EntitiesNotFoundException - в случае если ни оной активной новости не найдено
+     */
+    List<NoticeForAdminDto> getAllActiveNotices() throws EntitiesNotFoundException;
 
     /**
      * Метод позволяет изменять активность новости

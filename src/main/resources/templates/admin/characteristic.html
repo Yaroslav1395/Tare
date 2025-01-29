@@ -1,0 +1,122 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Характеристики')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/characteristic/delete})}"></section>
+        <!--Блок с формой инструкции-->
+        <div class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с характеристиками</h3>
+                    <p>
+                        Характеристики необходимы для описания свойств продукта. Используется при создании продукта.
+                        При сохранении продукта можно установить значение характеристики. Все значения отображаются
+                        на странице продукта.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Введите название характеристики.
+                    </p>
+                    <p>
+                        2. Сохраните или отредактируйте.
+                    </p>
+                    <p>
+                        3. В случае если вы дублируете название характеристики, то приложение не даст
+                        создать или отредактировать характеристику.
+                    </p>
+                    <p>
+                        4. Цена, объем и фасовка являются станичными характеристиками. Приложение не даст
+                        их отредактировать.
+                    </p>
+                    <p>
+                        5. После названия характеристики через запятую указывайте единицу измерения. Это
+                        отображается в клиентской части и дает пользователю понимание о свойстве.
+                    </p>
+                    <p>
+                        6. Нельзя удалить характеристику если она привязана к какому-нибудь продукту.
+                    </p>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </div>
+        <!--Блок с формой создания-->
+        <div class="form-container" id="create-form">
+            <form th:action="@{/admin/characteristic}" th:object="${characteristicSave}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="name">Название характеристики:</label>
+                    <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
+                    <small id="nameError" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+        <!--Блок с формой редактирования-->
+        <div class="form-container" id="edit-form">
+            <form th:action="@{/admin/characteristic/update}" th:object="${characteristicUpdate}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Название категории:</label>
+                    <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+                    <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!--Блок с таблицей-->
+    <section class="container category-container">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="characteristic : ${characteristics}" onclick="selectRow(this)">
+                <td th:text="${characteristic.id}"></td>
+                <td th:text="${characteristic.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/characteristic.js"></script>
+</body>
+</html>

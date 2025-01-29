@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Категории')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+    <span th:text="${errorMessage}">Ошибка</span>
+    <button id="close-btn" class="close-btn">
+        <i class="fa fa-times"></i>
+    </button>
+</section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с навигацией-->
+    <section class="container">
+        <div class="nav-page-container">
+            <a href="/">Главная</a>
+            <i class="fa-solid fa-arrow-right"></i>
+            <a href="/category">Категории</a>
+        </div>
+    </section>
+
+    <!--Блок с категориями-->
+    <section class="container">
+        <div class="category-container">
+            <th:block th:each="category : ${categories}">
+                <div class="category-item">
+                    <a th:href="@{'/subcategory/' + ${category.id}}">
+                        <div class="category-item-img">
+                            <img th:src="${category.categoryImage}" th:alt="${category.name}" />
+                        </div>
+                        <div class="category-item-name">
+                            <h3 th:text="${category.name}">Название категории</h3>
+                        </div>
+                    </a>
+                </div>
+            </th:block>
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/category.js"></script>
+    <script src="/js/basket.js"></script>
+</body>
+</html>

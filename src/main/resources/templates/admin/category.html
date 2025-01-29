@@ -1,0 +1,157 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Категория')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/category/delete})}"></section>
+        <!--Окно с инструкцией-->
+        <section class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с категориями</h3>
+                    <p>
+                        Категория это основной объект базы данных. Устанавливается для каждой подкатегории. Используется в клиентском интерфейсе сайта.
+                        Любое изменение в категории повлияет на интерфейс сайта. Некорректное заполнение сломает визуальную часть сайта.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Минимальное разрешение необходимое для отображения картинки категории 215x215 пикселей. Если будет меньше, то картинка
+                        разобьется на пиксели.
+                    </p>
+                    <p>
+                        2. Соотношение сторон картинки должно быть 1:1. Любое другое соотношение будет ломать картинку. Картинка либо сплющится, либо
+                        растянется.
+                    </p>
+                    <p>
+                        3. При сохранении или редактировании в форме появится предварительный просмотр. Если вы видите искажения в картинке, измените ее
+                        с помощью редакторов.
+                    </p>
+                    <p>
+                        4. Вес картинки не должен превышать 60 КБ. Данное ограничение необходимо для быстрой загрузки браузером картинки для отображения.
+                        Такой объем соответствует разрешению 215x215 пикселей. Если картинка превышает ограничение, измените ее с помощью редакторов.
+                    </p>
+                    <p>
+                        5. Название картинки для категории должно соответствовать категории. Это необходимо для поисковых систем. Если категория
+                        "Бутылки", то название картинки бутылки.jpg
+                    </p>
+                    <p>
+                        6. Приложение не даст сохранить или отредактировать категорию если новое название уже присвоено к какой-нибудь категории.
+                    </p>
+                    <p>
+                        7. Приложение не даст удалить категорию если к ней привязаны подкатегории. Данное ограничений накладывается базой данных, так как
+                        таблица категории связана с таблицей подкатегорий.
+                    </p>
+                    <h4>Редакторы</h4>
+                    <p>Уменьшайте разрешение до формата 215x215 пикселей</p>
+                    <a href="https://photo-resizer.ru/" target="_blank">Изменение разрешения</a>
+                    <p>Сжимайте изображения до 60 КБ</p>
+                    <a href="https://imagecompressor.com/ru/" target="_blank">Сжатие изображения</a>
+                    <p>Обрезайте лишнее чтобы изображение соответствовало формату 1:1</p>
+                    <a href="https://www.iloveimg.com/ru/crop-image" target="_blank">Обрезка изображения</a>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </section>
+        <!--Блок с формой создания-->
+        <div class="form-container" id="create-form">
+            <form th:action="@{/admin/category}" th:object="${categorySave}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="name">Название категории:</label>
+                    <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
+                    <small id="nameError" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-img-load" for="image">Загрузить картинку</label>
+                    <input th:field="*{multipartFile}" type="file" id="image" name="image" class="form-input-none " onchange="previewImage()" />
+                    <small id="imageError" style="color: red; display: none;">Выберете картинку</small>
+                </div>
+                <div class="form-group">
+                    <label for="imagePreview">Картинка категории:</label>
+                    <img id="imagePreview" class="image-preview" />
+                </div>
+                <div class="form-group-button">
+                    <button id="saveButton" type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+        <!--Блок с формой редактирования-->
+        <div class="form-container" id="edit-form">
+            <form th:action="@{/admin/category/update}" th:object="${categoryUpdate}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateUpdateForm()">
+                <div class="form-group">
+                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Название категории:</label>
+                    <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+                    <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-img-load" for="categoryImageUpdate">Загрузить картинку</label>
+                    <input th:field="*{multipartFile}" type="file" id="categoryImageUpdate" name="categoryImage" class="form-input-none " onchange="previewImageUpdate()" />
+                    <small id="imageErrorUpdate" style="color: red; display: none;">Выберете картинку</small>
+                </div>
+                <div class="form-group">
+                    <label for="imagePreview">Картинка категории:</label>
+                    <img id="imagePreviewUpdate" class="image-preview" />
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="container category-container">
+        <!--Блок с таблицей-->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Имя картинки</th>
+                    <th>Тип картинки</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="category : ${categories}" onclick="selectRow(this)">
+                    <td th:text="${category.id}"></td>
+                    <td th:text="${category.name}"></td>
+                    <td th:text="${category.categoryImageName}"></td>
+                    <td th:text="${category.imageType}"></td>
+                    <td th:text="${category.categoryImage}"  style="display: none"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/categories.js"></script>
+</body>
+</html>

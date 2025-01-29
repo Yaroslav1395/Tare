@@ -1,0 +1,129 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Подкатегории')}">
+</head>
+<body>
+  <!-- Сообщение об ошибке -->
+  <section id="error-message" class="message error" th:if="${errorMessage}">
+    <span th:text="${errorMessage}">Ошибка</span>
+    <button id="close-btn-error" class="close-btn close-btn-error">
+      <i class="fa fa-times"></i>
+    </button>
+  </section>
+
+  <!-- Сообщение об успехе -->
+  <section id="success-message" class="message success" th:if="${successMessage}">
+    <span th:text="${successMessage}">Ошибка</span>
+    <button id="close-btn-success" class="close-btn close-btn-success">
+      <i class="fa fa-times"></i>
+    </button>
+  </section>
+
+  <!-- Блок не меняющий положение-->
+  <section class="sticky-container">
+    <!--Шапка админки-->
+    <section th:replace="~{layouts/admin :: header}"></section>
+    <!--Кнопки управления-->
+    <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/district/delete})}"></section>
+    <!--Блок с формой инструкции-->
+    <section class="instruction-container" id="instruction">
+      <div class="instruction-info-container">
+        <div class="instruction-info">
+          <h3>Работа с районами доставки</h3>
+          <p>
+            Районы доставки отображается в таблице доставки. В шапке.
+          </p>
+          <h4>Правила использования</h4>
+          <p>
+            1. Создайте район доставки. Он отобразится в таблице доставки. Значения стоимости доставки будут
+            пустые пока вы не установите конечные цены.
+          </p>
+        </div>
+        <div class="instruction-controls">
+          <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+        </div>
+      </div>
+    </section>
+    <!--Блок с формой создания-->
+    <div class="form-container" id="create-form">
+      <form th:action="@{/admin/district}" th:object="${districtSave}" action="#" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="name">Название района:</label>
+          <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
+          <small id="nameError" style="color: red; display: none;">Введите название</small>
+        </div>
+        <div class="form-group">
+          <label for="division">Категория:</label>
+          <select th:field="*{divisionId}" id="division" name="division" class="form-control" required>
+            <option value="" disabled selected>Выберите область</option>
+            <option th:each="division : ${divisions}"
+                    th:value="${division.id}"
+                    th:text="${division.name}">
+            </option>
+          </select>
+          <small id="categoryError" style="color: red; display: none;">Выберите категорию</small>
+        </div>
+        <div class="form-group-button">
+          <button type="submit" class="form-control-btn">Сохранить</button>
+          <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
+        </div>
+      </form>
+    </div>
+    <!--Блок с формой редактирования-->
+    <div class="form-container" id="edit-form">
+      <form th:action="@{/admin/district/update}" th:object="${districtUpdate}" action="#" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+        </div>
+        <div class="form-group">
+          <label for="name">Название района:</label>
+          <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+          <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
+        </div>
+        <div class="form-group">
+          <label for="divisionUpdate">Категория:</label>
+          <select th:field="*{divisionId}" id="divisionUpdate" name="divisionUpdate" class="form-control" required>
+            <option value="" disabled selected>Выберите область</option>
+            <option th:each="division : ${divisions}"
+                    th:value="${division.id}"
+                    th:text="${division.name}">
+            </option>
+          </select>
+          <small id="divisionUpdateError" style="color: red; display: none;">Выберите область</small>
+        </div>
+        <div class="form-group-button">
+          <button type="submit" class="form-control-btn">Сохранить</button>
+          <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+
+  <section class="container category-container">
+    <table class="admin-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Область</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="district : ${districts}" onclick="selectRow(this)">
+        <td th:text="${district.id}"></td>
+        <td th:text="${district.name}"></td>
+        <td th:text="${district.divisionName}"></td>
+        <td th:text="${district.divisionId}"  style="display: none"></td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!--Блок с подвалом-->
+  <section th:replace="~{layouts/admin :: footer}"></section>
+
+  <script src="/js/notification.js"></script>
+  <script src="/js/admin/general.js"></script>
+  <script src="/js/admin/district.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container-header" th:fragment="header">
+    <div class="container">
+        <div th:replace="~{fragments/header/header-top :: header-top}"></div>
+        <div th:replace="~{fragments/header/header-navbar :: header-navbar}"></div>
+    </div>
+</div>
+</body>
+</html>

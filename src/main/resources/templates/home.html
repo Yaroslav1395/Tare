@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+    <head th:replace="~{layouts/main :: head('Главная')}">
+    </head>
+    <body>
+        <!-- Сообщение об ошибке -->
+        <section id="error-message" class="error-message" th:if="${errorMessage}">
+            <span th:text="${errorMessage}">Ошибка</span>
+            <button id="close-btn" class="close-btn">
+                <i class="fa fa-times"></i>
+            </button>
+        </section>
+
+        <!--Шапка сайта-->
+        <section th:replace="~{layouts/main :: header}"></section>
+
+        <!--Блок со слайдером и категориями-->
+        <section class="container">
+            <div class="home-grid-slider-container">
+                <div class="home-slider-main-container">
+                    <div class="home-slider-container swiper">
+                        <div class="swiper-wrapper">
+                            <!-- Слайд 1 -->
+                            <div class="swiper-slide">
+                                <div class="home-slide-img-container">
+                                    <img src="/images/sliders/slide-1.png" alt="Слайд 1" class="home-slide-image">
+                                </div>
+                                <div class="home-slide-content">
+                                    <div class="home-slide-content-text">
+                                        <h3>Сохраним экологию вместе</h3>
+                                        <p>На нашем производстве внедрены передовые технологии рециклинга. Узнайте больше о том, как мы заботимся о природе!</p>
+                                    </div>
+                                    <a href="#" class="home-slide-btn">Перейти</a>
+                                </div>
+                            </div>
+                            <!-- Слайд 2 -->
+                            <div class="home-slide swiper-slide">
+                                <div class="home-slide-img-container">
+                                    <img src="/images/sliders/slide-2.png" alt="Слайд 1" class="home-slide-image">
+                                </div>
+                                <div class="home-slide-content">
+                                    <div class="home-slide-content-text">
+                                        <h3>Начните сотрудничество сегодня</h3>
+                                        <p>Выделись на рынке! Реализуй уникальную форму став нашим партнером.</p>
+                                    </div>
+                                    <a href="#" class="home-slide-btn">Перейти</a>
+                                </div>
+                            </div>
+                            <div class="home-slide swiper-slide">
+                                <div class="home-slide-img-container">
+                                    <img src="/images/sliders/slide-3.png" alt="Слайд 1" class="home-slide-image">
+                                </div>
+                                <div class="home-slide-content">
+                                    <div class="home-slide-content-text">
+                                        <h3>Призыв к действию</h3>
+                                        <p>Здесь должно быть какое-то описание. Реклама или преимущество. Коротко и ясно.</p>
+                                    </div>
+                                    <a href="#" class="home-slide-btn">Перейти</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Переключатели -->
+                        <div class="home-slider-controls">
+                            <div class="home-slider-control-oval">
+                                <span class="home-slider-control-indicator active"></span>
+                                <span class="home-slider-control-indicator"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Отображение категорий-->
+                <div class="home-categories-container">
+                    <div class="home-categories-item" th:each="category : ${categoriesForCatalog}" th:if="${categoriesForCatalog != null}">
+                        <a th:href="@{'/subcategory/' + ${category.id}}">
+                            <div class="category-img">
+                                <img th:src="${category.categoryImage}" th:alt="${category.name}">
+                            </div>
+                            <div>
+                                <span th:text="${category.name}"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div th:if="${categoriesForCatalog == null or categoriesForCatalog.isEmpty()}">
+                        <p>Нет доступных категорий для отображения.</p>
+                    </div>
+                </div>
+                <!--Отображение кнопки "Все категории"-->
+                <div class="home-all-categories-link-container">
+                    <a th:href="@{/category}" class="home-all-categories-link">
+                        <div class="home-all-categories-link-icon-container">
+                            <img class="home-all-categories-link-icon" src="/images/icons/icons8-list-48.png" alt="Список категорий"/>
+                        </div>
+                        <span>Все категории</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с рекламной навигацией-->
+        <section class="container">
+            <div class="home-advertising-nav-container">
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-1.png" alt="Реклама-1">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-2.png" alt="Реклама-2">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item home-advertising-nav-item-split">
+                    <a href="#">
+                        <img src="/images/advertising/advert-3.png" alt="Реклама-3">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-5.png" alt="Реклама-5">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-6.png" alt="Реклама-6">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-7.png" alt="Реклама-7">
+                    </a>
+                </div>
+                <div class="home-advertising-nav-item">
+                    <a href="#">
+                        <img src="/images/advertising/advert-8.png" alt="Реклама-8">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с продуктами подкатегорий бутылки-->
+        <section class="container">
+            <div class="home-category-product-container">
+                <div class="home-category-banner-container">
+                    <div class="home-category-banner">
+                        <img src="/images/banners/banner-bottle.png" alt="Банер категории бутылок">
+                    </div>
+                    <a href="#" class="home-category-banner-link">
+                        <span>Посмотреть все</span>
+                        <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
+                    </a>
+                </div>
+                <div class="swiper bottle-swiper" th:if="${products != null and products.size() > 1}">
+                    <div class="home-products-card-container swiper-wrapper">
+                        <div class="home-product-card-container swiper-slide" th:each="product : ${products[1]}">
+                            <div class="home-product-card">
+                                <div class="home-product-info">
+                                    <div class="home-product-info-top">
+                                        <div class="home-product-image">
+                                            <img th:src="'data:image/' + ${product.image.productImageType} + ';base64,' + ${product.image.productImage}" th:alt="${product.name}">
+                                        </div>
+                                        <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
+                                    </div>
+                                    <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
+                                </div>
+                                <div class="home-product-action">
+                                    <button>В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-products-card-error" th:if="${products == null or products.size() == 0}">
+                    <p>Нет доступных товаров для отображения.</p>
+                </div>
+                <div class="swiper-button-prev-custom-bottle">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <div class="swiper-button-next-custom-bottle">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с продуктами подкатегорий банки-->
+        <section class="container">
+            <div class="home-category-product-container">
+                <div class="swiper jar-swiper" th:if="${products != null and products.size() > 1}">
+                    <div class="home-products-card-container swiper-wrapper">
+                        <div class="home-product-card-container swiper-slide" th:each="product : ${products[2]}">
+                            <div class="home-product-card">
+                                <div class="home-product-info">
+                                    <div class="home-product-info-top">
+                                        <div class="home-product-image">
+                                            <img th:src="'data:image/' + ${product.image.productImageType} + ';base64,' + ${product.image.productImage}" th:alt="${product.name}">
+                                        </div>
+                                        <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
+                                    </div>
+                                    <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
+                                </div>
+                                <div class="home-product-action">
+                                    <button>В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-products-card-error" th:if="${products == null or products.size() <= 1}">
+                    <p>Нет доступных товаров для отображения.</p>
+                </div>
+                <div class="swiper-button-prev-custom-jar">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+                <div class="swiper-button-next-custom-jar">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+                <div class="home-category-banner-container">
+                    <div class="home-category-banner">
+                        <img src="/images/banners/banner-jar.png" alt="Банер категории банки">
+                    </div>
+                    <a href="#" class="home-category-banner-link">
+                        <span>Посмотреть все</span>
+                        <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с партнерами-->
+        <section class="container">
+            <div class="home-partners-container">
+                <div class="home-partners-title">
+                    <h2>Партнеры нашего завода</h2>
+                </div>
+                <div class="home-partners-grid-container">
+                    <div class="home-partner-item" th:each="partner : ${partners}">
+                        <img th:src="${partner.logoImage}" th:alt="${partner.logoImageName}" />
+                    </div>
+                </div>
+                <div th:if="${partners == null || partners.isEmpty()}">
+                    <p>К сожалению, партнёров нет.</p>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с сертификатом-->
+        <section class="container">
+            <div class="home-certificate-title-container">
+                <h2>Сертифицированная продукция</h2>
+            </div>
+            <div class="home-certificate-container">
+                <div class="home-certificate-images-container">
+                    <div class="home-certificate-img-container">
+                        <img id="main-certificate" class="zoomable-image"
+                             th:src="@{${certificates[0].certificateImage}}"
+                             th:alt="${certificates[0].certificateImageName}">
+                    </div>
+                    <div class="home-certificate-thumbnails">
+                        <th:block th:each="certificate, iterStat : ${certificates}">
+                            <img class="thumbnail"
+                                 th:classappend="${iterStat.index == 0} ? 'active'"
+                                 th:src="@{${certificate.certificateImage}}"
+                                 th:alt="${certificate.certificateImageName}"
+                                 th:onclick="'changeImage(this)'">
+                        </th:block>
+                    </div>
+                </div>
+                <div class="home-certificate-info-container">
+                    <h3>Наша продукция полностью сертифицирована</h3>
+                    <p>Сертификат качества на производимую продукцию — это не просто документ, а символ надежности и
+                       высокого уровня нашего завода. Наличие сертификата подтверждает, что каждая бутылка
+                       соответствует строгим стандартам безопасности и качества.
+                    </p>
+                    <p>
+                        Для наших клиентов это преимущество, которое гарантирует уверенность в продукте.
+                        Сертифицированная продукция открывает двери к сотрудничеству с крупнейшими компаниями,
+                        повышает конкурентоспособность и доверие на рынке.
+                    </p>
+                    <p>
+                        Выбирая сертифицированные бутылки, вы выбираете качество, стабильность и репутацию, на
+                        которую можно положиться!
+                    </p>
+                </div>
+            </div>
+            <div id="image-modal" class="image-modal">
+                <span class="close">&times;</span>
+                <img class="modal-content" id="modal-img">
+            </div>
+        </section>
+
+        <!--Блок с преимуществами-->
+        <section class="container">
+            <div class="home-advantages-title-container">
+                <h2>Наши плюсы</h2>
+            </div>
+            <div class="home-advantages-container">
+                <div class="home-advantage-container">
+                    <span><i class="fa-regular fa-thumbs-up"></i></span>
+                    <h3>Надежный партнер</h3>
+                    <p>
+                        Довольные клиенты — наш главный приоритет. Качество, надежность и сервис создают
+                        уверенность и долгосрочное сотрудничество.
+                    </p>
+                </div>
+                <div class="home-advantage-container">
+                    <span><i class="fa-solid fa-car"></i></span>
+                    <h3>Своевременная доставка</h3>
+                    <p>
+                        Наш широкий парк автомобилей позволяет осуществлять своевременную доставку товара заказчику
+                    </p>
+                </div>
+                <div class="home-advantage-container">
+                    <span><i class="fa-solid fa-medal"></i></span>
+                    <h3>Контроль качества</h3>
+                    <p>
+                        Качественная продукция гарантируется строгим контролем на каждом этапе производства,
+                        обеспечивая надежность и удовлетворение клиентов.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с новостями-->
+        <section class="container">
+            <div class="home-news-title-container">
+                <h2>Новости</h2>
+            </div>
+            <div class="home-all-news-container">
+                <div th:if="${notices != null && !notices.isEmpty()}" th:each="notice : ${notices}" class="home-news-container">
+                    <div>
+                        <h4 th:text="${notice.title}">Заголовок новости</h4>
+                        <div class="home-news-text" th:text="${notice.description}">Описание новости</div>
+                    </div>
+                    <div class="home-news-bottom">
+                        <p th:text="${#temporals.format(notice.createdTime, 'dd.MM.yyyy')}">Дата публикации</p>
+                        <a th:href="@{/notice} + '#notice-' + ${notice.id}">
+                            Подробнее
+                            <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
+                        </a>
+                    </div>
+                </div>
+                <div th:if="${notices == null || notices.isEmpty()}">
+                    <p>На данный момент новостей нет.</p>
+                </div>
+            </div>
+        </section>
+
+        <!--Блок с подвалом-->
+        <section th:replace="~{layouts/main :: footer}"></section>
+
+        <!-- Скрипт для уведомления -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="/js/notification.js"></script>
+        <script src="/js/slider.js"></script>
+        <script src="/js/slider-for-products-bottle.js"></script>
+        <script src="/js/slider-for-products-jar.js"></script>
+        <script src="/js/certificate-loop.js"></script>
+        <script src="/js/header-catalog.js"></script>
+        <script src="/js/basket.js"></script>
+    </body>
+</html>

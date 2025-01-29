@@ -1,0 +1,139 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Вакансии')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/vacancy/delete})}"></section>
+        <!--Окно с инструкцией-->
+        <section class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с партнерами</h3>
+                    <p>
+                        Вакансии отображаются на странице вакансии.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Заполните название. Оно отображается как заголовок для каждой вакансии
+                    </p>
+                    <p>
+                        2. Заполните описание вакансии. Требования к кандидату. Рабочие обязанности
+                    </p>
+                    <p>
+                        3. Заполняйте предложение по вакансии. График работы, выходные, ЗП и т.д.
+                    </p>
+                    <h4>Редакторы</h4>
+                    <p>Уменьшайте разрешение до формата 216x120 пикселей</p>
+                    <a href="https://photo-resizer.ru/" target="_blank">Изменение разрешения</a>
+                    <p>Сжимайте изображения до 60 КБ</p>
+                    <a href="https://imagecompressor.com/ru/" target="_blank">Сжатие изображения</a>
+                    <p>Обрезайте лишнее чтобы изображение соответствовало формату 1:1</p>
+                    <a href="https://www.iloveimg.com/ru/crop-image" target="_blank">Обрезка изображения</a>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </section>
+        <!--Блок с формой создания-->
+        <div class="form-container form-container-vacancy" id="create-form">
+            <form th:action="@{/admin/vacancy}" th:object="${vacancySave}" action="#" method="post">
+                <div class="form-group">
+                    <label for="name">Название вакансии:</label>
+                    <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
+                    <small id="nameError" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group form-group-textarea">
+                    <label for="description">Описание вакансии:</label>
+                    <textarea th:field="*{description}" id="description" name="description" class="form-control" rows="4" required></textarea>
+                    <small id="descriptionError" style="color: red; display: none;">Описание партнера</small>
+                </div>
+                <div class="form-group form-group-textarea">
+                    <label for="description">Предложение по вакансии:</label>
+                    <textarea th:field="*{offer}" id="offer" name="description" class="form-control" rows="4" required></textarea>
+                    <small id="offerError" style="color: red; display: none;">Описание партнера</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+        <!--Блок с формой редактирования-->
+        <div class="form-container form-container-vacancy" id="edit-form">
+            <form th:action="@{/admin/vacancy/update}" th:object="${vacancyUpdate}" action="#" method="post">
+                <div class="form-group">
+                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                </div>
+                <div class="form-group">
+                    <label for="name">Название вакансии:</label>
+                    <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+                    <small id="nameUpdateError" style="color: red; display: none;">Введите название</small>
+                </div>
+                <div class="form-group form-group-textarea">
+                    <label for="description">Описание вакансии:</label>
+                    <textarea th:field="*{description}" id="descriptionUpdate" name="description" class="form-control" rows="4" required></textarea>
+                    <small id="descriptionUpdateError" style="color: red; display: none;">Описание партнера</small>
+                </div>
+                <div class="form-group form-group-textarea">
+                    <label for="description">Предложение по вакансии:</label>
+                    <textarea th:field="*{offer}" id="offerUpdate" name="offer" class="form-control" rows="4" required></textarea>
+                    <small id="offerUpdateError" style="color: red; display: none;">Описание партнера</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="container category-container">
+        <!--Блок с таблицей-->
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Предложение</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="vacancy : ${vacancies}" onclick="selectRow(this)">
+                <td th:text="${vacancy.id}"></td>
+                <td th:text="${vacancy.name}"></td>
+                <td th:text="${vacancy.description}"></td>
+                <td th:text="${vacancy.offer}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/vacancy.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Партнеры')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/partner/delete})}"></section>
+        <!--Окно с инструкцией-->
+        <section class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с партнерами</h3>
+                    <p>
+                        Партнеры отображаются на главной странице и на странице партнеры. На главной странице отображается только
+                        логотип. На странице партнеры отображается полная информация о партнере.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Загрузка логотипа обязательна для партнера, так как он отображается на главной странице.
+                        Логотип не должен превышать 60 КБ. Это необходимо для быстрой загрузки главной страницы.
+                        Минимальный размер логотипа должен быть 216x120 пикселей. Соотношение сторон желательно 1:1,
+                        либо ширина должна быть больше чем высота. Задний фон должен быть белым, либо заднего фона не
+                        должно быть. В противном случае это испортит эстетику блока с партнерами на главной странице.
+                    </p>
+                    <p>
+                        2. Загрузка продукции партнера не обязательна. Продукция партнера отображается на станице
+                        партнеры. Продукция не должна превышать 100 КБ. Ширина должна быть больше чем высота картинки.
+                        При загрузке картинки с продукцией, она отобразится в форме создания. Точно так же будет
+                        выглядеть в блоке у партнера. Желательно чтобы изображение полностью заполнило  блок
+                    </p>
+                    <p>
+                        3. Заполняйте описание партнера информативно.
+                    </p>
+                    <h4>Редакторы</h4>
+                    <p>Уменьшайте разрешение до формата 216x120 пикселей</p>
+                    <a href="https://photo-resizer.ru/" target="_blank">Изменение разрешения</a>
+                    <p>Сжимайте изображения до 60 КБ</p>
+                    <a href="https://imagecompressor.com/ru/" target="_blank">Сжатие изображения</a>
+                    <p>Обрезайте лишнее чтобы изображение соответствовало формату 1:1</p>
+                    <a href="https://www.iloveimg.com/ru/crop-image" target="_blank">Обрезка изображения</a>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </section>
+        <!--Блок с формой создания-->
+        <div class="form-container form-container-partner" id="create-form">
+            <form class="form-partner" th:action="@{/admin/partner}" th:object="${partnerSave}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateSaveForm()">
+                <div class="form-product-left">
+                    <div class="form-group-partner-img">
+                        <label for="imageLogoPreview">Логотип партнера:</label>
+                        <img id="imageLogoPreview" class="image-preview-logo"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-img-load" for="logoImage">Загрузить логотип</label>
+                        <input th:field="*{logoImage}" type="file" id="logoImage" name="logoImage" class="form-input-none " onchange="previewImageLogo()" />
+                        <small id="logoImageError" style="color: red; display: none;">Выберете картинку</small>
+                    </div>
+                    <div class="form-group-partner-img">
+                        <label for="imageProductPreview">Продукция партнера:</label>
+                        <img id="imageProductPreview" class="image-preview-product" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-img-load" for="productImage">Загрузить продукцию</label>
+                        <input th:field="*{productImage}" type="file" id="productImage" name="productImage" class="form-input-none " onchange="previewImageProduct()" />
+                        <small id="productImageError" style="color: red; display: none;">Выберете картинку</small>
+                    </div>
+                </div>
+                <div class="form-product-right">
+                    <div class="form-group">
+                        <label for="name">Название партнер:</label>
+                        <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
+                        <small id="nameError" style="color: red; display: none;">Введите название</small>
+                    </div>
+                    <div class="form-group form-group-textarea">
+                        <label for="description">Описание партнера:</label>
+                        <textarea th:field="*{description}" id="description" name="description" class="form-control" rows="4" required></textarea>
+                        <small id="descriptionError" style="color: red; display: none;">Описание партнера</small>
+                    </div>
+                    <div class="form-group-button">
+                        <button id="saveButton" type="submit" class="form-control-btn">Сохранить</button>
+                        <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--Блок с формой редактирования-->
+        <div class="form-container form-container-partner" id="edit-form">
+            <form class="form-partner" th:action="@{/admin/partner/update}" th:object="${partnerUpdate}" action="#" method="post" enctype="multipart/form-data" onsubmit="return validateUpdateForm()">
+                <div class="form-product-left">
+                    <div class="form-group-partner-img">
+                        <label for="imageLogoPreview">Логотип партнера:</label>
+                        <img id="imageLogoPreviewUpdate" class="image-preview-logo"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-img-load" for="logoImageUpdate">Загрузить логотип</label>
+                        <input th:field="*{logoImage}" type="file" id="logoImageUpdate" name="logoImage" class="form-input-none" onchange="previewImageLogoUpdate()"/>
+                        <small id="logoImageUpdateError" style="color: red; display: none;">Выберете картинку</small>
+                    </div>
+                    <div class="form-group-partner-img">
+                        <label for="imageProductPreview">Продукция партнера:</label>
+                        <img id="imageProductPreviewUpdate" class="image-preview-product" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-img-load" for="productImageUpdate">Загрузить продукцию</label>
+                        <input th:field="*{productImage}" type="file" id="productImageUpdate" name="productImage" class="form-input-none " onchange="previewImageProductUpdate()"/>
+                        <small id="productImageUpdateError" style="color: red; display: none;">Выберете картинку</small>
+                    </div>
+                </div>
+                <div class="form-product-right">
+                    <div class="form-group">
+                        <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Название партнера:</label>
+                        <input th:field="*{name}" type="text" id="nameUpdate" name="name" class="form-control" required />
+                        <small id="nameErrorUpdate" style="color: red; display: none;">Введите название</small>
+                    </div>
+                    <div class="form-group form-group-textarea">
+                        <label for="description">Описание партнера:</label>
+                        <textarea th:field="*{description}" id="descriptionUpdate" name="description" class="form-control" rows="4" required></textarea>
+                        <small id="descriptionUpdateError" style="color: red; display: none;">Описание партнера</small>
+                    </div>
+                    <div class="form-group-button">
+                        <button id="saveButtonUpdate" type="submit" class="form-control-btn">Сохранить</button>
+                        <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="container category-container">
+        <!--Блок с таблицей-->
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Логотип</th>
+                <th>Тип лого</th>
+                <th>Продукция</th>
+                <th>Тип продукции</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="partner : ${partners}" onclick="selectRow(this)">
+                <td th:text="${partner.id}"></td>
+                <td th:text="${partner.name}"></td>
+                <td th:text="${partner.logoImageName}"></td>
+                <td th:text="${partner.logoImageType}"></td>
+                <td th:text="${partner.productImageName}"></td>
+                <td th:text="${partner.productImageType}"></td>
+                <td th:text="${partner.logoImage}"  style="display: none"></td>
+                <td th:text="${partner.productImage}"  style="display: none"></td>
+                <td th:text="${partner.description}"  style="display: none"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/partner.js"></script>
+</body>
+</html>

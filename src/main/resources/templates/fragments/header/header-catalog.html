@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Header Top -->
+<div th:fragment="header-catalog-background" id="headerCatalogBackground" class="header-catalog"></div>
+
+<div th:fragment="header-catalog-modal" id="headerCatalogModal" class="header-catalog-modal">
+    <div class="header-catalog-modal-items">
+        <div th:each="category : ${categoriesForCatalog}" class="header-catalog-modal-item">
+            <!-- Изображение категории -->
+            <div class="header-catalog-modal-item-img">
+                <a th:href="'/subcategory/' + ${category.id}">
+                    <img th:src="${category.categoryImage}" th:alt="${category.categoryImageName}">
+                </a>
+            </div>
+            <!-- Название категории -->
+            <a th:href="'/subcategory/' + ${category.id}">
+                <h4 th:text="${category.name}">Категория</h4>
+            </a>
+            <!-- Список подкатегорий -->
+            <div class="header-catalog-modal-item-subcategory">
+                <a th:each="subcategory : ${category.subcategories}" th:href="'/products/subcategory/' + ${subcategory.id}" th:text="${subcategory.name}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

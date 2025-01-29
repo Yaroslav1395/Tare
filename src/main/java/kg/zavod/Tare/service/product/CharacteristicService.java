@@ -7,10 +7,38 @@ import kg.zavod.Tare.dto.exception.StaticDataException;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveDto;
 import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateDto;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForUpdateAdminDto;
 
 import java.util.List;
 
 public interface CharacteristicService {
+    /**
+     * Метод позволяет получить все характеристики. Используется в админке MVC.
+     * @return - список характеристик
+     * @throws EntitiesNotFoundException - в случае если характеристики не найдены
+     */
+    List<CharacteristicForAdminDto> getAllCharacteristicsForAdmin() throws EntitiesNotFoundException;
+
+    /**
+     * Метод позволяет сохранить характеристику. Используется в админке MVC.
+     * @param characteristic - характеристика для сохранения
+     * @throws DuplicateEntityException - в случае если характеристика дублируется
+     */
+    void saveCharacteristic(CharacteristicForSaveAdminDto characteristic) throws DuplicateEntityException;
+
+    /**
+     * Метод позволяет отредактировать характеристику. Используется в админке MVC.
+     * @param characteristic - характеристика для редактирования
+     * @throws DuplicateEntityException - в случае если характеристика дублируется
+     * @throws EntityNotFoundException - в случае если характеристика не найдена
+     * @throws StaticDataException - в случае попытки редактирования статичной характеристики
+     */
+    void updateCharacteristic(CharacteristicForUpdateAdminDto characteristic) throws EntityNotFoundException, DuplicateEntityException, StaticDataException;
+
+
+
     /**
      * Метод позволяет получить характеристику по id
      * @throws EntityNotFoundException  - в случае если по id ничего не найдено
