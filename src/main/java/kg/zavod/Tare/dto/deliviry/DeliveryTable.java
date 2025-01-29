@@ -1,6 +1,6 @@
 package kg.zavod.Tare.dto.deliviry;
 
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForAdminDto;
 import kg.zavod.Tare.dto.deliviry.division.DivisionTableDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class DeliveryTable {
-    private List<CapacityDto> capacities;
+    private List<CapacityForAdminDto> capacities;
     private List<DivisionTableDto> divisions;
 
-    public static DeliveryTable buildDeliveryTable(List<DivisionTableDto> divisions, List<CapacityDto> capacities){
+    public static DeliveryTable buildDeliveryTable(List<DivisionTableDto> divisions, List<CapacityForAdminDto> capacities){
         return DeliveryTable.builder()
                 .divisions(divisions)
                 .capacities(capacities)

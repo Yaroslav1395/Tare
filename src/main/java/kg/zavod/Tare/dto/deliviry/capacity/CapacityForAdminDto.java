@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Класс описывает допустимый объем доставки")
-public class CapacityDto {
+public class CapacityForAdminDto {
     @Schema(description = "Id допустимого объема")
     private Integer id;
     @Schema(description = "Лимит от")

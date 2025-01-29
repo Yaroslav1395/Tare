@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Schema(description = "Класс необходим для редактирования допустимого объема доставки")
-public class CapacityForSaveDto {
+public class CapacityForSaveAdminDto {
     @Schema(description = "Лимит от")
     @NotNull(message = "Минимальный лимит не может быть null")
     @Min(value = 1, message = "Минимальный лимит не может быть меньше 1-го")

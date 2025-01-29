@@ -1,0 +1,115 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Объемы')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/capacity/delete})}"></section>
+        <!--Окно с инструкцией-->
+        <section class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с объемами доставки</h3>
+                    <p>
+                        Допустимы объем доставки отображается в таблице доставки.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Создайте объем доставки. Он отобразится в таблице доставки. Значения стоимости доставки будут
+                        пустые пока вы не установите конечные цены.
+                    </p>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </section>
+        <!--Блок с формой создания-->
+        <div class="form-container" id="create-form">
+            <form th:action="@{/admin/capacity}" th:object="${capacitySave}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="capacityFrom">Объем от:</label>
+                    <input th:field="*{capacityFrom}" type="text" id="capacityFrom" name="capacityFrom" class="form-control" required />
+                    <small id="capacityFromError" style="color: red; display: none;">Введите объем от</small>
+                </div>
+                <div class="form-group">
+                    <label for="capacityTo">Объем до:</label>
+                    <input th:field="*{capacityTo}" type="text" id="capacityTo" name="capacityTo" class="form-control" required />
+                    <small id="capacityToError" style="color: red; display: none;">Введите объем до</small>
+                </div>
+                <div class="form-group-button">
+                    <button id="saveButton" type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+        <!--Блок с формой редактирования-->
+        <div class="form-container" id="edit-form">
+            <form th:action="@{/admin/capacity/update}" th:object="${capacityUpdate}" action="#" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
+                </div>
+                <div class="form-group">
+                    <label for="capacityFromUpdate">Название категории:</label>
+                    <input th:field="*{capacityFrom}" type="text" id="capacityFromUpdate" name="capacityFromUpdate" class="form-control" required />
+                    <small id="capacityFromUpdateError" style="color: red; display: none;">Введите объем до</small>
+                </div>
+                <div class="form-group">
+                    <label for="capacityToUpdate">Название категории:</label>
+                    <input th:field="*{capacityTo}" type="text" id="capacityToUpdate" name="capacityToUpdate" class="form-control" required />
+                    <small id="capacityToUpdateError" style="color: red; display: none;">Введите объем до</small>
+                </div>
+                <div class="form-group-button">
+                    <button type="submit" class="form-control-btn">Сохранить</button>
+                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="container category-container">
+        <!--Блок с таблицей-->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Объем от</th>
+                    <th>Объем до</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="capacity : ${capacities}" onclick="selectRow(this)">
+                    <td th:text="${capacity.id}"></td>
+                    <td th:text="${capacity.capacityFrom}"></td>
+                    <td th:text="${capacity.capacityTo}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/capacity.js"></script>
+</body>
+</html>

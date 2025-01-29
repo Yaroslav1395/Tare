@@ -8,9 +8,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import kg.zavod.Tare.dto.ResponseDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForSaveDto;
-import kg.zavod.Tare.dto.deliviry.capacity.CapacityForUpdateDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForAdminDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.capacity.CapacityForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -40,7 +40,7 @@ public class CapacityController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping
-    public ResponseEntity<ResponseDto<CapacityDto>> getCapacityById(
+    public ResponseEntity<ResponseDto<CapacityForAdminDto>> getCapacityById(
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer districtId) throws EntityNotFoundException {
         logger.info("Получение допустимого объема по id");
@@ -52,7 +52,7 @@ public class CapacityController {
             @ApiResponse(responseCode = "200", description = "Успешно"),
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @GetMapping("/all")
-    public ResponseEntity<ResponseDto<List<CapacityDto>>> getAllCapacities() throws EntitiesNotFoundException {
+    public ResponseEntity<ResponseDto<List<CapacityForAdminDto>>> getAllCapacities() throws EntitiesNotFoundException {
         logger.info("Получение всех допустимых объемов");
         return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.getAllCapacities(), ResponseState.SUCCESS,"Success"));
     }
@@ -63,9 +63,10 @@ public class CapacityController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PostMapping
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<CapacityDto>> createCapacity(@ModelAttribute @Valid CapacityForSaveDto capacityForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
+    public ResponseEntity<ResponseDto<CapacityForAdminDto>> createCapacity(@ModelAttribute @Valid CapacityForSaveAdminDto capacityForSaveAdminDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Создание допустимого объема");
-        return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.saveCapacity(capacityForSaveDto), ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.saveCapacity(capacityForSaveAdminDto), ResponseState.SUCCESS,"Success"));*/
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
     }
 
     @Operation(summary = "Редактирование допустимого объема", description = "Позволит отредактировать допустимый объем")
@@ -74,9 +75,10 @@ public class CapacityController {
             @ApiResponse(responseCode = "500", description = "Произошла ошибка на сервере")})
     @PutMapping
     @PreAuthorize("hasAnyAuthority('DEVELOPER', 'ADMIN')")
-    public ResponseEntity<ResponseDto<CapacityDto>> updateCapacity(@ModelAttribute @Valid CapacityForUpdateDto capacityForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
+    public ResponseEntity<ResponseDto<CapacityForAdminDto>> updateCapacity(@ModelAttribute @Valid CapacityForUpdateAdminDto capacityForUpdateAdminDto) throws EntityNotFoundException, DuplicateEntityException {
         logger.info("Редактирование допустимого объема");
-        return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.updateCapacity(capacityForUpdateDto), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.updateCapacity(capacityForUpdateAdminDto), ResponseState.SUCCESS,"Success"));*/
     }
 
     @Operation(summary = "Удаление допустимого объема", description = "Позволит удалить допустимый объем")
@@ -89,6 +91,7 @@ public class CapacityController {
             @RequestParam @NotNull(message = "Id не может быть null")
             @Min(value = 1, message = "Id не может быть меньше 1") Integer districtId) {
         logger.info("Удаление допустимого объема");
-        return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.deleteCapacityById(districtId), ResponseState.SUCCESS,"Success"));
+        return ResponseEntity.ok(ResponseDto.buildResponse(null, ResponseState.SUCCESS,"Success"));
+        /*return ResponseEntity.ok(ResponseDto.buildResponse(capacityService.deleteCapacityById(districtId), ResponseState.SUCCESS,"Success"));*/
     }
 }
