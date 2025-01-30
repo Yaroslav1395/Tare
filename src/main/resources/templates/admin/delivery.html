@@ -91,23 +91,69 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Строки с ценами по каждому capacity -->
-                <tr th:each="capacity : ${delivery.capacities}">
-                    <td th:text="'От ' + ${capacity.capacityFrom} + ' до ' + ${capacity.capacityTo}"></td>
-                    <th:block th:each="division : ${delivery.divisions}">
-                        <td th:each="district : ${division.districts}"
-                            th:text="${district.capacityPriceMap[capacity.id] != null} ? ${district.capacityPriceMap[capacity.id].price} : '-'">
+            <tr th:each="capacity : ${delivery.capacities}">
+                <td th:text="'От ' + ${capacity.capacityFrom} + ' до ' + ${capacity.capacityTo}"></td>
+                <th:block th:each="division : ${delivery.divisions}">
+                    <th:block th:each="district : ${division.districts}">
+                        <td>
+                            <!-- Форма редактирования цены -->
+                            <form th:id="'priceForm_' + ${district.capacityPriceMap[capacity.id].id}"
+                                  th:action="@{/admin/delivery/table}" method="post"
+                                  class="delivery-table-price-form">
+                                <input type="hidden" name="id" th:value="${district.capacityPriceMap[capacity.id]?.id}"/>
+                                <input type="number" name="price"
+                                       th:value="${district.capacityPriceMap[capacity.id] != null ? district.capacityPriceMap[capacity.id].price : ''}"
+                                       class="delivery-table-price-input"
+                                       onfocus="showButtons(this)"
+                                       onblur="hideButtonsIfNotEditing(this)"/>
+                                <!-- Кнопки подтверждения и отмены -->
+                                <div class="delivery-table-price-buttons">
+                                    <button type="submit" class="delivery-table-price-button confirm-btn" style="display: none;">✔</button>
+                                    <button type="button" class="delivery-table-price-button cancel-btn" style="display: none;" onclick="cancelEdit(this)">✖</button>
+                                </div>
+                            </form>
                         </td>
                     </th:block>
-                </tr>
+                </th:block>
+            </tr>
             </tbody>
         </table>
     </section>
+
+    <!--<section class="container category-container">
+        <table border="1" class="delivery-table">
+            <thead>
+            <tr>
+                <th rowspan="2">Объем</th> &lt;!&ndash; Оставляем пустую ячейку &ndash;&gt;
+                <th th:each="division : ${delivery.divisions}" th:text="${division.divisionName}"
+                    th:colspan="${#lists.size(division.districts)}">
+                </th>
+            </tr>
+            <tr>
+                <th:block th:each="division : ${delivery.divisions}">
+                    <th th:each="district : ${division.districts}" th:text="${district.districtName}"></th>
+                </th:block>
+            </tr>
+            </thead>
+            <tbody>
+            &lt;!&ndash; Строки с ценами по каждому capacity &ndash;&gt;
+            <tr th:each="capacity : ${delivery.capacities}">
+                <td th:text="'От ' + ${capacity.capacityFrom} + ' до ' + ${capacity.capacityTo}"></td>
+                <th:block th:each="division : ${delivery.divisions}">
+                    <td th:each="district : ${division.districts}"
+                        th:text="${district.capacityPriceMap[capacity.id] != null} ? ${district.capacityPriceMap[capacity.id].price} : '-'">
+                    </td>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+    </section>-->
 
     <!--Блок с подвалом-->
     <section th:replace="~{layouts/admin :: footer}"></section>
 
     <script src="/js/notification.js"></script>
     <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/delivery.js"></script>
 </body>
 </html>

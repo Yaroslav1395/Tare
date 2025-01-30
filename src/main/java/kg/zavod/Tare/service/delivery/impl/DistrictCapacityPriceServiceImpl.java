@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -116,6 +117,22 @@ public class DistrictCapacityPriceServiceImpl implements DistrictCapacityPriceSe
         DistrictCapacityPriceEntity price = deliveryPriceMapper.mapToPriceEntity(deliveryPriceForSaveDto, district, capacity);
         DistrictCapacityPriceEntity savedPrice = districtCapacityPriceRepository.save(price);
         return deliveryPriceMapper.mapToDeliveryPriceDto(savedPrice);
+    }
+
+    /**
+     * Метод позволяет сохранить цены доставки для нового района по каждому объему
+     * @param district - новый район
+     */
+    @Override
+    public void saveDeliveryPricesForNewDistrict(DistrictEntity district) {
+        logger.info("Попытка сохранения цен доставки для нового района");
+        List<CapacityEntity> capacities = capacityRepository.findAll();
+        List<DistrictCapacityPriceEntity> prices = new ArrayList<>();
+        for (CapacityEntity capacity : capacities) {
+            DistrictCapacityPriceEntity price = deliveryPriceMapper.createPriceEntity(district, capacity, null);
+            prices.add(price);
+        }
+        districtCapacityPriceRepository.saveAll(prices);
     }
 
     /**

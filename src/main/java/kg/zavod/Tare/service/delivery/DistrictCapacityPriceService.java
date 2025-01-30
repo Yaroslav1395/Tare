@@ -1,5 +1,6 @@
 package kg.zavod.Tare.service.delivery;
 
+import kg.zavod.Tare.domain.delivery.DistrictEntity;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceDto;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceForSaveDto;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceForUpdateDto;
@@ -49,6 +50,12 @@ public interface DistrictCapacityPriceService {
      * @return - сохраненная цена доставки
      */
     DeliveryPriceDto saveDeliveryPrice(DeliveryPriceForSaveDto deliveryPriceForSaveDto) throws DuplicateEntityException, EntityNotFoundException;
+
+    /**
+     * Метод позволяет сохранить цены доставки для нового района по каждому объему
+     * @param district - новый район
+     */
+    void saveDeliveryPricesForNewDistrict(DistrictEntity district);
 
     /**
      * Метод позволяет редактировать цену доставки

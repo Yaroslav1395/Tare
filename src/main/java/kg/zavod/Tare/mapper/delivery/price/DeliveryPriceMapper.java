@@ -12,6 +12,22 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface DeliveryPriceMapper {
+
+    /**
+     * Метод позволяет создать цену доставки. Используется при создании нового района доставки.
+     * @param district - район
+     * @param capacity - объем
+     * @param price - цена
+     * @return - созданная цена
+     */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "price", source = "price")
+    @Mapping(target = "capacity", source = "capacity")
+    @Mapping(target = "district", source = "district")
+    DistrictCapacityPriceEntity createPriceEntity(DistrictEntity district, CapacityEntity capacity, Integer price);
+
+
+
     @Mapping(target = "capacityId", source = "price.capacity.id")
     @Mapping(target = "districtId", source = "price.district.id")
     DeliveryPriceDto mapToDeliveryPriceDto(DistrictCapacityPriceEntity price);

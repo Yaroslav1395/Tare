@@ -15,6 +15,7 @@ import kg.zavod.Tare.mapper.delivery.district.DistrictListMapper;
 import kg.zavod.Tare.mapper.delivery.district.DistrictMapper;
 import kg.zavod.Tare.repository.delivery.DistrictRepository;
 import kg.zavod.Tare.repository.delivery.DivisionRepository;
+import kg.zavod.Tare.service.delivery.DistrictCapacityPriceService;
 import kg.zavod.Tare.service.delivery.DistrictService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import java.util.List;
 public class DistrictServiceImpl implements DistrictService {
     private final DistrictRepository districtRepository;
     private final DivisionRepository divisionRepository;
+    private final DistrictCapacityPriceService districtCapacityPriceService;
     private final DistrictMapper districtMapper;
     private final DistrictListMapper districtListMapper;
     private static final Logger logger = LoggerFactory.getLogger(DistrictServiceImpl.class);
@@ -60,7 +62,8 @@ public class DistrictServiceImpl implements DistrictService {
         DivisionEntity division = divisionRepository.findById(districtForSaveDto.getDivisionId())
                 .orElseThrow(() -> new EntityNotFoundException("Не найдено территориального деления для района по id"));
         DistrictEntity district = districtMapper.mapToDistrictEntity(districtForSaveDto, division);
-        districtRepository.save(district);
+        DistrictEntity savedDistrict = districtRepository.save(district);
+        districtCapacityPriceService.saveDeliveryPricesForNewDistrict(savedDistrict);
     }
 
     /**
