@@ -26,12 +26,22 @@ public class DeliveryTablePageController {
     private final DistrictCapacityPriceService districtCapacityPriceService;
     private static final Logger logger = LoggerFactory.getLogger(DeliveryTablePageController.class);
 
+    @GetMapping("/delivery")
+    public String getDeliveryTableForUser(Model model) {
+        logger.info("Получение таблицы доставки для пользователя");
+        try {
+            model.addAttribute("delivery", deliveryTableService.getDeliveryTable());
+        }catch (EntitiesNotFoundException ex){
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "delivery";
+    }
+
     @GetMapping("/admin/delivery/table")
     public String getDeliveryTable(Model model) {
         logger.info("Получение таблицы доставки");
         try {
-            DeliveryTable deliveryTable = deliveryTableService.getDeliveryTable();
-            model.addAttribute("delivery", deliveryTable);
+            model.addAttribute("delivery", deliveryTableService.getDeliveryTable());
         }catch (EntitiesNotFoundException ex){
             model.addAttribute("errorMessage", ex.getMessage());
         }

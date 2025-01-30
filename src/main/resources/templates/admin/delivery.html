@@ -27,14 +27,19 @@
         <section class="instruction-container" id="instruction">
             <div class="instruction-info-container">
                 <div class="instruction-info">
-                    <h3>Работа с областями доставки</h3>
+                    <h3>Работа с ценами доставки</h3>
                     <p>
-                        Области доставки отображается в таблице доставки. В шапке.
+                        Таблица доставки отображается в клиентской части приложения.
                     </p>
                     <h4>Правила использования</h4>
                     <p>
-                        1. Создайте область доставки. Она отобразится в таблице доставки. Значения стоимости доставки будут
-                        пустые пока вы не установите конечные цены.
+                        1. Кликните по ячейке
+                    </p>
+                    <p>
+                        2. Установите цену
+                    </p>
+                    <p>
+                        3. Сохраните изменения нажатием на галочку или отмените крестиком
                     </p>
                 </div>
                 <div class="instruction-controls">
@@ -42,44 +47,13 @@
                 </div>
             </div>
         </section>
-        <!--Блок с формой создания-->
-        <!--<div class="form-container" id="create-form">
-            <form th:action="@{/admin/division}" th:object="${divisionSave}" action="#" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="name">Название района:</label>
-                    <input th:field="*{name}" type="text" id="name" name="name" class="form-control" required />
-                    <small id="nameError" style="color: red; display: none;">Введите название</small>
-                </div>
-                <div class="form-group-button">
-                    <button id="saveButton" type="submit" class="form-control-btn">Сохранить</button>
-                    <button type="button" class="form-control-btn" onclick="hideCreateForm()">Отмена</button>
-                </div>
-            </form>
-        </div>-->
-        <!--Блок с формой редактирования-->
-        <!--<div class="form-container" id="edit-form">
-            <form th:action="@{/admin/division/update}" th:object="${divisionUpdate}" action="#" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <input th:field="*{id}" type="number" id="id" name="id" class="form-control" style="display:none;" />
-                </div>
-                <div class="form-group">
-                    <label for="nameUpdate">Название категории:</label>
-                    <input th:field="*{name}" type="text" id="nameUpdate" name="capacityFromUpdate" class="form-control" required />
-                    <small id="capacityFromUpdateError" style="color: red; display: none;">Введите объем до</small>
-                </div>
-                <div class="form-group-button">
-                    <button type="submit" class="form-control-btn">Сохранить</button>
-                    <button type="button" class="form-control-btn" onclick="hideUpdateForm()">Отмена</button>
-                </div>
-            </form>
-        </div>-->
     </section>
 
     <section class="container category-container">
         <table border="1" class="delivery-table">
             <thead>
                 <tr>
-                    <th rowspan="2">Объем</th> <!-- Оставляем пустую ячейку -->
+                    <th rowspan="2">Объем, л.</th> <!-- Оставляем пустую ячейку -->
                     <th th:each="division : ${delivery.divisions}" th:text="${division.divisionName}"
                         th:colspan="${#lists.size(division.districts)}">
                     </th>
@@ -119,35 +93,6 @@
             </tbody>
         </table>
     </section>
-
-    <!--<section class="container category-container">
-        <table border="1" class="delivery-table">
-            <thead>
-            <tr>
-                <th rowspan="2">Объем</th> &lt;!&ndash; Оставляем пустую ячейку &ndash;&gt;
-                <th th:each="division : ${delivery.divisions}" th:text="${division.divisionName}"
-                    th:colspan="${#lists.size(division.districts)}">
-                </th>
-            </tr>
-            <tr>
-                <th:block th:each="division : ${delivery.divisions}">
-                    <th th:each="district : ${division.districts}" th:text="${district.districtName}"></th>
-                </th:block>
-            </tr>
-            </thead>
-            <tbody>
-            &lt;!&ndash; Строки с ценами по каждому capacity &ndash;&gt;
-            <tr th:each="capacity : ${delivery.capacities}">
-                <td th:text="'От ' + ${capacity.capacityFrom} + ' до ' + ${capacity.capacityTo}"></td>
-                <th:block th:each="division : ${delivery.divisions}">
-                    <td th:each="district : ${division.districts}"
-                        th:text="${district.capacityPriceMap[capacity.id] != null} ? ${district.capacityPriceMap[capacity.id].price} : '-'">
-                    </td>
-                </th:block>
-            </tr>
-            </tbody>
-        </table>
-    </section>-->
 
     <!--Блок с подвалом-->
     <section th:replace="~{layouts/admin :: footer}"></section>
