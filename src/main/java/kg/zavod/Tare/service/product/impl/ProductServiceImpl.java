@@ -99,6 +99,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
+     * Метод позволяет найти продукты по поисковому запросу. Используется клиентом
+     * @param search - поисковая строка
+     * @return - список продуктов
+     * @throws EntitiesNotFoundException - в случае если продукты не найдены
+     */
+    @Override
+    @Transactional
+    public List<ProductForUserDto> getProductsBySearch(String search) throws EntitiesNotFoundException {
+        logger.info("Попытка получения продуктов по поисковому запросу");
+        List<ProductEntity> products = productRepository.findByNameContainingIgnoreCase(search);
+        if(products.isEmpty()) throw new EntitiesNotFoundException("Продуктов не найдено");
+        List<ProductForUserDto> productsDto = productListMapper.mapToProductForUserDtoList(products);
+        setHostToImageLoad(productsDto);
+        return productsDto;
+    }
+
+    /**
      * Метод позволяет получить все продукты. Используется в админке MVC
      * @return - список продуктов
      * @throws EntitiesNotFoundException - в случае если продукты не найдены
@@ -154,17 +171,24 @@ public class ProductServiceImpl implements ProductService {
         imageService.updateImagesAdminMvc(productForUpdateAdminDto.getImages(), product);
     }
 
-
+    /**
+     * Метод позволяет получить продукты категории бутылки и банки для главной страницы. Берется по
+     * 2 продукта из каждой подкатегории.
+     * @return - словарь продуктов по категориям
+     */
     @Override
     @Transactional
-    public Map<Integer, List<ProductForHomeDto>> getProductsForHomePage() {
-        Map<Integer, List<ProductForHomeDto>> productsDtoByCategoryId = new HashMap<>();
-        List<ProductEntity> p1 = productRepository.findAllBySubcategoryId(3);
-        List<ProductEntity> p2 = productRepository.findAllBySubcategoryId(6);
-        List<ProductForHomeDto> firsProducts = productListMapper.mapToProductForHomeDtoList(p1);
-        List<ProductForHomeDto> secondProducts = productListMapper.mapToProductForHomeDtoList(p2);
-        productsDtoByCategoryId.put(1, firsProducts);
-        productsDtoByCategoryId.put(2, secondProducts);
+    public Map<Integer, List<ProductForUserDto>> getProductsForHomePage() {
+        Map<Integer, List<ProductForUserDto>> productsDtoByCategoryId = new HashMap<>();
+        List<ProductEntity> products = productRepository.findProductInAllSubcategoryForBottleAndJarCategoryWithLimit();
+        Map<Integer, List<ProductEntity>> productsByCategory = products.stream()
+                .collect(Collectors.groupingBy(p -> p.getSubcategory().getCategory().getId()));
+        List<ProductForUserDto> productBottle = productListMapper.mapToProductForUserDtoList(productsByCategory.get(1));
+        setHostToImageLoad(productBottle);
+        productsDtoByCategoryId.put(1, productBottle);
+        List<ProductForUserDto> productJar = productListMapper.mapToProductForUserDtoList(productsByCategory.get(2));
+        setHostToImageLoad(productJar);
+        productsDtoByCategoryId.put(2, productJar);
         return productsDtoByCategoryId;
     }
 

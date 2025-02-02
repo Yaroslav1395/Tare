@@ -35,6 +35,14 @@ public interface ProductService {
     List<ProductForUserDto> getProductsForUserBySubcategoryId(Integer subcategoryId) throws EntitiesNotFoundException;
 
     /**
+     * Метод позволяет найти продукты по поисковому запросу. Используется клиентом
+     * @param search - поисковая строка
+     * @return - список продуктов
+     * @throws EntitiesNotFoundException - в случае если продукты не найдены
+     */
+    List<ProductForUserDto> getProductsBySearch(String search) throws EntitiesNotFoundException;
+
+    /**
      * Метод позволяет получить все продукты. Используется в админке MVC
      * @return - список продуктов
      * @throws EntitiesNotFoundException - в случае если продукты не найдены
@@ -57,7 +65,12 @@ public interface ProductService {
      */
     void updateProductAdminMvc(ProductForUpdateAdminDto productForUpdateAdminDto) throws EntityNotFoundException, EntitiesNotFoundException, IOException;
 
-    Map<Integer, List<ProductForHomeDto>> getProductsForHomePage();
+    /**
+     * Метод позволяет получить продукты категории бутылки и банки для главной страницы. Берется по
+     * 2 продукта из каждой подкатегории.
+     * @return - словарь продуктов по категориям
+     */
+    Map<Integer, List<ProductForUserDto>> getProductsForHomePage();
 
 
 

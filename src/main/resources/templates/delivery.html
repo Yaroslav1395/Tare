@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
-<head th:replace="~{layouts/main :: head('Новости')}">
+<head th:replace="~{layouts/main :: head('Доставка')}">
 </head>
 <body>
     <!-- Сообщение об ошибке -->
@@ -52,9 +52,29 @@
         <div th:if="${delivery == null}">
             <p>К сожалению, доставки нет.</p>
         </div>
+    </section>
 
+    <section class="container">
+        <div class="delivery-map-zone-container">
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #e987876b"></div>
+                <p class="delivery-map-zone-name">Зона-1</p>
+            </div>
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #5aaae1a1"></div>
+                <p class="delivery-map-zone-name">Зона-2</p>
+            </div>
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #f973cba1"></div>
+                <p class="delivery-map-zone-name">Зона-3</p>
+            </div>
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #8eda8e"></div>
+                <p class="delivery-map-zone-name">Зона-4</p>
+            </div>
+        </div>
         <div class="delivery-map-container">
-            <img src="" alt="Карта доставки">
+            <img id="zoomable-image" src="/images/map/карта.png" alt="Карта доставки">
         </div>
     </section>
 
@@ -64,5 +84,7 @@
     <!-- Скрипт для функционала -->
     <script src="/js/header-catalog.js"></script>
     <script src="/js/basket.js"></script>
+    <script src="/js/delivery.js"></script>
+
 </body>
 </html>
