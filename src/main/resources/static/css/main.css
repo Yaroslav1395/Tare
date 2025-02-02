@@ -237,6 +237,9 @@ table {
 
 .profile-button a {
     color: #333333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .profile-icon {
@@ -271,6 +274,8 @@ table {
 
 .basket-button a {
     color: #333333;
+    display: flex;
+    align-items: center;
 }
 
 .basket-icon {
@@ -3147,4 +3152,108 @@ table {
     max-width: 100%;
     cursor: grab;
     height: auto;
+}
+
+
+/******************************************************************************************/
+/**********************************Адаптивность сайта**************************************/
+/******************************************************************************************/
+/* Ноутбуки и планшеты в горизонтальном режиме */
+@media (max-width: 1199px) {
+  /*--Основные--*/
+  .container {
+    max-width: 960px;
+  }
+
+  /*--Шапка-*/
+  .basket-button {
+    width: 90px;
+  }
+
+  .basket-icon {
+    margin-right: 4px;
+  }
+
+  .basket-button a p {
+    display: none;
+  }
+
+  .profile-button {
+    width: 50px;
+  }
+
+  .profile-icon {
+    margin-right: 0;
+  }
+
+  .profile-button a p {
+    display: none;
+  }
+
+  .header-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .header-bottom-navbar-menu li {
+    margin-right: 0;
+  }
+
+  .header-bottom-contact{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+/* Планшеты */
+@media (max-width: 991px) {
+  /*--Основные--*/
+  .container {
+    width: 720px;
+  }
+
+  /*--Шапка-*/
+  .logo {
+    margin-right: 15px;
+  }
+
+  .search-container {
+    width: 280px;
+  }
+
+  .search-form {
+    width: 280px;
+  }
+
+  .search-input {
+    margin-left: 15px;
+  }
+
+  .profile-button {
+    margin-right: 10px;
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 767px) {
+  /*--Основные--*/
+  .container {
+    width: 540px;
+  }
+
+  /*--Шапка-*/
+}
+
+/* Маленькие экраны */
+@media (max-width: 575px) {
+  /*--Основные--*/
+  .container {
+    width: 100%;
+    padding: 0 15px;
+  }
+
+  /*--Шапка-*/
 }

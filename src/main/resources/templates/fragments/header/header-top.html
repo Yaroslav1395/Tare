@@ -32,13 +32,19 @@
         </div>
         <div class="header-top-right">
             <div class="profile-button">
-                <img class="profile-icon" src="/images/icons/icons8-customer-48.png" alt="gender-neutral-user"/>
-                <a href="#">Профиль</a>
+                <a href="#">
+                    <img class="profile-icon" src="/images/icons/icons8-customer-48.png" alt="gender-neutral-user"/>
+                    <p>Профиль</p>
+                </a>
             </div>
             <div class="basket-button">
-                <img class="basket-icon" src="/images/icons/icons8-checkout-25.png" alt="gender-neutral-user"/>
-                <a href="#" onclick="submitBasket()">Корзина</a>
-                <div class="basket-counter"><span>0</span></div>
+                <a href="#" onclick="submitBasket()">
+                    <img class="basket-icon" src="/images/icons/icons8-checkout-25.png" alt="gender-neutral-user"/>
+                    <p>Корзина</p>
+                    <div class="basket-counter">
+                        <span>0</span>
+                    </div>
+                </a>
             </div>
             <!-- Скрытая форма для отправки данных -->
             <form id="basketForm" method="POST" action="/basket" style="display:none;">
