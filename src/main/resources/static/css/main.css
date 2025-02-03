@@ -683,6 +683,12 @@ table {
     justify-content: flex-start;
 }
 
+.footer-center-left {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
 .footer-menu {
     display:flex;
     align-items: flex-start;
@@ -3401,6 +3407,39 @@ table {
     align-items: center;
     justify-content: flex-end;
   }
+
+  /*--Каталог--*/
+  .header-catalog-modal {
+    max-width: 960px;
+  }
+
+  /*--Подвал-*/
+  .footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 30px;
+    justify-content: space-between;
+  }
+
+  .footer-map iframe {
+    width: 100%;
+    height: 300px;
+  }
+
+  /*--Главная-*/
+  .home-slide-image {
+    height: 320px;
+  }
+
+  .home-advertising-nav-container {
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+  }
+
+  .home-advertising-nav-item-split {
+    height: 335px;
+  }
 }
 
 /* Планшеты */
@@ -3433,6 +3472,49 @@ table {
 
   .logo {
     margin-right: 15px;
+  }
+
+  /*--Каталог--*/
+  .header-catalog-modal {
+    max-width: 720px;
+  }
+
+  /*--Каталог--*/
+  .home-grid-slider-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 720px;
+    gap: 15px;
+  }
+
+  .home-categories-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .home-categories-item a {
+     margin-bottom: 0;
+  }
+
+  /*--Подвал-*/
+  .footer-contact {
+    margin-right: 0px;
+  }
+
+  .home-advertising-nav-container {
+    height: auto;
+  }
+
+  .home-advertising-nav-container {
+    grid-template-columns: 1fr 1fr 1fr;
+     margin-top: 40px;
+  }
+
+  .home-advertising-nav-item-split {
+     grid-column: 2 / 2;
+     grid-row: 1 / 1;
+     height: 160px;
   }
 }
 
@@ -3546,6 +3628,91 @@ table {
       color: #8c8c8c;
   }
 
+  /*--Подвал-*/
+  .footer-top {
+    padding-left: 40px;
+  }
+
+  .footer-menu {
+    gap: 30px;
+  }
+
+  .footer-center-left {
+    flex-direction: column;
+    padding: 0 40px;
+    gap: 20px;
+  }
+
+  .footer-contacts-wrapper {
+    gap: 30px;
+  }
+
+  .footer-map {
+     padding: 0 40px;
+  }
+
+  /*--Главная-*/
+  .home-grid-slider-container {
+     width: 100%;
+     padding: 0 15px;
+     flex-direction: column-reverse;
+     margin-top: 30px;
+     max-width: 100%;
+  }
+
+  .home-all-categories-link-container {
+     display: none;
+  }
+
+  .home-categories-container {
+    height: 40px;
+    background-color: #f7f7f7;
+    padding: 0 20px;
+  }
+
+  .home-categories-item a:hover {
+     color: #ffda33;
+  }
+
+  .category-img {
+     display: none;
+  }
+
+  .home-slide-content {
+     height: 115px;
+  }
+
+
+  .home-slide-image {
+     height: auto;
+  }
+
+  .home-slide-content-text h3 {
+     font-size: 20px;
+  }
+
+  .home-slide-content-text p {
+    font-size: 13px;
+  }
+
+  .home-slide-btn {
+     width: 175px;
+  }
+
+  .home-advertising-nav-container {
+     padding: 0 15px;
+     grid-column-gap: 15px;
+     grid-row-gap: 15px;
+     margin-top: 30px;
+  }
+
+  .home-advertising-nav-container {
+     grid-template-columns: 1fr 1fr;
+  }
+
+  .home-advertising-nav-item {
+     height: 190px;
+  }
 
 }
 
@@ -3558,4 +3725,6 @@ table {
   }
 
   /*--Шапка-*/
+
+  /*--Подвал-*/
 }
