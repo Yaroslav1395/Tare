@@ -3,12 +3,32 @@
 <body>
 <!-- Header Top -->
 <div th:fragment="header-top">
+    <div class="header-small">
+        <div class="open-nav-menu">
+            <svg id="menuIcon" class="catalog-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 50 50">
+                <path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"></path>
+            </svg>
+        </div>
+        <div class="logo-container">
+            <span class="logo">AsiaPlast</span>
+        </div>
+        <div class="basket-button">
+            <a href="#" onclick="submitBasket()">
+                <img class="basket-icon" src="/images/icons/icons8-checkout-25.png" alt="gender-neutral-user"/>
+                <p>Корзина</p>
+                <div id="basket-counter-small" class="basket-counter">
+                    <span>0</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
     <div class="header">
         <div class="header-top-left">
             <div class="logo-container">
                 <span class="logo">AsiaPlast</span>
             </div>
-            <div>
+            <div class="catalog-button-wrapper">
                 <button class="catalog-button">
                     <svg id="catalogIcon" class="catalog-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 50 50">
                         <path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"></path>
@@ -41,7 +61,7 @@
                 <a href="#" onclick="submitBasket()">
                     <img class="basket-icon" src="/images/icons/icons8-checkout-25.png" alt="gender-neutral-user"/>
                     <p>Корзина</p>
-                    <div class="basket-counter">
+                    <div id="basket-counter" class="basket-counter">
                         <span>0</span>
                     </div>
                 </a>
@@ -53,7 +73,10 @@
         </div>
         <div th:replace="~{fragments/header/header-catalog :: header-catalog-modal}"></div>
     </div>
+
     <div th:replace="~{fragments/header/header-catalog :: header-catalog-background}"></div>
+
+    <div th:replace="~{fragments/header/header-catalog :: header-catalog-sidebar}"></div>
 </div>
 </body>
 </html>
