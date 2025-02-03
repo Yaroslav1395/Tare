@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/main :: head('Доставка')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="error-message" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn" class="close-btn">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!--Шапка сайта-->
+    <section th:replace="~{layouts/main :: header}"></section>
+
+    <!--Блок с новостями-->
+    <section class="container notices-container">
+        <div class="notices-info">
+            <h2>Доставка</h2>
+            <p>
+                Наша компания осуществляет доставку товара как в Бишкеке, так и за его пределами. Найдите свой адрес на
+                карте, определите зону и просмотрите стоимость доставки.
+            </p>
+        </div>
+        <div class="delivery-table-container">
+            <table border="1" class="delivery-table">
+                <thead>
+                <tr>
+                    <th rowspan="2">Объем</th>
+                    <th th:each="division : ${delivery.divisions}" th:text="${division.divisionName}"
+                        th:colspan="${#lists.size(division.districts)}">
+                    </th>
+                </tr>
+                <tr>
+                    <th:block th:each="division : ${delivery.divisions}">
+                        <th th:each="district : ${division.districts}" th:text="${district.districtName}"></th>
+                    </th:block>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="capacity : ${delivery.capacities}">
+                    <td th:text="'От ' + ${capacity.capacityFrom} + ' до ' + ${capacity.capacityTo}"></td>
+                    <th:block th:each="division : ${delivery.divisions}">
+                        <td th:each="district : ${division.districts}"
+                            th:text="${district.capacityPriceMap[capacity.id] != null} ? ${district.capacityPriceMap[capacity.id].price} : '-'">
+                        </td>
+                    </th:block>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${delivery == null}">
+            <p>К сожалению, доставки нет.</p>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="delivery-map-zone-container">
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #e987876b"></div>
+                <p class="delivery-map-zone-name">Зона-1</p>
+            </div>
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #5aaae1a1"></div>
+                <p class="delivery-map-zone-name">Зона-2</p>
+            </div>
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #f973cba1"></div>
+                <p class="delivery-map-zone-name">Зона-3</p>
+            </div>
+            <div class="delivery-map-zone-item">
+                <div class="delivery-map-zone-color" style="background-color: #8eda8e"></div>
+                <p class="delivery-map-zone-name">Зона-4</p>
+            </div>
+        </div>
+        <div class="delivery-map-container">
+            <img id="zoomable-image" src="/images/map/карта.png" alt="Карта доставки">
+        </div>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/main :: footer}"></section>
+
+    <!-- Скрипт для функционала -->
+    <script src="/js/header-catalog.js"></script>
+    <script src="/js/basket.js"></script>
+    <script src="/js/delivery.js"></script>
+
+</body>
+</html>

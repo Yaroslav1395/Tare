@@ -74,6 +74,18 @@ public class ProductPageController {
         return "product";
     }
 
+    @GetMapping("/product/search")
+    public String productSearch(Model model, @RequestParam("search") String search) {
+        logger.info("Запрос на поиск продукта");
+        try {
+            model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
+            model.addAttribute("products", productService.getProductsBySearch(search));
+        }catch (EntitiesNotFoundException ex){
+            model.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "products";
+    }
+
     @GetMapping("/admin/products")
     public String productsForAdminPage(Model model) {
         logger.info("Запрос на открытие страницы продуктов для админки");

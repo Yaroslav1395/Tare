@@ -2,6 +2,7 @@ package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.controllerRest.category.CategoryController;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
+import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
 import kg.zavod.Tare.service.CertificateService;
 import kg.zavod.Tare.service.NoticeService;
 import kg.zavod.Tare.service.PartnerService;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class HomePageController {
@@ -24,12 +28,14 @@ public class HomePageController {
     private final CertificateService certificateService;
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
-    @GetMapping("/") // Главная страница
+    @GetMapping("/")
     public String home(Model model) {
         try {
             logger.info("Отображение главной страницы");
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());
-            model.addAttribute("products", productService.getProductsForHomePage());
+            Map<Integer, List<ProductForUserDto>> products= productService.getProductsForHomePage();
+            model.addAttribute("productsBottle", products.get(1));
+            model.addAttribute("productsJar", products.get(2));
             model.addAttribute("notices", noticeService.getAllNoticesForUser());
             model.addAttribute("partners", partnerService.getAllPartnersForUser());
             model.addAttribute("certificates", certificateService.getAllCertificateForUser());

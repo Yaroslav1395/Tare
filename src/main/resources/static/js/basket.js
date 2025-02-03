@@ -41,8 +41,14 @@ function updateBasketCounter() {
         .filter(item => typeof item === 'object' && item.count) // Оставляем только объекты с count
         .reduce((sum, item) => sum + item.count, 0);
     // Обновляем текст в счетчике
-    const counterElement = document.querySelector('.basket-counter span');
+    const counterElement = document.getElementById('basket-counter');
     counterElement.textContent = totalItems;
+    const basketCounter = document.getElementById('basket-counter-small');
+    if (totalItems === 0) {
+        basketCounter.style.display = 'none';
+    } else {
+        basketCounter.style.display = 'block';
+    }
 }
 
 function showNotification(message) {

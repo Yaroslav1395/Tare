@@ -46,18 +46,6 @@
                                     <a href="#" class="home-slide-btn">Перейти</a>
                                 </div>
                             </div>
-                            <div class="home-slide swiper-slide">
-                                <div class="home-slide-img-container">
-                                    <img src="/images/sliders/slide-3.png" alt="Слайд 1" class="home-slide-image">
-                                </div>
-                                <div class="home-slide-content">
-                                    <div class="home-slide-content-text">
-                                        <h3>Призыв к действию</h3>
-                                        <p>Здесь должно быть какое-то описание. Реклама или преимущество. Коротко и ясно.</p>
-                                    </div>
-                                    <a href="#" class="home-slide-btn">Перейти</a>
-                                </div>
-                            </div>
                         </div>
                         <!-- Переключатели -->
                         <div class="home-slider-controls">
@@ -144,32 +132,34 @@
                     <div class="home-category-banner">
                         <img src="/images/banners/banner-bottle.png" alt="Банер категории бутылок">
                     </div>
-                    <a href="#" class="home-category-banner-link">
+                    <a href="/subcategory/1" class="home-category-banner-link">
                         <span>Посмотреть все</span>
                         <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
                     </a>
                 </div>
-                <div class="swiper bottle-swiper" th:if="${products != null and products.size() > 1}">
+                <div class="swiper bottle-swiper" th:if="${productsBottle != null and productsBottle.size() > 1}">
                     <div class="home-products-card-container swiper-wrapper">
-                        <div class="home-product-card-container swiper-slide" th:each="product : ${products[1]}">
+                        <div class="home-product-card-container swiper-slide" th:each="product : ${productsBottle}">
                             <div class="home-product-card">
                                 <div class="home-product-info">
                                     <div class="home-product-info-top">
                                         <div class="home-product-image">
-                                            <img th:src="'data:image/' + ${product.image.productImageType} + ';base64,' + ${product.image.productImage}" th:alt="${product.name}">
+                                            <img th:src="@{${product.images[0].productImage}}" th:alt="${product.name}">
                                         </div>
                                         <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
                                     </div>
                                     <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                                 </div>
                                 <div class="home-product-action">
-                                    <button>В корзину</button>
+                                    <button onclick="addToCart(this)" th:data-id="${product.id}">
+                                        В корзину
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="home-products-card-error" th:if="${products == null or products.size() == 0}">
+                <div class="home-products-card-error" th:if="${productsBottle == null or productsBottle.size() == 0}">
                     <p>Нет доступных товаров для отображения.</p>
                 </div>
                 <div class="swiper-button-prev-custom-bottle">
@@ -184,14 +174,14 @@
         <!--Блок с продуктами подкатегорий банки-->
         <section class="container">
             <div class="home-category-product-container">
-                <div class="swiper jar-swiper" th:if="${products != null and products.size() > 1}">
+                <div class="swiper jar-swiper" th:if="${productsJar != null and productsJar.size() > 1}">
                     <div class="home-products-card-container swiper-wrapper">
-                        <div class="home-product-card-container swiper-slide" th:each="product : ${products[2]}">
+                        <div class="home-product-card-container swiper-slide" th:each="product : ${productsJar}">
                             <div class="home-product-card">
                                 <div class="home-product-info">
                                     <div class="home-product-info-top">
                                         <div class="home-product-image">
-                                            <img th:src="'data:image/' + ${product.image.productImageType} + ';base64,' + ${product.image.productImage}" th:alt="${product.name}">
+                                            <img th:src="${product.images[0].productImage}" th:alt="${product.name}">
                                         </div>
                                         <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
                                     </div>
@@ -204,7 +194,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="home-products-card-error" th:if="${products == null or products.size() <= 1}">
+                <div class="home-products-card-error" th:if="${productsJar == null or productsJar.size() <= 1}">
                     <p>Нет доступных товаров для отображения.</p>
                 </div>
                 <div class="swiper-button-prev-custom-jar">
@@ -217,7 +207,7 @@
                     <div class="home-category-banner">
                         <img src="/images/banners/banner-jar.png" alt="Банер категории банки">
                     </div>
-                    <a href="#" class="home-category-banner-link">
+                    <a href="/subcategory/2" class="home-category-banner-link">
                         <span>Посмотреть все</span>
                         <img src="/images/icons/icons8-arrow-50.png" alt="arrow-right" />
                     </a>
@@ -350,6 +340,7 @@
         <!-- Скрипт для уведомления -->
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script src="/js/notification.js"></script>
+        <script src="/js/header-catalog-sidebar.js"></script>
         <script src="/js/slider.js"></script>
         <script src="/js/slider-for-products-bottle.js"></script>
         <script src="/js/slider-for-products-jar.js"></script>

@@ -17,7 +17,7 @@
     <section th:replace="~{layouts/main :: header}"></section>
 
     <!--Блок с навигацией-->
-    <section class="container">
+    <section class="container" th:if="${subcategory != null}">
         <div class="nav-page-container">
             <a href="/">Главная</a>
             <i class="fa-solid fa-arrow-right"></i>

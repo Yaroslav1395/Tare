@@ -1,0 +1,104 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head th:replace="~{layouts/admin :: head('Таблица')}">
+</head>
+<body>
+    <!-- Сообщение об ошибке -->
+    <section id="error-message" class="message error" th:if="${errorMessage}">
+        <span th:text="${errorMessage}">Ошибка</span>
+        <button id="close-btn-error" class="close-btn close-btn-error">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <!-- Сообщение об успехе -->
+    <section id="success-message" class="message success" th:if="${successMessage}">
+        <span th:text="${successMessage}">Ошибка</span>
+        <button id="close-btn-success" class="close-btn close-btn-success">
+            <i class="fa fa-times"></i>
+        </button>
+    </section>
+
+    <section class="sticky-container">
+        <!--Шапка админки-->
+        <section th:replace="~{layouts/admin :: header}"></section>
+        <!--Кнопки управления-->
+        <section th:replace="~{layouts/admin :: controls(deleteUrl=@{/admin/division/delete})}"></section>
+        <!--Окно с инструкцией-->
+        <section class="instruction-container" id="instruction">
+            <div class="instruction-info-container">
+                <div class="instruction-info">
+                    <h3>Работа с ценами доставки</h3>
+                    <p>
+                        Таблица доставки отображается в клиентской части приложения.
+                    </p>
+                    <h4>Правила использования</h4>
+                    <p>
+                        1. Кликните по ячейке
+                    </p>
+                    <p>
+                        2. Установите цену
+                    </p>
+                    <p>
+                        3. Сохраните изменения нажатием на галочку или отмените крестиком
+                    </p>
+                </div>
+                <div class="instruction-controls">
+                    <button class="control-btn" onclick="hideInstruction()">Закрыть</button>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section class="container category-container">
+        <table border="1" class="delivery-table">
+            <thead>
+                <tr>
+                    <th rowspan="2">Объем, л.</th> <!-- Оставляем пустую ячейку -->
+                    <th th:each="division : ${delivery.divisions}" th:text="${division.divisionName}"
+                        th:colspan="${#lists.size(division.districts)}">
+                    </th>
+                </tr>
+                <tr>
+                    <th:block th:each="division : ${delivery.divisions}">
+                        <th th:each="district : ${division.districts}" th:text="${district.districtName}"></th>
+                    </th:block>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="capacity : ${delivery.capacities}">
+                <td th:text="'От ' + ${capacity.capacityFrom} + ' до ' + ${capacity.capacityTo}"></td>
+                <th:block th:each="division : ${delivery.divisions}">
+                    <th:block th:each="district : ${division.districts}">
+                        <td>
+                            <!-- Форма редактирования цены -->
+                            <form th:id="'priceForm_' + ${district.capacityPriceMap[capacity.id].id}"
+                                  th:action="@{/admin/delivery/table}" method="post"
+                                  class="delivery-table-price-form">
+                                <input type="hidden" name="id" th:value="${district.capacityPriceMap[capacity.id]?.id}"/>
+                                <input type="number" name="price"
+                                       th:value="${district.capacityPriceMap[capacity.id] != null ? district.capacityPriceMap[capacity.id].price : ''}"
+                                       class="delivery-table-price-input"
+                                       onfocus="showButtons(this)"
+                                       onblur="hideButtonsIfNotEditing(this)"/>
+                                <!-- Кнопки подтверждения и отмены -->
+                                <div class="delivery-table-price-buttons">
+                                    <button type="submit" class="delivery-table-price-button confirm-btn" style="display: none;">✔</button>
+                                    <button type="button" class="delivery-table-price-button cancel-btn" style="display: none;" onclick="cancelEdit(this)">✖</button>
+                                </div>
+                            </form>
+                        </td>
+                    </th:block>
+                </th:block>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--Блок с подвалом-->
+    <section th:replace="~{layouts/admin :: footer}"></section>
+
+    <script src="/js/notification.js"></script>
+    <script src="/js/admin/general.js"></script>
+    <script src="/js/admin/delivery.js"></script>
+</body>
+</html>
