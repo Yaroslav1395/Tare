@@ -17,6 +17,10 @@ const swiperBottle = new Swiper(".bottle-swiper", {
       slidesPerView: 3,
       spaceBetween: 10,
     },
+    375: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
   },
 
   navigation: {
