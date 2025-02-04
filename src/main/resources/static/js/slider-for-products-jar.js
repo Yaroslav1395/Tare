@@ -1,6 +1,23 @@
 const swiperJar = new Swiper(".jar-swiper", {
   slidesPerView: 4,
   spaceBetween: 25,
+  roundLengths: true,
+
+  breakpoints: {
+    1200: {
+      slidesPerView: 4,
+    },
+    991: {
+      slidesPerView: 3,
+    },
+    768: {
+      slidesPerView: 2,
+    },
+    576: {
+      slidesPerView: 3,
+      spaceBetween: 10,
+    },
+  },
 
   navigation: {
     nextEl: ".swiper-button-next-custom-jar",

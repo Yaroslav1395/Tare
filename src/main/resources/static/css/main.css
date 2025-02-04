@@ -3440,6 +3440,10 @@ table {
   .home-advertising-nav-item-split {
     height: 335px;
   }
+
+  .home-category-product-container .swiper-slide {
+    width: 221px !important;
+  }
 }
 
 /* Планшеты */
@@ -3515,6 +3519,10 @@ table {
      grid-column: 2 / 2;
      grid-row: 1 / 1;
      height: 160px;
+  }
+
+  .home-category-product-container .swiper-slide {
+      width: 225px !important;
   }
 }
 
@@ -3714,6 +3722,73 @@ table {
      height: 190px;
   }
 
+  .home-category-product-container {
+      margin-top: 40px;
+      padding: 0 15px;
+      height: 300px;
+      gap: 10px;
+  }
+
+  .home-product-action {
+      display: flex;
+      align-items: flex-start;
+  }
+
+    .home-product-card-container {
+        height: 380px !important;
+    }
+
+    .home-category-banner-container {
+        width: 170px;
+    }
+
+    .home-category-banner {
+        height: 250px;
+    }
+
+    .home-product-card-container {
+        height: 300px !important;
+    }
+
+    .home-product-card-container .swiper-slide {
+        height: 300px !important;
+    }
+
+    .home-product-card-container:hover {
+        border: 1px solid #ededed;
+        padding: 16px;
+        height: 300px !important;
+    }
+
+    .home-product-card-container:hover .swiper-slide {
+        height: 300px !important;
+    }
+
+    .home-category-product-container .swiper-slide {
+        width: 169px !important;
+    }
+
+    .home-product-image {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .swiper-button-prev-custom-bottle,
+    .swiper-button-next-custom-bottle {
+        display: none !important;
+    }
+
+    .home-product-image img {
+        width: 120px;
+    }
+
+    .swiper-button-prev-custom-jar,
+    .swiper-button-next-custom-jar {
+        display: none !important;
+    }
+
 }
 
 /* Маленькие экраны */
@@ -3727,4 +3802,6 @@ table {
   /*--Шапка-*/
 
   /*--Подвал-*/
+
+  /*--Главная-*/
 }
