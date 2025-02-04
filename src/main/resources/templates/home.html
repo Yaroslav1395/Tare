@@ -188,7 +188,7 @@
                                     <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                                 </div>
                                 <div class="home-product-action">
-                                    <button>В корзину</button>
+                                    <button onclick="addToCart(this)" th:data-id="${product.id}">В корзину</button>
                                 </div>
                             </div>
                         </div>
