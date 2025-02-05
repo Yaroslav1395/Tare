@@ -2735,7 +2735,7 @@ table {
 .partner-item-visible {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
@@ -3459,8 +3459,17 @@ table {
 
   /*--Продукты--*/
   .products-container {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  /*--Партнеры--*/
+  .partner-item-products {
+    height: 300px;
+  }
+
+  .partner-item-show {
+    max-height: 725px;
   }
 }
 
@@ -3585,6 +3594,11 @@ table {
 
   .product-characteristics-item p {
     width: 70%;
+  }
+
+  /*--Партнеры--*/
+  .partner-item-products {
+    height: 278px;
   }
 }
 
@@ -3998,7 +4012,20 @@ table {
   }
 
   .product-characteristics-item p {
-      width: 40%;
+    width: 40%;
+  }
+
+  /*--Партнеры--*/
+  .partners-container {
+    padding: 0 15px;
+  }
+
+  .partner-item-products {
+    height: 250px;
+  }
+
+  .partner-item-show {
+    max-height: 780px;
   }
 }
 
@@ -4218,6 +4245,32 @@ table {
 
   .product-characteristics-item p:nth-of-type(2){
     width: 30%;
+  }
+
+  /*--Партнеры--*/
+  .partner-item-logo {
+    display: none;
+  }
+
+  .partner-item-info {
+    padding: 0;
+    width: 100%;
+  }
+
+  .partner-item-info {
+    max-height: 980px;
+  }
+
+  .partner-item-hidden {
+    max-height: 130px;
+  }
+
+  .partner-item-show {
+    max-height: 970px;
+  }
+
+  .partner-item-description {
+    min-height: 73px;
   }
 
 }
