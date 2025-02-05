@@ -3245,12 +3245,62 @@ table {
 /******************************************************************************************/
 /*******************************Стили страницы доставки************************************/
 /******************************************************************************************/
+.delivery-info {
+    margin-top: 30px;
+}
+
+.delivery-info h2 {
+    margin-bottom: 25px;
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+}
+
+.delivery-info p {
+    color: #8c8c8c;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: 'Inter Tight', serif;
+    margin-top: 10px;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.delivery-table-section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .delivery-table-container {
     margin-top: 10px;
+    width: 100%;
+    overflow-x: auto
+    -webkit-overflow-scrolling: touch;
+}
+
+.delivery-table-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.delivery-table-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Цвет фона трека */
+    border-radius: 10px;
+}
+
+.delivery-table-container::-webkit-scrollbar-thumb {
+    background: #888; /* Цвет ползунка */
+    border-radius: 10px;
+}
+
+.delivery-table-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Цвет при наведении */
 }
 
 .delivery-table {
     width: 100%;
+    min-width: 756px;
+    order-collapse: collapse;
+    white-space: nowrap;
 }
 
 .delivery-table th {
@@ -3482,19 +3532,23 @@ table {
     height: 374px;
   }
 
-    /*--Корзина--*/
-    .basket-item {
-        padding: 15px;
-    }
+  /*--Корзина--*/
+  .basket-item {
+    padding: 15px;
+  }
 
-    .basket-item-right {
-        gap: 15px;
-        width: 35%;
-    }
+  .basket-item-right {
+    gap: 15px;
+    width: 35%;
+  }
 
-    .basket-item-left {
-        width: 65%;
-    }
+  .basket-item-left {
+    width: 65%;
+  }
+
+  .delivery-table-section {
+    padding: 0 15px;
+  }
 }
 
 /* Планшеты */
@@ -4267,6 +4321,20 @@ table {
   .about-container {
     padding: 0 15px;
   }
+
+  /*--Доставка--*/
+  .delivery-info {
+    padding: 0 15px;
+  }
+
+  .delivery-table-container {
+     overflow-x: auto;
+     -webkit-overflow-scrolling: touch;
+  }
+
+  .delivery-map-zone-container {
+     gap: 25px;
+  }
 }
 
 /* Маленькие экраны */
@@ -4534,6 +4602,13 @@ table {
   .about-container {
     padding: 0 15px;
   }
+
+  /*--Доставка--*/
+  .delivery-map-zone-container {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
 }
 
 /* Маленькие экраны */
@@ -4588,5 +4663,14 @@ table {
    /*--О нас--*/
    .about-conditions-items-container {
      justify-content: center;
+   }
+
+   /*--Доставка--*/
+   .delivery-info {
+     padding: 0;
+   }
+
+   .delivery-table-section {
+     padding: 0;
    }
 }
