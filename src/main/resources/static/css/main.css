@@ -3641,15 +3641,21 @@ table {
   }
 
   .certificate-item-info-container {
-      gap: 10px;
+    gap: 10px;
   }
 
   .certificate-item-info-container-top {
-      margin: 0;
+    margin: 0;
   }
 
   .certificate-save-btn-container {
-      gap: 10px;
+    gap: 10px;
+  }
+
+  /*--Контакты--*/
+  .contacts-item-right iframe {
+    width: 400px;
+    height: revert-layer;
   }
 
 }
@@ -4137,6 +4143,37 @@ table {
   .certificate-item-info-container {
     width: 100%;
   }
+
+  /*--Контакты--*/
+  .contacts-container {
+    padding: 0 15px;
+  }
+
+  .contacts-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .contacts-item-right {
+    width: 100%;
+  }
+
+  .contacts-item-left {
+    width: 100%;
+  }
+
+  .contacts-item-right iframe {
+    width: 100%;
+  }
+
+  .contacts-items-container {
+    margin-top: 20px;
+  }
+
+  .contacts-item-left {
+    gap: 5px;
+  }
+
 }
 
 /* Маленькие экраны */
