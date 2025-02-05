@@ -13,15 +13,19 @@
     <!--Шапка сайта-->
     <section th:replace="~{layouts/main :: header}"></section>
 
-    <!--Блок с новостями-->
-    <section class="container notices-container">
-        <div class="notices-info">
+    <!--Блок с доставкой-->
+    <section class="container">
+        <div class="delivery-info">
             <h2>Доставка</h2>
             <p>
                 Наша компания осуществляет доставку товара как в Бишкеке, так и за его пределами. Найдите свой адрес на
                 карте, определите зону и просмотрите стоимость доставки.
             </p>
         </div>
+    </section>
+
+    <!--Блок с таблицей доставки-->
+    <section class="delivery-table-section">
         <div class="delivery-table-container">
             <table border="1" class="delivery-table">
                 <thead>
@@ -54,6 +58,7 @@
         </div>
     </section>
 
+    <!--Блок с картой доставки-->
     <section class="container">
         <div class="delivery-map-zone-container">
             <div class="delivery-map-zone-item">
@@ -83,6 +88,7 @@
 
     <!-- Скрипт для функционала -->
     <script src="/js/header-catalog.js"></script>
+    <script src="/js/header-catalog-sidebar.js"></script>
     <script src="/js/basket.js"></script>
     <script src="/js/delivery.js"></script>
 
