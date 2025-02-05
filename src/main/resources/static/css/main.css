@@ -4262,6 +4262,11 @@ table {
     width: 60%;
     margin-left: 40%;
   }
+
+  /*--О нас--*/
+  .about-container {
+    padding: 0 15px;
+  }
 }
 
 /* Маленькие экраны */
@@ -4524,6 +4529,11 @@ table {
     width: 100%;
     margin-left: 0;
   }
+
+  /*--О нас--*/
+  .about-container {
+    padding: 0 15px;
+  }
 }
 
 /* Маленькие экраны */
@@ -4573,5 +4583,10 @@ table {
    /*--Корзина--*/
    .basket-item-delete-container {
      right: 20px;
+   }
+
+   /*--О нас--*/
+   .about-conditions-items-container {
+     justify-content: center;
    }
 }
