@@ -105,16 +105,20 @@
                 <button data-target="characteristics">Характеристики</button>
             </div>
         </div>
-        <div id="description" class="product-characteristics-description active">
-            <p th:text="${product.description}">
-                Полное описание
-            </p>
+        <div class="product-data-wrapper">
+            <div id="description" class="product-characteristics-description active">
+                <p th:text="${product.description}">
+                    Полное описание
+                </p>
+            </div>
         </div>
-        <div id="characteristics" class="product-characteristics-container">
-            <div th:each="characteristic : ${product.productCharacteristics}">
-                <div class="product-characteristics-item" th:if="${characteristic.value != null and characteristic.value != 0}">
-                    <p th:text="${characteristic.characteristicName}">Название характеристики</p>
-                    <p th:text="${characteristic.value}">Значение характеристики</p>
+        <div class="product-data-wrapper">
+            <div id="characteristics" class="product-characteristics-container">
+                <div th:each="characteristic : ${product.productCharacteristics}">
+                    <div class="product-characteristics-item" th:if="${characteristic.value != null and characteristic.value != 0}">
+                        <p th:text="${characteristic.characteristicName}">Название характеристики</p>
+                        <p th:text="${characteristic.value}">Значение характеристики</p>
+                    </div>
                 </div>
             </div>
         </div>
