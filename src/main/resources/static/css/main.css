@@ -4072,6 +4072,15 @@ table {
     width: 91%;
     bottom: 17px;
   }
+
+  /*--Вакансии--*/
+  .vacancy-container {
+    padding: 0 15px;
+  }
+
+  .vacancy-item p {
+    text-align: left;
+  }
 }
 
 /* Маленькие экраны */
