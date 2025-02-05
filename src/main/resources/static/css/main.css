@@ -3471,6 +3471,11 @@ table {
   .partner-item-show {
     max-height: 725px;
   }
+
+  /*--Новости --*/
+  .notice-item {
+    padding: 45px 20px;
+  }
 }
 
 /* Планшеты */
@@ -3599,6 +3604,29 @@ table {
   /*--Партнеры--*/
   .partner-item-products {
     height: 278px;
+  }
+
+  /*--Новости --*/
+  .notice-item {
+    flex-direction: column;
+    padding: 25px 20px;
+    gap: 20px;
+  }
+
+  .notice-item-img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notice-item-yellow::after {
+    bottom: 20px;
+  }
+
+  .notice-item-grey::after {
+    bottom: 20px;
+    width: 93%;
   }
 }
 
@@ -4027,6 +4055,23 @@ table {
   .partner-item-show {
     max-height: 780px;
   }
+
+  /*--Новости --*/
+  .notices-container {
+    padding: 0 15px;
+  }
+
+  .notice-item-img {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .notice-item-grey::after {
+    width: 91%;
+    bottom: 17px;
+  }
 }
 
 /* Маленькие экраны */
@@ -4273,6 +4318,17 @@ table {
     min-height: 73px;
   }
 
+  /*--Новости--*/
+  .notice-item-grey::after {
+    width: 100%;
+    margin: 0;
+  }
+
+  .notice-item-yellow::after {
+    width: 100%;
+    margin: 0;
+  }
+
 }
 
 /* Маленькие экраны */
@@ -4312,5 +4368,10 @@ table {
    /*--Продукт--*/
    .product-characteristics-title-btn button {
      font-size: 16px;
+   }
+
+   /*--Новости--*/
+   .notice-item {
+     padding: 22px 5px;
    }
 }
