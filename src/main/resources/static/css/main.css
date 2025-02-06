@@ -134,6 +134,24 @@ table {
     transform: translateY(20px);
 }
 
+.login-error-message {
+    background-color: #f5000091;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.login-error-message p {
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+    font-size: 16px;
+    font-weight: 500;
+}
+
 /******************************************************************************************/
 /**********************************Стили ссылок страниц************************************/
 /******************************************************************************************/
@@ -835,6 +853,78 @@ table {
 .footer-bottom p::after {
     content: " ®";
 }
+
+/******************************************************************************************/
+/*******************************Стили для страницы логина**********************************/
+/******************************************************************************************/
+.login-container {
+    min-height: 79vh;
+}
+
+.login-info {
+    margin-top: 30px;
+}
+
+.login-info h3 {
+    font-weight: 600;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+    font-size: 24px;
+}
+
+.login-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    gap: 10px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    font-family: 'Inter Tight', serif;
+    color: #333333;
+    gap: 5px
+}
+
+.form-group input {
+    height: 40px;
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.form-group-button {
+    margin-top: 10px;
+}
+
+.form-control-btn {
+    width: 80px;
+    height: 40px;
+    background-color: #ffda33;
+    border: none;
+    color: #333333;
+    padding: 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Rubik', serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /******************************************************************************************/
 /*******************************Стили для главной страницы*********************************/
 /******************************************************************************************/
@@ -4334,6 +4424,15 @@ table {
 
   .delivery-map-zone-container {
      gap: 25px;
+  }
+
+  /*--Логин--*/
+  .login-container {
+    padding: 0 15px;
+  }
+
+  .login-form {
+    width: 100%;
   }
 }
 

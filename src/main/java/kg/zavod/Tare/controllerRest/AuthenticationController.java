@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 //@RestController
-@RequestMapping("/auth")
+@RequestMapping("/authh")
 @RequiredArgsConstructor
 @Validated
 @Tag(name = "Авторизация", description = "Предоставляет возможность авторизации пользователя")
