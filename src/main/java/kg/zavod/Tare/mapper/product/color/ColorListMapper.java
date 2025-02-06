@@ -1,7 +1,7 @@
 package kg.zavod.Tare.mapper.product.color;
 
 import kg.zavod.Tare.domain.product.ColorEntity;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForAdminDto;
+import kg.zavod.Tare.dto.product.color.ColorForAdminDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;

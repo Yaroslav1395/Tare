@@ -5,10 +5,10 @@ import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForUserDto;
+import kg.zavod.Tare.dto.product.image.ImageForAdminDto;
+import kg.zavod.Tare.dto.product.image.ImageForSaveAdminDto;
+import kg.zavod.Tare.dto.product.image.ImageForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.image.ImageForUserDto;
 import kg.zavod.Tare.service.util.UtilService;
 import org.mapstruct.*;
 

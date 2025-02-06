@@ -2,10 +2,10 @@ package kg.zavod.Tare.mapper.product.characteristicValue;
 
 import kg.zavod.Tare.domain.product.*;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
-import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
-import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
-import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUserDto;
+import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUserDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;

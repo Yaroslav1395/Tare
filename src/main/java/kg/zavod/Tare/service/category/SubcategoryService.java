@@ -3,10 +3,10 @@ package kg.zavod.Tare.service.category;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForSaveAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForUserDto;
 
 import java.io.IOException;
 import java.util.List;

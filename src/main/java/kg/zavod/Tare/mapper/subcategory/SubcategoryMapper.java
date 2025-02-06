@@ -2,22 +2,14 @@ package kg.zavod.Tare.mapper.subcategory;
 
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
-import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
-import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.subcategory.*;
-import kg.zavod.Tare.dto.subcategory.mvc.*;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 
 @Mapper(componentModel = "spring", uses = ProductListMapper.class)
 public interface SubcategoryMapper {
@@ -73,46 +65,7 @@ public interface SubcategoryMapper {
     @Mapping(target = "category", source = "category")
     void mapToSubcategoryEntity(SubcategoryForUpdateAdminDto subcategoryForUpdate, ImageType subcategoryImageType, String imagePath, CategoryEntity category, @MappingTarget SubcategoryEntity subcategory);
 
-
-
-
-
-
-
     SubcategorySimpleDto mapToSubcategorySimpleDto(SubcategoryEntity subcategoryEntity);
-
-    @Mapping(target = "categoryId", source = "subcategoryEntity.category.id")
-    @Mapping(target = "productsIds", source = "products", qualifiedByName = "getProductsIdsFrom")
-    @Mapping(target = "subcategoryImageType", source = "subcategoryImageType", qualifiedByName = "getImageType")
-    SubcategoryDto mapToSubcategoryDto(SubcategoryEntity subcategoryEntity);
-
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    @Mapping(target = "categoryId", source = "category.id")
-    SubcategoryForProductDto mapToSubcategoryForProductDto(SubcategoryEntity subcategoryEntity);
-
-    /**
-     * Метод позволит получить список id продуктов из подкатегории
-     * @param products - подкатегория
-     * @return - список id продуктов
-     */
-    @Named("getProductsIdsFrom")
-    default List<Integer> getProductsIdsFrom(List<ProductEntity> products){
-        if(products == null) return new ArrayList<>();
-        return products.stream()
-                .map(ProductEntity::getId)
-                .toList();
-    }
-
-    /**
-     * Метод позволит получить формат картинки из типа картинки
-     * @param imageType - тип картинки
-     * @return - формат картинки
-     */
-    @Named("getImageType")
-    default String getImageType(ImageType imageType){
-        return imageType != null ? imageType.getFormat() : null;
-    }
 
     /**
      * Метод позволяет получить имя файла

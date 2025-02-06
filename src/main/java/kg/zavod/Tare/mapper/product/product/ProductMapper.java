@@ -4,7 +4,7 @@ import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
-import kg.zavod.Tare.dto.product.product.mvc.*;
+import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.mapper.product.characteristicValue.CharacteristicValueListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageListMapper;
 import kg.zavod.Tare.mapper.product.image.ImageMapper;

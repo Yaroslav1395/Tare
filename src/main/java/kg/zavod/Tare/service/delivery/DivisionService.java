@@ -1,9 +1,8 @@
 package kg.zavod.Tare.service.delivery;
 
-import kg.zavod.Tare.dto.deliviry.division.DivisionDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;

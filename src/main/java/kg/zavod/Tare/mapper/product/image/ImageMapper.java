@@ -5,7 +5,7 @@ import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.image.mvc.*;
+import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.mapper.product.color.ColorMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

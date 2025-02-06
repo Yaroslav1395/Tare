@@ -3,7 +3,7 @@ package kg.zavod.Tare.service.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.product.mvc.*;
+import kg.zavod.Tare.dto.product.product.*;
 
 import java.io.IOException;
 import java.util.List;

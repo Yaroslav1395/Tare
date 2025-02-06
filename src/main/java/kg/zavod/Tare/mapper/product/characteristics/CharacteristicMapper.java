@@ -1,9 +1,9 @@
 package kg.zavod.Tare.mapper.product.characteristics;
 
 import kg.zavod.Tare.domain.product.CharacteristicEntity;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateAdminDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 

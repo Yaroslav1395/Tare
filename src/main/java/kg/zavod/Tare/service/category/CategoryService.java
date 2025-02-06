@@ -1,7 +1,6 @@
 package kg.zavod.Tare.service.category;
 
-import kg.zavod.Tare.dto.category.mvc.CategoryForUserDto;
-import kg.zavod.Tare.dto.category.mvc.*;
+import kg.zavod.Tare.dto.category.*;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;

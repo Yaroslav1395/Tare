@@ -3,9 +3,9 @@ package kg.zavod.Tare.service.product;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForAdminDto;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForSaveAdminDto;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.color.ColorForAdminDto;
+import kg.zavod.Tare.dto.product.color.ColorForSaveAdminDto;
+import kg.zavod.Tare.dto.product.color.ColorForUpdateAdminDto;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
+import kg.zavod.Tare.dto.product.product.ProductForUserDto;
 import kg.zavod.Tare.service.CertificateService;
 import kg.zavod.Tare.service.NoticeService;
 import kg.zavod.Tare.service.PartnerService;

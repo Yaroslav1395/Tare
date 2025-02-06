@@ -4,9 +4,9 @@ import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.exception.StaticDataException;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateAdminDto;
 
 import java.util.List;
 

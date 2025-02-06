@@ -1,9 +1,8 @@
 package kg.zavod.Tare.mapper.category;
 
 import kg.zavod.Tare.domain.category.CategoryEntity;
-import kg.zavod.Tare.dto.category.mvc.CategoryForUserDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForAdminDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForHomeDto;
+import kg.zavod.Tare.dto.category.CategoryForUserDto;
+import kg.zavod.Tare.dto.category.CategoryForAdminDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;

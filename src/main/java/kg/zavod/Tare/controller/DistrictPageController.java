@@ -1,7 +1,7 @@
 package kg.zavod.Tare.controller;
 
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.service.delivery.DistrictService;
 import kg.zavod.Tare.service.delivery.DivisionService;

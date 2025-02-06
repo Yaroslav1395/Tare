@@ -1,8 +1,8 @@
 package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.service.delivery.DivisionService;
 import lombok.RequiredArgsConstructor;

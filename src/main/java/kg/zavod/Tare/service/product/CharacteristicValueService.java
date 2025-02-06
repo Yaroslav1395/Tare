@@ -3,8 +3,8 @@ package kg.zavod.Tare.service.product;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
-import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateAdminDto;
 
 import java.util.List;
 

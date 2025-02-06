@@ -2,12 +2,11 @@ package kg.zavod.Tare.service.category.impl;
 
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.category.CategoryEntity;
-import kg.zavod.Tare.dto.category.mvc.CategoryForUserDto;
-import kg.zavod.Tare.dto.category.mvc.*;
+import kg.zavod.Tare.dto.category.*;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategorySimpleDto;
+import kg.zavod.Tare.dto.subcategory.SubcategorySimpleDto;
 import kg.zavod.Tare.mapper.category.CategoryListMapper;
 import kg.zavod.Tare.mapper.category.CategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
