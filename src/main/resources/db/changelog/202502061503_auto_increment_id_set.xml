@@ -4,10 +4,10 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="change_description_certificate_length" author="admin">
+    <changeSet id="auto_increment_id_set" author="isakhno">
         <sql>
-            ALTER TABLE Zavod.Certificates
-            ALTER COLUMN description TYPE varchar(4000);
+            ALTER TABLE ZAVOD.PRODUCTS ALTER COLUMN id RESTART WITH (SELECT MAX(id) + 1 FROM ZAVOD.PRODUCTS);
+            ALTER TABLE ZAVOD.SUBCATEGORIES ALTER COLUMN id RESTART WITH (SELECT MAX(id) + 1 FROM ZAVOD.SUBCATEGORIES);
         </sql>
     </changeSet>
 </databaseChangeLog>
