@@ -5,7 +5,6 @@ import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ImageEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.image.*;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForUpdateAdminDto;
@@ -70,51 +69,6 @@ public interface ImageListMapper {
         for (ImageForUpdateAdminDto image : images) {
             ImageType productImageType = UtilService.getImageTypeFrom(image.getProductImage());
             imageEntities.add(imageMapper.mapToImageEntityUpdateMvc(image, colors, product, productImageType));
-        }
-        return imageEntities;
-    }
-
-
-
-
-
-
-
-
-
-
-    List<ImageDto> mapToImageDtoList(List<ImageEntity> images);
-
-    default ArrayList<ImageEntity> mapToImageEntityList(List<ImageForSaveWithProductDto> images, Map<Integer, ColorEntity> colors, ProductEntity product, ImageMapper imageMapper) throws EntityNotFoundException {
-        if (images == null) {
-            return new ArrayList<>();
-        }
-        ArrayList<ImageEntity> imageEntities = new ArrayList<>();
-        for (ImageForSaveWithProductDto image : images) {
-            ImageType productImageType = UtilService.getImageTypeFrom(image.getProductImage());
-            imageEntities.add(imageMapper.mapToImageEntity(image, colors, product, productImageType));
-        }
-        return imageEntities;
-    }
-
-    /**
-     * Метод преобразовывает картинки для сохранения в базу данных при редактировании продукта. Пользователь может
-     * добавить к продукту новую картинку. Либо отредактировать старую
-     * @param imagesForUpdate - картинки для редактирования
-     * @param colors - словарь цветов для поиска необходимого
-     * @param product - продукт, который редактируют
-     * @param imageMapper - преобразователь картинки
-     * @return - список преобразованных картинок в сущности
-     * @throws EntityNotFoundException - в случае если не найдется необходимого цвета
-     */
-    default List<ImageEntity> mapToImagesEntityForUpdateWithProduct(List<ImageForUpdateWithProductDto> imagesForUpdate, Map<Integer, ColorEntity> colors, ProductEntity product, ImageMapper imageMapper) throws EntityNotFoundException {
-        if(imagesForUpdate == null) {
-            return new ArrayList<>();
-        }
-        ArrayList<ImageEntity> imageEntities = new ArrayList<>();
-        for(ImageForUpdateWithProductDto image : imagesForUpdate){
-            ImageType productImageType = UtilService.getImageTypeFrom(image.getProductImage());
-            imageEntities.add(imageMapper.mapToUpdateWithProductImageEntity(image, colors, product, productImageType));
         }
         return imageEntities;
     }

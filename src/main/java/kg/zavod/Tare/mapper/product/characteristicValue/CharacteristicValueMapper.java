@@ -1,23 +1,18 @@
 package kg.zavod.Tare.mapper.product.characteristicValue;
 
 import kg.zavod.Tare.domain.product.CharacteristicEntity;
-import kg.zavod.Tare.domain.product.ColorEntity;
 import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
-import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForSaveWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueForUpdateWithProductDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForSaveAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUpdateAdminDto;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForUserDto;
-import kg.zavod.Tare.dto.product.image.ImageForSaveDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.Map;
 
@@ -146,12 +141,6 @@ public interface CharacteristicValueMapper {
     @Mapping(target = "id", source = "productCharacteristic.id")
     @Mapping(target = "characteristicName", source = "productCharacteristic.characteristic.name")
     CharacteristicValueDto mapToCharacteristicValueDto(ProductCharacteristicEntity productCharacteristic);
-
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "value", source = "value")
-    @Mapping(target = "product", source = "product")
-    @Mapping(target = "characteristic", source = "characteristic")
-    ProductCharacteristicEntity mapToCharacteristicEntity(Integer value, ProductEntity product, CharacteristicEntity characteristic);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "value", source = "characteristicValue.value")

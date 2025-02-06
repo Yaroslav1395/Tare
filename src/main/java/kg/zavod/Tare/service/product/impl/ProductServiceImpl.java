@@ -9,8 +9,6 @@ import kg.zavod.Tare.domain.product.ProductCharacteristicEntity;
 import kg.zavod.Tare.domain.product.ProductEntity;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.product.characteristicValue.CharacteristicValueDto;
-import kg.zavod.Tare.dto.product.image.ImageDto;
 import kg.zavod.Tare.dto.product.product.*;
 import kg.zavod.Tare.dto.product.product.mvc.*;
 import kg.zavod.Tare.mapper.product.product.ProductListMapper;
@@ -24,8 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -193,6 +189,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
+     * Метод позволяет удалить продукт
+     *
+     * @param id - id продукта
+     */
+    @Override
+    public void deleteProduct(Integer id) {
+        logger.info("Попытка удаления продукта по id");
+        productRepository.deleteById(id);
+        productRepository.existsById(id);
+    }
+
+    /**
      * Метод подготавливает продукт для страницы продукта. Данные необходимы для навигации
      * @param product - сущность продукта
      * @param productForUserDto - dto продукта
@@ -256,134 +264,6 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return productsForBasket;
-    }
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить продукт по id
-     * @param id - id продукта
-     * @return - найденный продукт
-     * @throws EntityNotFoundException - в случае если продукт не будет найден
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public ProductDto getProductById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска продукта по id");
-        ProductEntity product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Не найдено продукта по id"));
-        return productMapper.mapToProductDto(product);
-    }
-
-    /**
-     * Метод позволяет получить продукты входящие в подкатегорию по ее id c пагинацией
-     * @param subcategoryId - id подкатегории
-     * @param pageable - пагинация
-     * @return - продукты с пагинацией
-     * @throws EntitiesNotFoundException - в случае если ничего не будет найдено
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public PageForProduct getProductsBySubcategoryId(Integer subcategoryId, Pageable pageable) throws EntitiesNotFoundException {
-        logger.info("Попытка поиска продуктов в подкатегории");
-        Page<ProductEntity> products = productRepository.findAllBySubcategoryId(subcategoryId, pageable);
-        List<ProductEntity> productEntities = products.get().toList();
-        if(productEntities.isEmpty()) throw new EntitiesNotFoundException("Не найдено продуктов");
-        List<ProductDto> productsDto = productListMapper.mapToProductDtoList(productEntities);
-        return PageForProduct.buildPageForProduct(productsDto, products.getTotalPages(), products.getTotalElements(), products.getNumberOfElements());
-    }
-
-    /**
-     * Метод позволяет сохранить продукт
-     * @param productForSaveDto - продукт для сохранения
-     * @return - сохраненный продукт
-     * @throws EntityNotFoundException - в случае если подкатегория, цвет или характеристика не будет найден
-     * @throws EntitiesNotFoundException - в случае если ни одного цвета или характеристик не найдено
-     */
-    @Override
-    @Transactional
-    public ProductDto saveProduct(ProductForSaveDto productForSaveDto) throws EntityNotFoundException, EntitiesNotFoundException {
-        logger.info("Попытка создания продукта");
-        logger.info("Поиск подкатегории для продукта");
-        SubcategoryEntity subcategory = subcategoryRepository.findById(productForSaveDto.getSubcategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Не найдено по id подкатегории для продукта"));
-        ProductEntity productForSave = productMapper.mapToProductEntity(productForSaveDto, subcategory);
-        ProductEntity savedProduct = productRepository.save(productForSave);
-        List<ImageDto> savedImages = imageService.saveImages(productForSaveDto.getImages(), savedProduct);
-        List<CharacteristicValueDto> savedCharacteristicsValue = characteristicValueService.saveCharacteristicsValueWithProduct(productForSaveDto.getCharacteristicsValues(), savedProduct);
-        return productMapper.mapToProductDto(savedProduct, savedCharacteristicsValue, savedImages);
-    }
-
-    /**
-     * Метод позволяет отредактировать продукт
-     * @param productForUpdateDto - объект для редактирования
-     * @return - отредактированный продукт
-     * @throws EntityNotFoundException - в случае если не будет найдено данных для редактирования
-     */
-    @Override
-    @Transactional
-    public ProductDto updateProduct(ProductForUpdateDto productForUpdateDto) throws EntityNotFoundException {
-        logger.info("Попытка редактирования продукта");
-        logger.info("Поиск продукта по id");
-        ProductEntity product = productRepository.findById(productForUpdateDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Не найдено продукта по id"));
-        List<ImageDto> updatedImages = imageService.updateImages(productForUpdateDto.getImages(), product);
-        List<CharacteristicValueDto> updatedCharacteristicsValue  = characteristicValueService.updateCharacteristicValueWithProduct(
-                productForUpdateDto.getCharacteristics(), product);
-        logger.info("Поиск подкатегории");
-        SubcategoryEntity subcategoryEntity = subcategoryRepository.findById(productForUpdateDto.getSubcategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Подкатегория не найдена"));
-        ProductEntity productEntity = productMapper.updateProduct(productForUpdateDto, subcategoryEntity);
-        ProductEntity updatedProduct = productRepository.save(productEntity);
-        return productMapper.mapToProductDto(updatedProduct, updatedCharacteristicsValue, updatedImages);
-    }
-
-    /**
-     * Метод позволяет удалить продукт
-     * @param id - id продукта
-     * @return - удален или нет
-     */
-    @Override
-    public Boolean deleteProduct(Integer id) {
-        logger.info("Попытка удаления продукта по id");
-        productRepository.deleteById(id);
-        return !productRepository.existsById(id);
-    }
-
-    /**
-     * Метод позволяет получить ссылку на whats app с корзиной клиента
-     * @param products - корзина клиента
-     * @return - ссылка на whats app
-     */
-    @Override
-    @Transactional
-    public String getUrlForWhatsAppWithProductBasket(List<ProductFromBasketDro> products) {
-        logger.info("Попытка формирования ссылки");
-        String baseMessage = "https://wa.me/996505349113?text=Здравствуйте,%20хочу%20приобрести%20у%20вас%20товар";
-        StringBuilder message = new StringBuilder(baseMessage);
-        List<Integer> productIds = getProductIdFrom(products);
-        List<ProductEntity> productsEntity = productRepository.findAllById(productIds);
-        if (productsEntity.size() < products.size())  return baseMessage;
-        Map<Integer, ProductEntity> productMap = productsEntity.stream()
-                .collect(Collectors.toMap(ProductEntity::getId, productEntity -> productEntity));
-        return buildUrl(products, productMap, baseMessage, message);
-    }
-
-    /**
-     * Метод позволит получить id продуктов
-     * @param products - продукты из корзины
-     * @return - id продуктов
-     */
-    private List<Integer> getProductIdFrom(List<ProductFromBasketDro> products){
-        return products.stream()
-                .map(ProductFromBasketDro::getId)
-                .toList();
     }
 
     /**
