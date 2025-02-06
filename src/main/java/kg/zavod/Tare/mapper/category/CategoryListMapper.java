@@ -19,12 +19,6 @@ public interface CategoryListMapper {
      */
     List<CategoryForAdminDto> mapToCategoryForAdminDtoList(List<CategoryEntity> categories);
 
-    /**
-     * Метод позволяет преобразовать список сущностей категорий в список DTO.
-     * Используется на главной странице MVC
-     * @param categories - список сущностей категорий
-     * @return - список DTO категорий
-     */
-    List<CategoryForHomeDto> mapToCategoryForHomeDtoList(List<CategoryEntity> categories);
+
     List<CategoryForUserDto> mapToCategoryDtoList(List<CategoryEntity> categoryEntityList);
 }

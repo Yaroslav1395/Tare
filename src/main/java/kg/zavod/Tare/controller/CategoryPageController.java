@@ -19,7 +19,7 @@ public class CategoryPageController {
     private final CategoryService categoryService;
     private static final Logger logger = LoggerFactory.getLogger(CategoryPageController.class);
 
-    @GetMapping("/category") // Главная страница
+    @GetMapping("/category")
     public String category(Model model) {
         try {
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());

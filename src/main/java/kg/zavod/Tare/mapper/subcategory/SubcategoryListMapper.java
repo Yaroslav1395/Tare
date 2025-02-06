@@ -36,5 +36,4 @@ public interface SubcategoryListMapper {
 
 
     List<SubcategorySimpleDto> mapToSubcategorySimpleDto(List<SubcategoryEntity> subcategoryEntityList);
-    List<SubcategoryDto> mapToSubcategoryDtoList(List<SubcategoryEntity> subcategories);
 }

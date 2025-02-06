@@ -78,26 +78,6 @@ public interface CategoryMapper {
     @Mapping(target = "imageType", source = "imageType", qualifiedByName = "getImageType")
     CategoryForUserDto mapToCategoryDto(CategoryEntity categoryEntity);
 
-    @Mapping(target = "categoryImage", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "categoryImageName", source = "categoryForUpdateDto.multipartFile", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "imageType", source = "categoryImageType")
-    CategoryEntity mapToCategoryEntity(CategoryForUpdateDto categoryForUpdateDto,  ImageType categoryImageType, @MappingTarget CategoryEntity categoryEntity);
-
-    @Mapping(target = "categoryImage", source = "categoryForSaveDto.multipartFile", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "categoryImageName", source = "categoryForSaveDto.multipartFile", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "imageType", source = "categoryImageType")
-    CategoryEntity mapToCategoryEntity(CategoryForSaveDto categoryForSaveDto, ImageType categoryImageType);
-
-    @Named("multipartFileToBase64")
-    default String multipartFileToBase64(MultipartFile file) {
-        try {
-            byte[] fileContent = file.getBytes();
-            return Base64.getEncoder().encodeToString(fileContent);
-        } catch (IOException e) {
-            throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
-        }
-    }
-
     /**
      * Метод позволит получить формат картинки из типа картинки
      * @param imageType - тип картинки

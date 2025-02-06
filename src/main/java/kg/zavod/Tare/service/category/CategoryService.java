@@ -54,48 +54,9 @@ public interface CategoryService {
     void updateCategory(CategoryForUpdateAdminDto categoryForUpdate) throws EntityNotFoundException, IOException,DuplicateEntityException;
 
     /**
-     * Метод позволяет получить все категории для главной страницы MVC
-     * @return - список категорий
-     * @throws EntitiesNotFoundException - в случае если не найдены категории продуктов
-     */
-    List<CategoryForHomeDto> getAllCategoriesForHomePage() throws EntitiesNotFoundException;
-
-    /**
      * Метод позволяет удалять категорию
+     *
      * @param id - id категории
-     * @return - удалена или нет
      */
-    Boolean deleteCategoryById(Integer id);
-
-
-
-
-
-    /**
-     * Метод позволяет получить категорию с подкатегориями по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id категории
-     * @return - категория с подкатегориями
-     */
-    CategoryForUserDto getCategoryById(Integer id) throws EntityNotFoundException;
-
-    /**
-     * Метод позволяет сохранить категорию
-     * @param categoryForSaveDto - категория для сохранения
-     * @return - сохраненная категория
-     * @throws DuplicateEntityException - в случае если дублируется название категории
-     * @throws EntityNotFoundException - в случае если формат картинки не будет найден
-     */
-    CategoryForUserDto saveCategory(CategoryForSaveDto categoryForSaveDto) throws DuplicateEntityException, EntityNotFoundException;
-
-    /**
-     * Метод позволят редактировать категорию меняя ее название и картинку
-     * @param categoryForUpdateDto - категория для редактирования
-     * @return - отредактированная категория
-     * @throws EntityNotFoundException - если не будет найдено категории для редактирования или формата картинки
-     * @throws DuplicateEntityException - если дублируется название другой категории
-     */
-    CategoryForUserDto updateCategory(CategoryForUpdateDto categoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException;
-
-
+    void deleteCategoryById(Integer id);
 }

@@ -91,19 +91,6 @@ public interface SubcategoryMapper {
     @Mapping(target = "categoryId", source = "category.id")
     SubcategoryForProductDto mapToSubcategoryForProductDto(SubcategoryEntity subcategoryEntity);
 
-    @Mapping(target = "subcategoryImage", source = "subcategoryForSaveDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "subcategoryImageName", source = "subcategoryForSaveDto.subcategoryImage", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "category", source = "category")
-    @Mapping(target = "name", source = "subcategoryForSaveDto.name")
-    @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
-    @Mapping(target = "id", ignore = true)
-    SubcategoryEntity mapToSubcategoryEntity(SubcategoryForSaveDto subcategoryForSaveDto, ImageType subcategoryImageType, CategoryEntity category);
-
-    @Mapping(target = "subcategoryImage", source = "subcategoryDto.subcategoryImage", qualifiedByName = "multipartFileToBase64")
-    @Mapping(target = "subcategoryImageName", source = "subcategoryDto.subcategoryImage", qualifiedByName = "getNameFromMultipart")
-    @Mapping(target = "subcategoryImageType", source = "subcategoryImageType")
-    void updateSubcategoryFromDto(SubcategoryForUpdateDto subcategoryDto, ImageType subcategoryImageType, @MappingTarget SubcategoryEntity subcategoryEntity);
-
     /**
      * Метод позволит получить список id продуктов из подкатегории
      * @param products - подкатегория
@@ -115,21 +102,6 @@ public interface SubcategoryMapper {
         return products.stream()
                 .map(ProductEntity::getId)
                 .toList();
-    }
-
-    /**
-     * Метод позволяет преобразовать MultipartFile в строку Base64
-     * @param file - картинка как MultipartFile
-     * @return - картинка как Base64
-     */
-    @Named("multipartFileToBase64")
-    default String multipartFileToBase64(MultipartFile file) {
-        try {
-            byte[] fileContent = file.getBytes();
-            return Base64.getEncoder().encodeToString(fileContent);
-        } catch (IOException e) {
-            throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
-        }
     }
 
     /**
