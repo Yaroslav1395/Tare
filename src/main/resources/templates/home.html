@@ -144,15 +144,17 @@
                     <div class="home-products-card-container swiper-wrapper">
                         <div class="home-product-card-container swiper-slide" th:each="product : ${productsBottle}">
                             <div class="home-product-card">
-                                <div class="home-product-info">
-                                    <div class="home-product-info-top">
-                                        <div class="home-product-image">
-                                            <img th:src="@{${product.images[0].productImage}}" th:alt="${product.name}">
+                                <a th:href="@{'/product/' + ${product.id}}">
+                                    <div class="home-product-info">
+                                        <div class="home-product-info-top">
+                                            <div class="home-product-image">
+                                                <img th:src="@{${product.images[0].productImage}}" th:alt="${product.name}">
+                                            </div>
+                                            <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
                                         </div>
-                                        <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
+                                        <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                                     </div>
-                                    <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
-                                </div>
+                                </a>
                                 <div class="home-product-action">
                                     <button onclick="addToCart(this)" th:data-id="${product.id}">
                                         В корзину
@@ -181,15 +183,17 @@
                     <div class="home-products-card-container swiper-wrapper">
                         <div class="home-product-card-container swiper-slide" th:each="product : ${productsJar}">
                             <div class="home-product-card">
-                                <div class="home-product-info">
-                                    <div class="home-product-info-top">
-                                        <div class="home-product-image">
-                                            <img th:src="${product.images[0].productImage}" th:alt="${product.name}">
+                                <a th:href="@{'/product/' + ${product.id}}">
+                                    <div class="home-product-info">
+                                        <div class="home-product-info-top">
+                                            <div class="home-product-image">
+                                                <img th:src="${product.images[0].productImage}" th:alt="${product.name}">
+                                            </div>
+                                            <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
                                         </div>
-                                        <p class="home-product-name" th:text="${product.name}">Название товара 1</p>
+                                        <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
                                     </div>
-                                    <h3 class="home-product-price" th:text="${product.price + ' сом'}">0 сом</h3>
-                                </div>
+                                </a>
                                 <div class="home-product-action">
                                     <button onclick="addToCart(this)" th:data-id="${product.id}">В корзину</button>
                                 </div>

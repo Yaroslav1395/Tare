@@ -1343,55 +1343,6 @@ table {
     text-align: center;
 }
 
-
-.card-list .card-item {
-    color: #fff;
-    width: 400px;
-    padding: 35px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    background-filter: blur(30px);
-}
-
-.card-list .card-item .user-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin-bottom: 40px;
-    border: 3px solid #fff;
-    padding: 4px;
-}
-
-.card-list .card-item .user-profession {
-    font-size: 1.15rem;
-    color: #e3e3e3;
-    font-weight: 500;
-    margin: 14px 0 40px;
-}
-
-.card-list .card-item .message-button {
-    font-size: 1.25rem;
-    padding: 10px 35px;
-    color: #030728;
-    border-radius: 6px;
-    font-weight: 500;
-    cursor: pointer;
-    background: #fff;
-    border: 1px solid transparent;
-    transition: 0.2s ease;
-}
-
-.card-list .card-item .message-button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #fff;
-    color: #fff;
-}
-
 .home-category-product-container .swiper {
     height: 100% !important;
 }
@@ -2548,11 +2499,10 @@ table {
     width: 100%;
     height: 50px;
     border: none;
-    background: none;
     font-family: 'Rubik', serif;
     font-weight: 400;
     font-size: 20px;
-    background-color: #ffda33;
+    background: #ffda33 none;
 }
 
 /******************************************************************************************/
@@ -2672,10 +2622,6 @@ table {
 
 .notice-item-yellow {
     background-color: #ffda33;
-}
-
-.notice-item-grey {
-    background-color: none;
 }
 
 .notice-item-yellow::after {
@@ -3364,7 +3310,7 @@ table {
 .delivery-table-container {
     margin-top: 10px;
     width: 100%;
-    overflow-x: auto
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -3389,7 +3335,6 @@ table {
 .delivery-table {
     width: 100%;
     min-width: 756px;
-    order-collapse: collapse;
     white-space: nowrap;
 }
 
@@ -3813,7 +3758,6 @@ table {
   /*--Контакты--*/
   .contacts-item-right iframe {
     width: 400px;
-    height: revert-layer;
   }
 
   /*--Корзина--*/
