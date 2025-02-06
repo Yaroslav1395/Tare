@@ -3,8 +3,6 @@ package kg.zavod.Tare.controller;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
-import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
-import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.service.CertificateService;
 import kg.zavod.Tare.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;

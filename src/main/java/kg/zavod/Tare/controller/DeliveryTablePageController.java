@@ -1,17 +1,13 @@
 package kg.zavod.Tare.controller;
 
-import kg.zavod.Tare.dto.ResponseDto;
-import kg.zavod.Tare.dto.deliviry.DeliveryTable;
 import kg.zavod.Tare.dto.deliviry.districtCapacityPrice.DeliveryPriceForUpdateDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.state.ResponseState;
 import kg.zavod.Tare.service.delivery.DeliveryTableService;
 import kg.zavod.Tare.service.delivery.DistrictCapacityPriceService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
