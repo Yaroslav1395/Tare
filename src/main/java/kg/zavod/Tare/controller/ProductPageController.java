@@ -2,19 +2,13 @@ package kg.zavod.Tare.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kg.zavod.Tare.controllerRest.category.CategoryController;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.product.characteristicValue.mvc.CharacteristicValueForAdminDto;
-import kg.zavod.Tare.dto.product.color.ColorForUpdateDto;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForSaveAdminDto;
 import kg.zavod.Tare.dto.product.image.mvc.ImageForAdminDto;
-import kg.zavod.Tare.dto.product.image.mvc.ImageForSaveAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForSaveAdminDto;
 import kg.zavod.Tare.dto.product.product.mvc.ProductForUpdateAdminDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
 import kg.zavod.Tare.service.category.CategoryService;
 import kg.zavod.Tare.service.category.SubcategoryService;
 import kg.zavod.Tare.service.product.CharacteristicService;
@@ -30,7 +24,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
