@@ -2,8 +2,6 @@ package kg.zavod.Tare.repository.category;
 
 import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,9 +16,6 @@ public interface SubcategoryRepository extends JpaRepository<SubcategoryEntity, 
      * @return - подкатегории
      */
     List<SubcategoryEntity> findAllByCategoryId(Integer categoryId);
-
-    @Query("SELECT s FROM SubcategoryEntity s WHERE s.category.id IN :categoriesId")
-    List<SubcategoryEntity> findAllByCategoryIds(@Param("categoriesId") List<Integer> categoriesId);
 
     /**
      * Метод позволяет найти подкатегорию по названию и id категории
