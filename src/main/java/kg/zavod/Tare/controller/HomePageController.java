@@ -1,8 +1,7 @@
 package kg.zavod.Tare.controller;
 
-import kg.zavod.Tare.controllerRest.category.CategoryController;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
+import kg.zavod.Tare.dto.product.product.ProductForUserDto;
 import kg.zavod.Tare.service.CertificateService;
 import kg.zavod.Tare.service.NoticeService;
 import kg.zavod.Tare.service.PartnerService;
@@ -26,7 +25,7 @@ public class HomePageController {
     private final NoticeService noticeService;
     private final PartnerService partnerService;
     private final CertificateService certificateService;
-    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomePageController.class);
 
     @GetMapping("/")
     public String home(Model model) {

@@ -1,7 +1,7 @@
 package kg.zavod.Tare.controller;
 
-import kg.zavod.Tare.dto.category.mvc.CategoryForSaveAdminDto;
-import kg.zavod.Tare.dto.category.mvc.CategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.category.CategoryForSaveAdminDto;
+import kg.zavod.Tare.dto.category.CategoryForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class CategoryPageController {
     private final CategoryService categoryService;
     private static final Logger logger = LoggerFactory.getLogger(CategoryPageController.class);
 
-    @GetMapping("/category") // Главная страница
+    @GetMapping("/category")
     public String category(Model model) {
         try {
             model.addAttribute("categoriesForCatalog", categoryService.getAllCategories());

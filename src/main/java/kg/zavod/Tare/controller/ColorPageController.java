@@ -2,8 +2,8 @@ package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.product.color.ColorForUpdateDto;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForSaveAdminDto;
-import kg.zavod.Tare.dto.product.color.mvc.ColorForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.color.ColorForSaveAdminDto;
+import kg.zavod.Tare.dto.product.color.ColorForUpdateAdminDto;
 import kg.zavod.Tare.service.product.ColorService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;

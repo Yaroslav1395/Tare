@@ -1,10 +1,9 @@
 package kg.zavod.Tare.mapper.product.product;
 
 import kg.zavod.Tare.domain.product.ProductEntity;
-import kg.zavod.Tare.dto.product.product.ProductDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForAdminDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForHomeDto;
-import kg.zavod.Tare.dto.product.product.mvc.ProductForUserDto;
+import kg.zavod.Tare.dto.product.product.ProductForAdminDto;
+import kg.zavod.Tare.dto.product.product.ProductForHomeDto;
+import kg.zavod.Tare.dto.product.product.ProductForUserDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -33,10 +32,4 @@ public interface ProductListMapper {
      * @return - список DTO продукта
      */
     List<ProductForHomeDto> mapToProductForHomeDtoList(List<ProductEntity> products);
-
-
-
-
-
-    List<ProductDto> mapToProductDtoList(List<ProductEntity> products);
 }

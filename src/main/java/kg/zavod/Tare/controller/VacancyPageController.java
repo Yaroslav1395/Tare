@@ -1,8 +1,6 @@
 package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
-import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
-import kg.zavod.Tare.dto.partner.PartnerForSaveAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForUpdateAdminDto;
 import kg.zavod.Tare.service.VacancyService;

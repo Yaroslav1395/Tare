@@ -6,13 +6,10 @@ import kg.zavod.Tare.domain.category.SubcategoryEntity;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.subcategory.SubcategoryDto;
-import kg.zavod.Tare.dto.subcategory.SubcategoryForSaveDto;
-import kg.zavod.Tare.dto.subcategory.SubcategoryForUpdateDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForSaveAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForUserDto;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryListMapper;
 import kg.zavod.Tare.mapper.subcategory.SubcategoryMapper;
 import kg.zavod.Tare.repository.category.CategoryRepository;
@@ -71,18 +68,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         List<SubcategoryForUserDto> subcategoriesDto = subcategoryListMapper.mapToSubcategoryForUserDtoList(subcategories);
         subcategoriesDto.forEach(subcategory -> subcategory.setSubcategoryImage(baseUrlForLoad + subcategory.getSubcategoryImage()));
         return subcategoriesDto;
-    }
-
-    /**
-     * Ме6тод позволяет получить подкатегорию по id продукта. Используется в MVC
-     * @param productId - id продукта
-     * @return - подкатегория
-     * @throws EntityNotFoundException - в случае если подкатегория не будет найдена
-     */
-    @Override
-    public SubcategoryForUserDto getSubcategoryByProductId(Integer productId) throws EntityNotFoundException {
-        logger.info("Попытка получения подкатегорий для страницы продукта по id продукта");
-        return null;
     }
 
     /**
@@ -152,91 +137,17 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         categoryRepository.save(category);
     }
 
-
-    /**
-     * Метод позволяет получить подкатегорию со списком id продуктов по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id подкатегории
-     * @return - подкатегория со списком id продуктов
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public SubcategoryDto getSubcategoryById(Integer id) throws EntityNotFoundException {
-        logger.info("Поиск подкатегории по id");
-        SubcategoryEntity subcategoryEntity = subcategoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По Id не найдено подкатегории"));
-        return subcategoryMapper.mapToSubcategoryDto(subcategoryEntity);
-    }
-
-    /**
-     * Метод позволяет получить все подкатегории со списком id продуктов
-     * @throws EntitiesNotFoundException - в случае если ни оной подкатегории не найдено
-     * @return - список подкатегорий
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubcategoryDto> getAllSubcategories() throws EntitiesNotFoundException {
-        logger.info("Попытка получить все подкатегории");
-        List<SubcategoryEntity> subcategories = subcategoryRepository.findAll();
-        if(subcategories.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одной подкатегории");
-        return subcategoryListMapper.mapToSubcategoryDtoList(subcategories);
-    }
-
-    /**
-     * Метод позволяет сохранить подкатегорию
-     * @param subcategoryForSaveDto - подкатегория для сохранения
-     * @return - сохраненная подкатегория
-     * @throws EntityNotFoundException - в случае если не найдена категория для подкатегории или формат картинки
-     * @throws DuplicateEntityException - в случае если в категории уже есть подкатегория с таким названием
-     */
-    @Override
-    @Transactional
-    public SubcategoryDto saveSubcategory(SubcategoryForSaveDto subcategoryForSaveDto) throws EntityNotFoundException, DuplicateEntityException {
-        logger.info("Попытка сохранения подкатегории");
-        boolean isDuplicate = subcategoryRepository.findByNameAndCategoryId(subcategoryForSaveDto.getName(), subcategoryForSaveDto.getCategoryId()).isPresent();
-        if(isDuplicate) throw new DuplicateEntityException("Подкатегория с таким названием уже существует в этой категории");
-        CategoryEntity categoryEntity = categoryRepository.findById(subcategoryForSaveDto.getCategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Не найдена категория по id"));
-        ImageType subcategoryImageType = UtilService.getImageTypeFrom(subcategoryForSaveDto.getSubcategoryImage());
-        SubcategoryEntity subcategoryForSave = subcategoryMapper.mapToSubcategoryEntity(subcategoryForSaveDto, subcategoryImageType, categoryEntity);
-        SubcategoryEntity savedSubcategory = subcategoryRepository.save(subcategoryForSave);
-        return subcategoryMapper.mapToSubcategoryDto(savedSubcategory);
-    }
-
-    /**
-     * Метод позволят редактировать подкатегорию меняя ее название, картинку и категорию
-     * @param subcategoryForUpdateDto - подкатегория для редактирования
-     * @return - отредактированная подкатегория
-     * @throws EntityNotFoundException - в случае если при редактировании не найдена подкатегории или категории или формат картинки
-     * @throws DuplicateEntityException - в случае если в категории дублируется подкатегория
-     */
-    @Override
-    @Transactional
-    public SubcategoryDto updateSubcategory(SubcategoryForUpdateDto subcategoryForUpdateDto) throws EntityNotFoundException, DuplicateEntityException {
-        logger.info("Попытка редактирования подкатегории");
-        boolean isDuplicate = subcategoryRepository.findByNameAndIdIsNotAndCategoryId(subcategoryForUpdateDto.getName(),
-                subcategoryForUpdateDto.getId(), subcategoryForUpdateDto.getCategoryId()).isPresent();
-        if(isDuplicate) throw new DuplicateEntityException("В этой категории уже есть подкатегория с таким названием");
-        SubcategoryEntity subcategory = subcategoryRepository.findById(subcategoryForUpdateDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("По Id не найдено подкатегории"));
-        logger.info("Изменение подкатегории");
-        ImageType subcategoryImageType = UtilService.getImageTypeFrom(subcategoryForUpdateDto.getSubcategoryImage());
-        subcategoryMapper.updateSubcategoryFromDto(subcategoryForUpdateDto, subcategoryImageType, subcategory);
-        SubcategoryEntity updatedSubcategory = subcategoryRepository.save(subcategory);
-        return subcategoryMapper.mapToSubcategoryDto(updatedSubcategory);
-    }
-
     /**
      * Метод позволяет удалять подкатегорию
+     *
      * @param id - id подкатегории
-     * @return - удалена или нет
      */
     @Override
     @Transactional
-    public boolean deleteSubcategoryById(Integer id) {
+    public void deleteSubcategoryById(Integer id) {
         logger.info("Попытка удаления подкатегории");
         subcategoryRepository.deleteById(id);
-        return !subcategoryRepository.existsById(id);
+        subcategoryRepository.existsById(id);
     }
 
 }

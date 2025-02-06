@@ -1,12 +1,9 @@
 package kg.zavod.Tare.service.delivery.impl;
 
 import kg.zavod.Tare.domain.delivery.DivisionEntity;
-import kg.zavod.Tare.dto.deliviry.division.DivisionDto;
-import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveDto;
-import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -18,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -83,40 +79,5 @@ public class DivisionServiceImpl implements DivisionService {
     public void deleteDivisionById(Integer id) {
         logger.info("Попытка удаления территориального деления");
         divisionRepository.deleteById(id);
-    }
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить территориальное деление по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id территориального деления
-     * @return - найденное территориальное деление
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public DivisionDto getDivisionById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска территориального деления по id");
-        DivisionEntity division = divisionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По id не найдено территориального деления"));
-        return divisionMapper.mapToDivisionDto(division);
-    }
-
-    /**
-     * Метод позволяет получить все территориальные деления
-     * @throws EntitiesNotFoundException - в случае если ни оного территориального деления не найдено
-     * @return - список территориальных делений
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<DivisionDto> getAllDivisions() throws EntitiesNotFoundException {
-        logger.info("Попытка поиска всех территориальных делений");
-        List<DivisionEntity> divisions = divisionRepository.findAll();
-        if(divisions.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одного территориального деления");
-        return divisionListMapper.mapToDivisionListDto(divisions);
     }
 }

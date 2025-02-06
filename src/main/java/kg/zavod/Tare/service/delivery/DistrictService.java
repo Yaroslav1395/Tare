@@ -1,11 +1,8 @@
 package kg.zavod.Tare.service.delivery;
 
-import kg.zavod.Tare.dto.deliviry.district.DistrictDto;
-import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveDto;
-import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForAdminDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -41,26 +38,4 @@ public interface DistrictService {
      * @param id - id района
      */
     void deleteDistrictById(Integer id);
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить район по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id района
-     * @return - найденный район
-     */
-    DistrictDto getDistrictById(Integer id) throws EntityNotFoundException;
-
-    /**
-     * Метод позволяет получить все районы
-     * @throws EntitiesNotFoundException - в случае если ни оного района не найдено
-     * @return - список районов
-     */
-    List<DistrictDto> getAllDistricts() throws EntitiesNotFoundException;
 }

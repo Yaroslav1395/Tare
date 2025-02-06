@@ -1,8 +1,7 @@
 package kg.zavod.Tare.mapper.product.characteristics;
 
 import kg.zavod.Tare.domain.product.CharacteristicEntity;
-import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForAdminDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -15,5 +14,4 @@ public interface CharacteristicListMapper {
      * @return - список DTO характеристик
      */
     List<CharacteristicForAdminDto> mapToCharacteristicDtoListMvc(List<CharacteristicEntity> characteristics);
-    List<CharacteristicDto> mapToCharacteristicDtoList(List<CharacteristicEntity> characteristics);
 }

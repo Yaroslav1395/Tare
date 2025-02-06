@@ -1,12 +1,9 @@
 package kg.zavod.Tare.mapper.product.characteristics;
 
 import kg.zavod.Tare.domain.product.CharacteristicEntity;
-import kg.zavod.Tare.dto.product.characteristic.CharacteristicDto;
-import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveDto;
-import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateAdminDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
@@ -35,13 +32,4 @@ public interface CharacteristicMapper {
      * @param characteristic - сущность характеристики для редактирования
      */
     void updateCharacteristicEntityMvc(CharacteristicForUpdateAdminDto characteristicDto, @MappingTarget CharacteristicEntity characteristic);
-
-
-
-
-
-
-    CharacteristicDto mapToCharacteristicDto(CharacteristicEntity characteristic);
-    CharacteristicEntity mapToCharacteristicEntity(CharacteristicForSaveDto characteristicForSaveDto);
-    void updateCharacteristicEntity(CharacteristicForUpdateDto characteristicForUpdateDto, @MappingTarget CharacteristicEntity characteristic);
 }

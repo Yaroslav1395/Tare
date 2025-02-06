@@ -108,15 +108,15 @@ public class PartnerServiceImpl implements PartnerService {
 
     /**
      * Метод позволяет удалять партнера
+     *
      * @param id - id партнера
-     * @return - удален или нет
      */
     @Override
     @Transactional
-    public boolean deletePartnerById(Integer id) {
+    public void deletePartnerById(Integer id) {
         logger.info("Попытка удаления партнера");
         partnerRepository.deleteById(id);
-        return !partnerRepository.existsById(id);
+        partnerRepository.existsById(id);
     }
 
     /**
@@ -155,57 +155,5 @@ public class PartnerServiceImpl implements PartnerService {
             partner.setProductImageType(productImageType.toString());
             partner.setProductImageName(fileName);
         }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить партнера по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id партнера
-     * @return - найденный партнер
-     */
-    @Override
-    public PartnerForAdminDto getPartnerById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска партнера по id");
-        PartnerEntity partner = partnerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Не найдено партнера по id"));
-        return partnerMapper.mapToPartnerDto(partner);
-    }
-
-    /**
-     * Метод позволяет получить все активных партнеров
-     * @return - список партнеров
-     * @throws EntitiesNotFoundException - в случае если ни одного активного партнера не найдено
-     */
-    @Override
-    public List<PartnerForAdminDto> getAllActivePartners() throws EntitiesNotFoundException {
-        logger.info("Попытка поиска всех активных партнеров");
-        List<PartnerEntity> partners = partnerRepository.findAllByIsActiveTrue();
-        if(partners.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одного активного партнера");
-        return partnerListMapper.mapToPartnerDtoList(partners);
-    }
-
-    /**
-     * Метод позволяет изменять активность партнера
-     * @param id - id партнера активность которого нужно изменить
-     * @param isActive - флаг активности
-     * @return - текущее состояние партнера
-     */
-    @Override
-    @Transactional
-    public boolean changePartnerActivityById(Integer id, Boolean isActive) {
-        logger.info("Попытка изменения активности партнера");
-        int active = partnerRepository.updateIsActiveById(id, isActive);
-        return active == 1;
     }
 }

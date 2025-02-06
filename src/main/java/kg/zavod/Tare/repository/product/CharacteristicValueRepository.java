@@ -12,12 +12,6 @@ import java.util.List;
 
 @Repository
 public interface CharacteristicValueRepository extends JpaRepository<ProductCharacteristicEntity, Integer> {
-    /**
-     * Метод найдет все характеристики продукта
-     * @param productId - id продукта
-     * @return - список характеристик
-     */
-    List<ProductCharacteristicEntity> findAllByProductId(Integer productId);
 
     /**
      * Метод позволяет удалить характеристики по списку id

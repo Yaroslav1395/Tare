@@ -1,6 +1,5 @@
 package kg.zavod.Tare.service;
 
-import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
@@ -41,36 +40,8 @@ public interface NoticeService {
 
     /**
      * Метод позволяет удалять новость
+     *
      * @param id - id новости
-     * @return - удалена или нет
      */
-    boolean deleteNoticeById(Integer id);
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить новость по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id новость
-     * @return - найденная новость
-     */
-    NoticeForAdminDto getNoticeById(Integer id) throws EntityNotFoundException;
-
-    /**
-     * Метод позволяет получить все активные новости
-     * @return - список новостей
-     * @throws EntitiesNotFoundException - в случае если ни оной активной новости не найдено
-     */
-    List<NoticeForAdminDto> getAllActiveNotices() throws EntitiesNotFoundException;
-
-    /**
-     * Метод позволяет изменять активность новости
-     * @param id - id новости активность которой нужно изменить
-     * @param isActive - флаг активности
-     * @return - текущее состояние новости
-     */
-    boolean changeNoticeActivityById(Integer id, Boolean isActive);
+    void deleteNoticeById(Integer id);
 }

@@ -2,7 +2,6 @@ package kg.zavod.Tare.service.impl;
 
 import kg.zavod.Tare.domain.CertificateEntity;
 import kg.zavod.Tare.domain.ImageType;
-import kg.zavod.Tare.domain.PartnerEntity;
 import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
@@ -10,7 +9,6 @@ import kg.zavod.Tare.dto.certificate.CertificateForUserDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.mapper.certificate.CertificateListMapper;
 import kg.zavod.Tare.mapper.certificate.CertificateMapper;
 import kg.zavod.Tare.repository.CertificateRepository;
@@ -112,14 +110,14 @@ public class CertificateServiceImpl implements CertificateService {
 
     /**
      * Метод позволяет удалять сертификат
+     *
      * @param id - id сертификата
-     * @return - удален или нет
      */
     @Override
-    public boolean deleteCertificateById(Integer id) {
+    public void deleteCertificateById(Integer id) {
         logger.info("Попытка удаления сертификата");
         certificateRepository.deleteById(id);
-        return !certificateRepository.existsById(id);
+        certificateRepository.existsById(id);
     }
 
     /**
@@ -158,30 +156,5 @@ public class CertificateServiceImpl implements CertificateService {
             certificate.setCertificateImageTypeKg(imageCertificateRuType.toString());
             certificate.setCertificateImageNameKg(fileName);
         }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить сертификат по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id сертификата
-     * @return - найденный сертификат
-     */
-    @Override
-    public CertificateForAdminDto getCertificateById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска сертификата по id");
-        CertificateEntity certificate = certificateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По id сертификата не найдено"));
-        return certificateMapper.mapToCertificateDto(certificate);
     }
 }

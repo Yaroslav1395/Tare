@@ -42,39 +42,8 @@ public interface PartnerService {
 
     /**
      * Метод позволяет удалять партнера
+     *
      * @param id - id партнера
-     * @return - удален или нет
      */
-    boolean deletePartnerById(Integer id);
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить партнера по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id партнера
-     * @return - найденный партнер
-     */
-    PartnerForAdminDto getPartnerById(Integer id) throws EntityNotFoundException;
-
-    /**
-     * Метод позволяет получить все активных партнеров
-     * @return - список партнеров
-     * @throws EntitiesNotFoundException - в случае если ни одного активного партнера не найдено
-     */
-    List<PartnerForAdminDto> getAllActivePartners() throws EntitiesNotFoundException;
-
-    /**
-     * Метод позволяет изменять активность партнера
-     * @param id - id партнера активность которого нужно изменить
-     * @param isActive - флаг активности
-     * @return - текущее состояние партнера
-     */
-    boolean changePartnerActivityById(Integer id, Boolean isActive);
+    void deletePartnerById(Integer id);
 }

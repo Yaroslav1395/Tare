@@ -1,8 +1,8 @@
 package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForSaveAdminDto;
-import kg.zavod.Tare.dto.product.characteristic.mvc.CharacteristicForUpdateAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForSaveAdminDto;
+import kg.zavod.Tare.dto.product.characteristic.CharacteristicForUpdateAdminDto;
 import kg.zavod.Tare.service.product.CharacteristicService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;

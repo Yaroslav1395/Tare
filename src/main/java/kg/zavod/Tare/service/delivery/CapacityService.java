@@ -38,22 +38,4 @@ public interface CapacityService {
      * @param id - id допустимого объема доставки
      */
     void deleteCapacityById(Integer id);
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить допустимый объем доставки по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id допустимого объема доставки
-     * @return - найденный допустимый объем доставки
-     */
-    CapacityForAdminDto getCapacityById(Integer id) throws EntityNotFoundException;
 }

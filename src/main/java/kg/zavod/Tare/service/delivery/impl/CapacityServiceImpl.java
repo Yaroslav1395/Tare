@@ -82,30 +82,4 @@ public class CapacityServiceImpl implements CapacityService {
         logger.info("Попытка удаления допустимого объема");
         capacityRepository.deleteById(id);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить допустимый объем доставки по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id допустимого объема доставки
-     * @return - найденный допустимый объем доставки
-     */
-    @Override
-    public CapacityForAdminDto getCapacityById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска допустимого объема по id");
-        CapacityEntity capacity = capacityRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По id не найдено допустимого объема"));
-        return capacityMapper.mapToCapacityForAdminDto(capacity);
-    }
 }

@@ -1,12 +1,9 @@
 package kg.zavod.Tare.mapper.delivery.division;
 
 import kg.zavod.Tare.domain.delivery.DivisionEntity;
-import kg.zavod.Tare.dto.deliviry.division.DivisionDto;
-import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveDto;
-import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateAdminDto;
 import kg.zavod.Tare.mapper.delivery.district.DistrictListMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -34,8 +31,4 @@ public interface DivisionMapper {
      * @param divisionEntity - сущностей территориального деления
      */
     void updateDivisionEntity(DivisionForUpdateAdminDto divisionForUpdateDto, @MappingTarget DivisionEntity divisionEntity);
-
-
-
-    DivisionDto mapToDivisionDto(DivisionEntity divisionEntity);
 }

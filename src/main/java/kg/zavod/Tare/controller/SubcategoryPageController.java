@@ -2,9 +2,9 @@ package kg.zavod.Tare.controller;
 
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForSaveAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUpdateAdminDto;
-import kg.zavod.Tare.dto.subcategory.mvc.SubcategoryForUserDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForSaveAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForUpdateAdminDto;
+import kg.zavod.Tare.dto.subcategory.SubcategoryForUserDto;
 import kg.zavod.Tare.service.category.CategoryService;
 import kg.zavod.Tare.service.category.SubcategoryService;
 import lombok.RequiredArgsConstructor;

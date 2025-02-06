@@ -2,12 +2,9 @@ package kg.zavod.Tare.service.delivery.impl;
 
 import kg.zavod.Tare.domain.delivery.DistrictEntity;
 import kg.zavod.Tare.domain.delivery.DivisionEntity;
-import kg.zavod.Tare.dto.deliviry.district.DistrictDto;
-import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveDto;
-import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForAdminDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForSaveAdminDto;
-import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForUpdateAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForSaveAdminDto;
+import kg.zavod.Tare.dto.deliviry.district.DistrictForUpdateAdminDto;
 import kg.zavod.Tare.dto.exception.DuplicateEntityException;
 import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
@@ -96,39 +93,5 @@ public class DistrictServiceImpl implements DistrictService {
     public void deleteDistrictById(Integer id) {
         logger.info("Попытка удаления района");
         districtRepository.deleteById(id);
-    }
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить район по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id района
-     * @return - найденный район
-     */
-    @Override
-    public DistrictDto getDistrictById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска района по id");
-        DistrictEntity district = districtRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По id не найдено района"));
-        return districtMapper.mapToDistrictDto(district);
-    }
-
-    /**
-     * Метод позволяет получить все районы
-     * @throws EntitiesNotFoundException - в случае если ни оного района не найдено
-     * @return - список районов
-     */
-    @Override
-    public List<DistrictDto> getAllDistricts() throws EntitiesNotFoundException {
-        logger.info("Попытка поиска всех районов");
-        List<DistrictEntity> districts = districtRepository.findAll();
-        if(districts.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одного района");
-        return districtListMapper.mapToDistrictDtoList(districts);
     }
 }

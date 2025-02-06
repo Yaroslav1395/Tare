@@ -1,6 +1,5 @@
 package kg.zavod.Tare.service;
 
-import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.vacancy.VacancyForAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
@@ -38,21 +37,8 @@ public interface VacancyService {
 
     /**
      * Метод позволяет удалять вакансию
+     *
      * @param id - id подкатегории
-     * @return - удалена или нет
      */
-    boolean deleteVacancyById(Integer id);
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить вакансию по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id вакансии
-     * @return - найденная вакансия
-     */
-    VacancyForAdminDto getVacancyById(Integer id) throws EntityNotFoundException;
+    void deleteVacancyById(Integer id);
 }

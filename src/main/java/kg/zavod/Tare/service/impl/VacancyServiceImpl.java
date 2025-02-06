@@ -1,7 +1,6 @@
 package kg.zavod.Tare.service.impl;
 
 import kg.zavod.Tare.domain.VacancyEntity;
-import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.vacancy.VacancyForAdminDto;
 import kg.zavod.Tare.dto.vacancy.VacancyForSaveAdminDto;
@@ -77,37 +76,16 @@ public class VacancyServiceImpl implements VacancyService {
         vacancyRepository.save(vacancy);
     }
 
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить вакансию по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id вакансии
-     * @return - найденная вакансия
-     */
-    @Override
-    public VacancyForAdminDto getVacancyById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска вакансии по id");
-        VacancyEntity vacancy = vacancyRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По id не найдено вакансии"));
-        return vacancyMapper.mapToVacancyDto(vacancy);
-    }
-
     /**
      * Метод позволяет удалять вакансию
+     *
      * @param id - id подкатегории
-     * @return - удалена или нет
      */
     @Override
     @Transactional
-    public boolean deleteVacancyById(Integer id) {
+    public void deleteVacancyById(Integer id) {
         logger.info("Попытка удаления вакансии");
         vacancyRepository.deleteById(id);
-        return !vacancyRepository.existsById(id);
+        vacancyRepository.existsById(id);
     }
 }
