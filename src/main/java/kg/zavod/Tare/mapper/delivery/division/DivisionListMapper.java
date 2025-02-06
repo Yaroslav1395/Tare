@@ -1,7 +1,6 @@
 package kg.zavod.Tare.mapper.delivery.division;
 
 import kg.zavod.Tare.domain.delivery.DivisionEntity;
-import kg.zavod.Tare.dto.deliviry.division.DivisionDto;
 import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForAdminDto;
 import org.mapstruct.Mapper;
 
@@ -15,9 +14,4 @@ public interface DivisionListMapper {
      * @return - список DTO
      */
     List<DivisionForAdminDto> mapToDivisionForAdminDtoList(List<DivisionEntity> divisions);
-
-
-
-
-    List<DivisionDto> mapToDivisionListDto(List<DivisionEntity> divisions);
 }

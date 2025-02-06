@@ -1,8 +1,6 @@
 package kg.zavod.Tare.service.delivery;
 
 import kg.zavod.Tare.dto.deliviry.division.DivisionDto;
-import kg.zavod.Tare.dto.deliviry.division.DivisionForSaveDto;
-import kg.zavod.Tare.dto.deliviry.division.DivisionForUpdateDto;
 import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForAdminDto;
 import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForSaveAdminDto;
 import kg.zavod.Tare.dto.deliviry.division.mvc.DivisionForUpdateAdminDto;
@@ -40,22 +38,4 @@ public interface DivisionService {
      * @param id - id территориального деления
      */
     void deleteDivisionById(Integer id);
-
-
-
-
-    /**
-     * Метод позволяет получить территориальное деление по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id территориального деления
-     * @return - найденное территориальное деление
-     */
-    DivisionDto getDivisionById(Integer id) throws EntityNotFoundException;
-
-    /**
-     * Метод позволяет получить все территориальные деления
-     * @throws EntitiesNotFoundException - в случае если ни оного территориального деления не найдено
-     * @return - список территориальных делений
-     */
-    List<DivisionDto> getAllDivisions() throws EntitiesNotFoundException;
 }

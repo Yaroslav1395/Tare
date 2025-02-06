@@ -1,7 +1,6 @@
 package kg.zavod.Tare.mapper.delivery.district;
 
 import kg.zavod.Tare.domain.delivery.DistrictEntity;
-import kg.zavod.Tare.dto.deliviry.district.DistrictDto;
 import kg.zavod.Tare.dto.deliviry.district.mvc.DistrictForAdminDto;
 import org.mapstruct.Mapper;
 
@@ -15,7 +14,4 @@ public interface DistrictListMapper {
      * @return - список DTO
      */
     List<DistrictForAdminDto> mapToDistrictForAdminDtoList(List<DistrictEntity> districts);
-
-
-    List<DistrictDto> mapToDistrictDtoList(List<DistrictEntity> districts);
 }
