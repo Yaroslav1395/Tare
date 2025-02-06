@@ -6,15 +6,12 @@ import kg.zavod.Tare.dto.certificate.CertificateForAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForSaveAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUpdateAdminDto;
 import kg.zavod.Tare.dto.certificate.CertificateForUserDto;
-import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface CertificateMapper {
@@ -66,41 +63,5 @@ public interface CertificateMapper {
     @Named("getNameFromMultipart")
     default String getNameFromMultipart(MultipartFile file) {
         return file.getOriginalFilename();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволит получить формат картинки из типа картинки
-     * @param imageType - тип картинки
-     * @return - формат картинки
-     */
-    @Named("getImageType")
-    default String getImageType(ImageType imageType){
-        return imageType.getFormat();
-    }
-
-    /**
-     * Метод позволяет преобразовать MultipartFile в строку Base64
-     * @param file - картинка как MultipartFile
-     * @return - картинка как Base64
-     */
-    @Named("multipartFileToBase64")
-    default String multipartFileToBase64(MultipartFile file) {
-        try {
-            byte[] fileContent = file.getBytes();
-            return Base64.getEncoder().encodeToString(fileContent);
-        } catch (IOException e) {
-            throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
-        }
     }
 }

@@ -2,7 +2,6 @@ package kg.zavod.Tare.mapper.notice;
 
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.NoticeEntity;
-import kg.zavod.Tare.dto.exception.MultipartFileParseException;
 import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
@@ -13,8 +12,6 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.Base64;
 
 @Mapper(componentModel = "spring")
 public interface NoticeMapper {
@@ -56,16 +53,6 @@ public interface NoticeMapper {
     void updateNoticeEntity(NoticeForUpdateAdminDto noticeForUpdateAdminDto, @MappingTarget NoticeEntity notice);
 
     /**
-     * Метод позволит получить формат картинки из типа картинки
-     * @param imageType - тип картинки
-     * @return - формат картинки
-     */
-    @Named("getImageType")
-    default String getImageType(ImageType imageType){
-        return imageType.getFormat();
-    }
-
-    /**
      * Метод позволяет получить имя файла
      * @param file - файл
      * @return - имя
@@ -73,33 +60,5 @@ public interface NoticeMapper {
     @Named("getNameFromMultipart")
     default String getNameFromMultipart(MultipartFile file) {
         return file.getOriginalFilename();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет преобразовать MultipartFile в строку Base64
-     * @param file - картинка как MultipartFile
-     * @return - картинка как Base64
-     */
-    @Named("multipartFileToBase64")
-    default String multipartFileToBase64(MultipartFile file) {
-        try {
-            byte[] fileContent = file.getBytes();
-            return Base64.getEncoder().encodeToString(fileContent);
-        } catch (IOException e) {
-            throw new MultipartFileParseException("Ошибка при преобразовании MultipartFile в Base64");
-        }
     }
 }

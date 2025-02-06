@@ -46,24 +46,8 @@ public interface CertificateService {
 
     /**
      * Метод позволяет удалять сертификат
+     *
      * @param id - id сертификата
-     * @return - удален или нет
      */
-    boolean deleteCertificateById(Integer id);
-
-
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить сертификат по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id сертификата
-     * @return - найденный сертификат
-     */
-    CertificateForAdminDto getCertificateById(Integer id) throws EntityNotFoundException;
+    void deleteCertificateById(Integer id);
 }

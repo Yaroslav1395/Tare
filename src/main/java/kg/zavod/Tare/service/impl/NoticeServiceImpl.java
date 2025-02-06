@@ -2,14 +2,11 @@ package kg.zavod.Tare.service.impl;
 
 import kg.zavod.Tare.domain.ImageType;
 import kg.zavod.Tare.domain.NoticeEntity;
-import kg.zavod.Tare.domain.PartnerEntity;
-import kg.zavod.Tare.dto.exception.EntitiesNotFoundException;
 import kg.zavod.Tare.dto.exception.EntityNotFoundException;
 import kg.zavod.Tare.dto.notice.NoticeForAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForSaveAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUpdateAdminDto;
 import kg.zavod.Tare.dto.notice.NoticeForUserDto;
-import kg.zavod.Tare.dto.partner.PartnerForUpdateAdminDto;
 import kg.zavod.Tare.mapper.notice.NoticeListMapper;
 import kg.zavod.Tare.mapper.notice.NoticeMapper;
 import kg.zavod.Tare.repository.NoticeRepository;
@@ -100,14 +97,14 @@ public class NoticeServiceImpl implements NoticeService {
 
     /**
      * Метод позволяет удалять новость
+     *
      * @param id - id новости
-     * @return - удалена или нет
      */
     @Override
-    public boolean deleteNoticeById(Integer id) {
+    public void deleteNoticeById(Integer id) {
         logger.info("Попытка удаления новости");
         noticeRepository.deleteById(id);
-        return !noticeRepository.existsById(id);
+        noticeRepository.existsById(id);
     }
 
     /**
@@ -127,52 +124,5 @@ public class NoticeServiceImpl implements NoticeService {
             noticeEntity.setImageType(imageType);
             noticeEntity.setNoticeImageName(fileName);
         }
-    }
-
-
-
-
-
-
-
-    /**
-     * Метод позволяет получить новость по id
-     * @throws EntityNotFoundException  - в случае если по id ничего не найдено
-     * @param id - id новость
-     * @return - найденная новость
-     */
-    @Override
-    public NoticeForAdminDto getNoticeById(Integer id) throws EntityNotFoundException {
-        logger.info("Попытка поиска новости по id");
-        NoticeEntity notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("По id новости не найдено"));
-        return noticeMapper.mapToNoticeDto(notice);
-    }
-
-    /**
-     * Метод позволяет получить все активные новости
-     * @return - список новостей
-     * @throws EntitiesNotFoundException - в случае если ни оной активной новости не найдено
-     */
-    @Override
-    public List<NoticeForAdminDto> getAllActiveNotices() throws EntitiesNotFoundException {
-        logger.info("Попытка поиска всех активных новостей");
-        List<NoticeEntity> notices = noticeRepository.findAllByIsActiveTrue();
-        if(notices.isEmpty()) throw new EntitiesNotFoundException("Не найдено ни одной новости");
-        return noticeListMapper.mapToNoticeAdminDtoList(notices);
-    }
-
-    /**
-     * Метод позволяет изменять активность новости
-     * @param id - id новости активность которой нужно изменить
-     * @param isActive - флаг активности
-     * @return - текущее состояние новости
-     */
-    @Override
-    @Transactional
-    public boolean changeNoticeActivityById(Integer id, Boolean isActive) {
-        logger.info("Попытка изменения активности новости");
-        int active = noticeRepository.updateIsActiveById(id, isActive);
-        return active == 1;
     }
 }
