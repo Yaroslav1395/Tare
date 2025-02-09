@@ -1,4 +1,5 @@
 <configuration>
+    <property resource="application.properties" />
     <conversionRule conversionWord="highlight" converterClass="kg.zavod.Tare.config.CustomerHighlightConverter" />
     <appender name="ADMIN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -6,7 +7,7 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/app/logs/tareApplication.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.path}/tareApplication.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>180</maxHistory>
         </rollingPolicy>
     </appender>
