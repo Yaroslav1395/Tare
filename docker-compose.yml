@@ -10,8 +10,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ~/tare/db:/tare/db
-      - ~/tare/logs:/app/logs
+      - ~/tare/db:/root/tare/db
+      - ~/tare/logs:/root/tare/logs
+      - ~/tare/upload/images:/root/tare/upload/images
     env_file:
-      - ~/tare/.env.prod
+      - ~/tare/.env.test
       #- /home/user/tare/.env.prod
