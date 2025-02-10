@@ -7,10 +7,16 @@ import kg.zavod.Tare.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.io.IOException;
+import java.net.URI;
 
 
 @Controller
@@ -30,9 +36,24 @@ public class BasketPageController {
             logger.error("Ошибка при получении продуктов для корзины: {}", ex.getMessage());
             model.addAttribute("errorMessage", ex.getMessage());
         } catch (JsonProcessingException ex) {
-            logger.error("Ошибка при преобразовании JSON: {}", ex);
+            logger.error("Ошибка при преобразовании JSON: {}", ex.getMessage());
             model.addAttribute("errorMessage", ex.getMessage());
         }
         return "basket";
+    }
+
+    @PostMapping("/basket/confirm")
+    public ResponseEntity<Void> confirmBasket(Model model, @RequestParam String products) {
+        logger.info("Запрос на оформление заявки");
+        try {
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .location(URI.create(productService.buildUrlForWhatsAppBid(products)))
+                    .build();
+        }catch (IOException ex) {
+            logger.error("Ошибка при формировании url для WhatsApp: {}", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .header(HttpHeaders.LOCATION, "/")
+                    .build();
+        }
     }
 }

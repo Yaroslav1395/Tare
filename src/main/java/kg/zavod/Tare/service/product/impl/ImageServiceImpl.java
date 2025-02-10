@@ -66,46 +66,28 @@ public class ImageServiceImpl implements ImageService {
      * @param imagesForUpdate - список картинок
      * @param product - продукт, которому принадлежат картинки
      * @throws EntityNotFoundException - в случае если не найдено подходящего цвета по id
-     * @throws EntitiesNotFoundException - в если картинки не будут найдены
      * @throws IOException - при ошибке сохранения
      */
     @Override
-    //TODO: отредактировать
-    public void updateImagesAdminMvc(List<ImageForUpdateAdminDto> imagesForUpdate, ProductEntity product) throws EntityNotFoundException, EntitiesNotFoundException, IOException {
+    public void updateImagesAdminMvc(List<ImageForUpdateAdminDto> imagesForUpdate, ProductEntity product) throws EntityNotFoundException, IOException {
         logger.info("Попытка редактирования картинок mvc");
-        Set<Integer> updatedImagesId = imagesForUpdate.stream()
-                .map(ImageForUpdateAdminDto::getId)
-                .collect(Collectors.toSet());
+        Set<Integer> updatedImagesId = getImagesIdForUpdate(imagesForUpdate);
         List<ImageEntity> imagesFromBase = imageRepository.findAllByProductId(product.getId());
         logger.info("Поиск цветов по id при редактировании картинок mvc");
         Set<Integer> colorsId = getColorsIdsForUpdateMvcFrom(imagesForUpdate);
         Map<Integer, ColorEntity> colors = getColorMapFrom(colorRepository.findAllById(colorsId));
         logger.info("удаление ненужных картинок");
-        List<Integer> imageIdsForDelete =  imagesFromBase.stream()
-                .map(ImageEntity::getId)
-                .filter(id -> !updatedImagesId.contains(id))
-                .toList();
+        List<Integer> imageIdsForDelete =  getImagesIdForDelete(imagesFromBase, updatedImagesId);
         imageRepository.deleteAllByIdIn(imageIdsForDelete);
-        List<ImageForUpdateAdminDto> filteredImagesForUpdate = imagesForUpdate.stream()
-                .filter(dto -> dto.getColorId() != null && dto.getProductImage().getSize() > 0)
-                .toList();
+        List<ImageForUpdateAdminDto> filteredImagesForUpdate = getImagesForUpdate(imagesForUpdate);
         for(ImageForUpdateAdminDto image : filteredImagesForUpdate) {
             image.setImagePath(UtilService.saveImage(image.getProductImage(), "products", basicPath));
         }
         List<ImageEntity>  newImagesEntityForSave = imageListMapper.mapToImageEntityListUpdateMvc(filteredImagesForUpdate, colors, product, imageMapper);
         imageRepository.saveAll(newImagesEntityForSave);
-
-        List<ImageForUpdateAdminDto> imageForColorUpdate = imagesForUpdate.stream()
-                .filter(dto -> dto.getId() != null && dto.getColorId() != null && dto.getProductImage().getSize() < 1)
-                .toList();
+        List<ImageForUpdateAdminDto> imageForColorUpdate = getImagesForUpdateColor(imagesForUpdate);
         List<ImageEntity> imageEntitiesForColorUpdate = imageRepository.findAllById(imageForColorUpdate.stream().map(ImageForUpdateAdminDto::getId).toList());
-        for(ImageForUpdateAdminDto image : imageForColorUpdate) {
-            for (ImageEntity imageEntity : imageEntitiesForColorUpdate) {
-                if(image.getId().equals(imageEntity.getId())) {
-                    imageEntity.setColor(colors.get(image.getColorId()));
-                }
-            }
-        }
+        setNewColorForImageEntity(imageForColorUpdate, imageEntitiesForColorUpdate, colors);
         imageRepository.saveAll(imageEntitiesForColorUpdate);
     }
 
@@ -142,5 +124,69 @@ public class ImageServiceImpl implements ImageService {
         logger.info("Преобразование списка цветов в словарь");
         return colors.stream()
                 .collect(Collectors.toMap(ColorEntity::getId, color -> color));
+    }
+
+    /**
+     * Метод позволяет получить id картинок из списка
+     * @param imagesForUpdate - список картинок
+     * @return - список id
+     */
+    private Set<Integer> getImagesIdForUpdate(List<ImageForUpdateAdminDto> imagesForUpdate) {
+        return imagesForUpdate.stream()
+                .map(ImageForUpdateAdminDto::getId)
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Метод определяет какие картинки нужно удалить и возвращает список их id. В случае если в списке картинок на
+     * редактирование нет картинки, которая есть в базе, ее необходимо удалить
+     * @param imagesFromBase - картинки из базы данных
+     * @param updatedImagesId - картинки, которые пришли на редактирование
+     * @return - список id картинок на удаление
+     */
+    private List<Integer> getImagesIdForDelete(List<ImageEntity> imagesFromBase, Set<Integer> updatedImagesId) {
+        return imagesFromBase.stream()
+                .map(ImageEntity::getId)
+                .filter(id -> !updatedImagesId.contains(id))
+                .toList();
+    }
+
+    /**
+     * Метод возвращает список картинок, которые необходимо отредактировать. Если в dto есть id цвета и картинки, то нужно
+     * редактировать
+     * @param imagesForUpdate- список картинок на редактирование
+     * @return - список картинок которые необходимо отредактировать
+     */
+    private List<ImageForUpdateAdminDto> getImagesForUpdate(List<ImageForUpdateAdminDto> imagesForUpdate) {
+        return imagesForUpdate.stream()
+                .filter(dto -> dto.getColorId() != null && dto.getProductImage().getSize() > 0)
+                .toList();
+    }
+
+    /**
+     * Метод возвращает список картинок, у которых необходимо отредактировать только цвет.
+     * @param imagesForUpdate- список картинок на редактирование
+     * @return - список картинок которые необходимо отредактировать
+     */
+    private List<ImageForUpdateAdminDto> getImagesForUpdateColor(List<ImageForUpdateAdminDto> imagesForUpdate) {
+        return imagesForUpdate.stream()
+                .filter(dto -> dto.getId() != null && dto.getColorId() != null && dto.getProductImage().getSize() < 1)
+                .toList();
+    }
+
+    /**
+     * Метод позволяет установить новые цвета для картинок
+     * @param imageForColorUpdate - картинки для редактирования
+     * @param imageEntitiesForColorUpdate - картинки из базы
+     * @param colors - словарь цветов
+     */
+    private void setNewColorForImageEntity(List<ImageForUpdateAdminDto> imageForColorUpdate, List<ImageEntity> imageEntitiesForColorUpdate, Map<Integer, ColorEntity> colors) {
+        for(ImageForUpdateAdminDto image : imageForColorUpdate) {
+            for (ImageEntity imageEntity : imageEntitiesForColorUpdate) {
+                if(image.getId().equals(imageEntity.getId())) {
+                    imageEntity.setColor(colors.get(image.getColorId()));
+                }
+            }
+        }
     }
 }

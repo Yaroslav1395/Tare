@@ -64,7 +64,6 @@ public class CharacteristicValueServiceImpl implements CharacteristicValueServic
      * @throws EntityNotFoundException - в случае если характеристика не будет найдена
      */
     @Override
-    //TODO: отредактировать
     public void updateCharacteristicsValueMvc(List<CharacteristicValueForUpdateAdminDto> characteristicsValueForUpdate, ProductEntity product) throws EntityNotFoundException {
         logger.info("Попытка редактирования значений характеристик продукта mvc");
         List<Integer> characteristicsForDelete = characteristicsValueForUpdate.stream()
