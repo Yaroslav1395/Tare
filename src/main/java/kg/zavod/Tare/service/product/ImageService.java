@@ -26,8 +26,7 @@ public interface ImageService {
      * @param imagesDto - список картинок
      * @param product - продукт, которому принадлежат картинки
      * @throws EntityNotFoundException - в случае если не найдено подходящего цвета по id
-     * @throws EntitiesNotFoundException - в если картинки не будут найдены
      * @throws IOException - при ошибке сохранения
      */
-     void updateImagesAdminMvc(List<ImageForUpdateAdminDto> imagesDto, ProductEntity product) throws EntityNotFoundException, EntitiesNotFoundException, IOException;
+     void updateImagesAdminMvc(List<ImageForUpdateAdminDto> imagesDto, ProductEntity product) throws EntityNotFoundException, IOException;
 }

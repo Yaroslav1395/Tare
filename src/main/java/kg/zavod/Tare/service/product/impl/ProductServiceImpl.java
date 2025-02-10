@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,7 +42,31 @@ public class ProductServiceImpl implements ProductService {
     private final ObjectMapper objectMapper;
     @Value("${base.url.load}")
     private String baseUrlForLoad;
+    @Value("${basket.redirect.whatsapp.url}")
+    private String whatsAppUrl;
+    private final String baseMessage = "Здравствуйте!%20Хочу%20приобрести.";
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    /**
+     * Метод позволяет сформировать ссылку с заказом на основе данных из корзины для
+     * перехода в whatsapp
+     * @param productsAsJson - продукты из корзины как JSON
+     * @return - ссылка на переход
+     * @throws JsonProcessingException - в случае если не удалось преобразовать JSON
+     */
+    @Override
+    @Transactional
+    public String buildUrlForWhatsAppBid(String productsAsJson) throws JsonProcessingException {
+        logger.info("Попытка формирования url для отправки заявки на WhatsApp");
+        List<ProductForOpenBasketDto> productsFromBasket = parseJsonToProductForOpenBasket(productsAsJson);
+        List<Integer> productsId = getProductIdsFrom(productsFromBasket);
+        List<ProductEntity> products = productRepository.findAllById(productsId);
+        Map<Integer, ProductEntity> productsMap = products.stream()
+                .collect(Collectors.toMap(ProductEntity::getId, product -> product));
+        StringBuilder urlBuilder = new StringBuilder(baseMessage);
+        String whatsappUrl = buildUrl(productsFromBasket, productsMap, urlBuilder);
+        return whatsAppUrl + whatsappUrl;
+    }
 
     /**
      * Метод позволяет найти продукты для корзины. Принимает строку JSON и преобразует в список объектов
@@ -271,10 +297,21 @@ public class ProductServiceImpl implements ProductService {
      * @return - словарь характеристик, название, значение
      */
     private Map<String, Double> getCharacteristicsValue(List<ProductCharacteristicEntity> characteristics){
-        Set<String> requiredCharacteristics = Set.of("Цена", "Объем");
+        Set<String> requiredCharacteristics = Set.of("Цена, сом", "Фасовка, шт");
         return characteristics.stream()
                 .filter(c -> requiredCharacteristics.contains(c.getCharacteristic().getName()))
                 .collect(Collectors.toMap(c -> c.getCharacteristic().getName(), ProductCharacteristicEntity::getValue));
+    }
+
+    /**
+     * Метод позволяет получить id продуктов из списка объектов, которые содержатся в корзине
+     * @param products - список продуктов из корзины
+     * @return - список id
+     */
+    private List<Integer> getProductIdsFrom(List<ProductForOpenBasketDto> products) {
+        return products.stream()
+                .map(productFromBasket -> Integer.parseInt(productFromBasket.getId()))
+                .toList();
     }
 
     /**
@@ -282,27 +319,42 @@ public class ProductServiceImpl implements ProductService {
      * то вернется url c базовым сообщением.
      * @param products - продукты из корзины
      * @param productMap - продукты их базы
-     * @param baseMessage - базовое сообщение
      * @param message - сообщение которое должно сформироваться для whats app
      * @return - url
      */
-    private String buildUrl(List<ProductFromBasketDro> products, Map<Integer, ProductEntity> productMap, String baseMessage, StringBuilder message){
+    private String buildUrl(List<ProductForOpenBasketDto> products, Map<Integer, ProductEntity> productMap, StringBuilder message){
         int count = 1;
         int totalSum = 0;
-        for (ProductFromBasketDro product : products) {
-            ProductEntity productEntity = productMap.get(product.getId());
+        for (ProductForOpenBasketDto product : products) {
+            ProductEntity productEntity = productMap.get(Integer.parseInt(product.getId()));
             if (productEntity == null) return baseMessage;
             Map<String, Double> characteristicValues = getCharacteristicsValue(productEntity.getProductCharacteristics());
-            Double price = characteristicValues.get("Цена");
+            Double price = characteristicValues.get("Цена, сом");
+            Double factor = characteristicValues.get("Фасовка, шт");
             if (price == null) return baseMessage;
-            double positionPriceSum = price * product.getAmount();
-            message.append("%0A").append(count).append(".%20").append(productEntity.getName()).append("%20Количество:%20")
-                    .append(product.getAmount()).append("%0A%20").append("Цена:%20").append(price).append("%20Сумма:%20")
-                    .append(positionPriceSum);
+            double positionPriceSum = price * product.getCount() * factor;
+            buildMessageForWhatsApp(message, productEntity, price, count, product.getCount(), positionPriceSum);
             count++;
-            totalSum += positionPriceSum;
+            totalSum += (int) positionPriceSum;
         }
         message.append("%0A%0AОбщая%20сумма:%20").append(totalSum);
         return message.toString().length() > 2000 ? baseMessage : message.toString();
+    }
+
+    /**
+     * Метод позволяет формировать сообщение для whats app. Вызывается в цикле для каждого продукта
+     * @param message - сообщение
+     * @param productEntity - продукт
+     * @param price - цена
+     * @param listCount - порядковый номер
+     * @param count - количество
+     * @param positionPriceSum - сумма конкретного продукта
+     */
+    private void buildMessageForWhatsApp(StringBuilder message, ProductEntity productEntity, double price, int listCount, int count, double positionPriceSum) {
+        message.append("%0A").append(listCount).append(".%20")
+                .append(URLEncoder.encode(productEntity.getName(), StandardCharsets.UTF_8))
+                .append("%20Количество:%20")
+                .append(count).append("%0A%20").append("Цена:%20").append(price).append("%20Сумма:%20")
+                .append(positionPriceSum);
     }
 }

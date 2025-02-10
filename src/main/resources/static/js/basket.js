@@ -66,16 +66,14 @@ function showNotification(message) {
     }, 3000);
 }
 
-function submitBasket() {
+function submitBasket(isConfirm) {
     // Получаем данные корзины из localStorage
     let basketData = localStorage.getItem('cart');
-    console.log(basketData);
 
     if (basketData) {
         try {
             // Парсим данные корзины
             let products = JSON.parse(basketData);
-
             // Преобразуем каждый элемент в объект {id, count}, если это число
             products = products.map(item => {
                 if (typeof item === 'number') {
@@ -83,16 +81,13 @@ function submitBasket() {
                 }
                 return item; // Если элемент уже объект, оставляем его без изменений
             });
-
-            console.log(products);
-
+            let inputId = isConfirm ? 'productsConfirmInput' : 'productsInput';
             // Заполняем скрытое поле формы данными корзины
-            document.getElementById('productsInput').value = JSON.stringify(products);
-
+            document.getElementById(inputId).value = JSON.stringify(products);
             // Отправляем форму
-            document.getElementById('basketForm').submit();
+            let formId = isConfirm ? 'basketConfirmForm' : 'basketForm';
+            document.getElementById(formId).submit();
         } catch (error) {
-            console.error("Ошибка при обработке данных корзины: ", error);
             alert("Не удалось обработать данные корзины.");
         }
     }

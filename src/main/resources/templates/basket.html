@@ -90,8 +90,12 @@
                 <p id="grand-total" class="total-price">50000 сом</p>
             </div>
             <div class="order-button-container">
-                <button>Оформить заказ</button>
+                <button onclick="submitBasket(true)">Оформить заказ</button>
             </div>
+            <!-- Скрытая форма для отправки данных -->
+            <form id="basketConfirmForm" method="POST" action="/basket/confirm" style="display:none;">
+                <input type="hidden" name="products" id="productsConfirmInput">
+            </form>
         </div>
     </section>
 

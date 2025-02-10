@@ -10,6 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProductService {
+
+    /**
+     * Метод позволяет сформировать ссылку с заказом на основе данных из корзины для
+     * перехода в whatsapp
+     * @param productsAsJson - продукты из корзины как JSON
+     * @return - ссылка на переход
+     * @throws JsonProcessingException - в случае если не удалось преобразовать JSON
+     */
+    String buildUrlForWhatsAppBid(String productsAsJson) throws JsonProcessingException;
     /**
      * Метод позволяет найти продукты для корзины. Принимает строку JSON и преобразует в список объектов
      * @param products - список продуктов как JSON

@@ -53,33 +53,6 @@ public class SecurityConfig {
     }
 
     /**
-     * Создает и настраивает менеджер аутентификации,
-     * добавляя в него кастомный AuthenticationProvider.
-     * @param http - объект HttpSecurity для настройки безопасности
-     * @return - настроенный AuthenticationManager
-     * @throws Exception - выбрасывается в случае ошибки
-     */
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .authenticationProvider(authenticationProvider())
-                .build();
-    }
-
-    /**
-     * Создает и настраивает провайдер аутентификации,
-     * который использует UserDetailsService и PasswordEncoder для проверки учетных данных.
-     * @return - объект AuthenticationProvider
-     */
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    /**
      * Создает бин, который является цепочкой безопасности
      * @param http - конфигурация безопасности
      * @return - цепочка безопасности
